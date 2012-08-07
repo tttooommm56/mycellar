@@ -10,6 +10,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.ListeVinsActivity"/>
+        <activity android:theme="@android:style/Theme.NoTitleBar" android:name=".activity.ListeVinsActivity"/>
+        <activity android:label="@string/title_activity_add_vin" android:name=".activity.AddVinActivity"/>
     </application>
 </manifest>

@@ -11,7 +11,8 @@ public class ListeVinsActivity extends TabActivity {
 	/**
 	 * @see android.app.Activity#onCreate(Bundle)
 	 */
-	@Override protected void onCreate(Bundle savedInstanceState) {
+	@Override 
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.liste_vins);
 		

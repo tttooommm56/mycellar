@@ -4,4 +4,5 @@
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Paramètres</string>
     <string name="title_activity_main">Mon Cellier</string>
+    <string name="title_activity_add_vin">Ajout d\'un vin</string>
 </resources>

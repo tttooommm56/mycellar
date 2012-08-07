@@ -56,7 +56,10 @@ public class MainActivity extends Activity {
 	        		String action = map.get("action");
 	        		Intent intent = new Intent();
 	        		switch (CrudActions.getFromId(action)) {
-	        			case ADD : break;
+	        			case ADD : 
+	        				intent.setClass(MainActivity.this.getBaseContext(), AddVinActivity.class);
+	        				startActivity(intent);
+	        				break;
 	        			case VIEW : 
 	        				intent.setClass(MainActivity.this.getBaseContext(), ListeVinsActivity.class);
 	        				startActivity(intent);
