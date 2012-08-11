@@ -6,7 +6,6 @@ import java.util.List;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import fr.kougteam.myCellar.modele.Region;
@@ -20,39 +19,26 @@ import fr.kougteam.myCellar.modele.Region;
 public class RegionDao extends AbstractDao<Region> {
 	
 	// Database table
-	public static final String TABLE 	= "regions";
-	public static final String COL_PAYS	= "pays";
-	public static final String COL_NOM	= "nom";
+	public static final String TABLE 				= "regions";
+	public static final String COL_PAYS				= "id_pays";
+	public static final String COL_NOM				= "nom";
+	public static final String COL_REGION_PARENT	= "id_region_parent";
 	
 	// Database creation SQL statement
 	private static final String DATABASE_CREATE = 
 			"create table " + TABLE + " (" +
 				COL_ID + " integer primary key autoincrement not null, " +
 				COL_PAYS + " integer, " +
-				COL_NOM + " text " +
+				COL_NOM + " text, " +
+				COL_REGION_PARENT + " integer " +
 			");";
 
 	public RegionDao(Context context) {
 		super(context);
 	}
 	
-	private static void init(SQLiteDatabase database) {
-		try {
-			String sql = "INSERT INTO " + TABLE + " ("+COL_ID+","+COL_PAYS+","+COL_NOM+") VALUES (?, ?, ?);";
-			database.beginTransaction();
-			database.execSQL(sql, new Object[] {1, 1, "Alsace"});
-			//FIXME ajouter autres régions
-			database.setTransactionSuccessful();
-		} catch (SQLException ex) {
-			Log.e("init error", ex.getMessage());
-		} finally {
-			database.endTransaction();
-		}
-	}
-	
 	public static void onCreate(SQLiteDatabase database) {
 		database.execSQL(DATABASE_CREATE);
-		init(database);
 	}
 
 	public static void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
@@ -80,7 +66,7 @@ public class RegionDao extends AbstractDao<Region> {
 	
 	public Region getById(int id) {
 		Region r = new Region();
-		String sql = " SELECT " + COL_PAYS + ", " + COL_NOM +
+		String sql = " SELECT " + COL_PAYS + ", " + COL_NOM + ", " + COL_REGION_PARENT +
 					 " FROM " + TABLE + 
 					 " WHERE " + COL_ID + "=" + id;
 		if (bdd==null) super.openForRead();
@@ -90,13 +76,15 @@ public class RegionDao extends AbstractDao<Region> {
 			r.setId(id);
 			r.setIdPays(c.getInt(0));
 			r.setNom(c.getString(1));
+			r.setIdRegionParent(c.getInt(2));
 		}
 		return r;
 	}
 	
 	public List<Region> getAll() {
 		List<Region> list = new ArrayList<Region>();
-		String sql = " SELECT " + COL_ID + ", " + COL_PAYS + ", " + COL_NOM + " FROM " + TABLE ;
+		String sql = " SELECT " + COL_ID + ", " + COL_PAYS + ", " + COL_NOM + ", " + COL_REGION_PARENT +
+					 " FROM " + TABLE ;
 		if (bdd==null) super.openForRead();
 		Cursor c = bdd.rawQuery(sql, null);
 		c.moveToFirst();
@@ -105,6 +93,7 @@ public class RegionDao extends AbstractDao<Region> {
 			r.setId(c.getInt(0));
 			r.setIdPays(c.getInt(1));
 			r.setNom(c.getString(2));
+			r.setIdRegionParent(c.getInt(3));
 			list.add(r);
 			c.moveToNext();
 		}

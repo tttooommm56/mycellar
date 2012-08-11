@@ -6,7 +6,6 @@ import java.util.List;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import fr.kougteam.myCellar.modele.Pays;
@@ -34,26 +33,8 @@ public class PaysDao extends AbstractDao<Pays> {
 		super(context);
 	}
 	
-	private static void init(SQLiteDatabase database) {
-		try {
-			String sql = "INSERT INTO " + TABLE + " ("+COL_ID+","+COL_NOM+") VALUES (?, ?);";
-			database.beginTransaction();
-			database.execSQL(sql, new Object[] {1, "France"});
-			database.execSQL(sql, new Object[] {2, "Allemagne"});
-			database.execSQL(sql, new Object[] {3, "Italie"});
-			database.execSQL(sql, new Object[] {4, "Espagne"});
-			//FIXME ajouter d'autres pays ?
-			database.setTransactionSuccessful();
-		} catch (SQLException ex) {
-			Log.e("init error", ex.getMessage());
-		} finally {
-			database.endTransaction();
-		}
-	}
-	
 	public static void onCreate(SQLiteDatabase database) {
 		database.execSQL(DATABASE_CREATE);
-		init(database);
 	}
 
 	public static void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {

@@ -13,6 +13,7 @@ public class Region implements Serializable {
 	
 	private int id;
 	private int idPays = 1; // France par défaut
+	private int idRegionParent;
 	private String nom;
 	
 	public int getId() {
@@ -32,5 +33,14 @@ public class Region implements Serializable {
 	}
 	public void setNom(String nom) {
 		this.nom = nom;
+	}
+	public int getIdRegionParent() {
+		return idRegionParent;
+	}
+	public void setIdRegionParent(int idRegionParent) {
+		this.idRegionParent = idRegionParent;
+	}
+	public boolean isSousRegion() {
+		return this.idRegionParent>0;
 	}
 }

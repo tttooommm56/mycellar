@@ -12,7 +12,6 @@ public class Appellation implements Serializable {
 	private static final long serialVersionUID = 3480816128232091740L;
 	
 	private int id;
-	private int idPays = 1; // France par défaut
 	private int idRegion = -1;
 	private String nom;
 	
@@ -21,12 +20,6 @@ public class Appellation implements Serializable {
 	}
 	public void setId(int id) {
 		this.id = id;
-	}
-	public int getIdPays() {
-		return idPays;
-	}
-	public void setIdPays(int idPays) {
-		this.idPays = idPays;
 	}
 	public int getIdRegion() {
 		return idRegion;
