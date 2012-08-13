@@ -1,5 +1,3 @@
-BEGIN TRANSACTION;
-
 INSERT INTO PAYS VALUES(1, "France");
 INSERT INTO PAYS VALUES(2, "Allemagne");
 INSERT INTO PAYS VALUES(3, "Italie");
@@ -41,7 +39,7 @@ INSERT INTO REGIONS VALUES(33,1,'Piémont pyrénéen',29);
 INSERT INTO REGIONS VALUES(34,1,'Vallée de la Loire et Centre',0);
 INSERT INTO REGIONS VALUES(35,1,'Appellations régionales de la Loire',34);
 
-INSERT INTO APPELATIONS (_id, nom, id_region)  VALUES(1,'Alsace chasselas ou gutedel',1);
+INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(1,'Alsace chasselas ou gutedel',1);
 INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(2,'Alsace edelzwicker',1);
 INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(3,'Alsace gewurztraminer',1);
 INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(4,'Alsace grand cru',1);
@@ -380,9 +378,5 @@ INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(336,'Quincy',39);
 INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(337,'Reuilly',39);
 INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(338,'Saint-pourçain',39);
 INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(339,'Sancerre',39);
-
-
-CREATE TABLE android_metadata ("locale" TEXT DEFAULT 'fr_FR');
-INSERT INTO android_metadata VALUES('fr_FR');
 
 COMMIT;

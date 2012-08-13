@@ -121,8 +121,8 @@ public class VinDao extends AbstractDao<Vin> {
 		return v;
 	}
 	
-	public List<Vin> getAll() {
-		List<Vin> list = new ArrayList<Vin>();
+	public Cursor getAll() {
+//		List<Vin> list = new ArrayList<Vin>();
 		String sql = " SELECT "+COL_ID + ", " + 
 								COL_COULEUR + ", " + 
 								COL_PAYS + " , " +
@@ -136,25 +136,27 @@ public class VinDao extends AbstractDao<Vin> {
 								COL_NOTE + " " + 
 					" FROM " + TABLE ;
 		if (bdd==null) super.openForRead();
-		Cursor c = bdd.rawQuery(sql, null);
-		c.moveToFirst();
-		while (!c.isAfterLast()) {
-			Vin v = new Vin();
-			int i = 0;
-			v.setId(c.getInt(i++));
-			v.setCouleur(Couleur.getFromId(c.getString(i++)));
-			v.setIdPays(c.getInt(i++));
-			v.setIdRegion(c.getInt(i++));
-			v.setIdAppellation(c.getInt(i++));
-			v.setAnnee(c.getInt(i++));
-			v.setNom(c.getString(i++));
-			v.setProducteur(c.getString(i++));
-			v.setCommentaire(c.getString(i++));
-			v.setNbBouteilles(c.getInt(i++));
-			v.setNote(c.getDouble(i++));
-			list.add(v);
-			c.moveToNext();
-		}
-		return list;
+//		Cursor c = bdd.rawQuery(sql, null);
+//		c.moveToFirst();
+//		while (!c.isAfterLast()) {
+//			Vin v = new Vin();
+//			int i = 0;
+//			v.setId(c.getInt(i++));
+//			v.setCouleur(Couleur.getFromId(c.getString(i++)));
+//			v.setIdPays(c.getInt(i++));
+//			v.setIdRegion(c.getInt(i++));
+//			v.setIdAppellation(c.getInt(i++));
+//			v.setAnnee(c.getInt(i++));
+//			v.setNom(c.getString(i++));
+//			v.setProducteur(c.getString(i++));
+//			v.setCommentaire(c.getString(i++));
+//			v.setNbBouteilles(c.getInt(i++));
+//			v.setNote(c.getDouble(i++));
+//			list.add(v);
+//			c.moveToNext();
+//		}
+//		return list;
+		
+		return bdd.rawQuery(sql, null);
 	}
 }

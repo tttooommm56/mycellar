@@ -1,9 +1,8 @@
 package fr.kougteam.myCellar.dao;
 
-import java.util.List;
-
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import fr.kougteam.myCellar.helper.SqlOpenHelper;
@@ -47,5 +46,5 @@ public abstract class AbstractDao<T> {
 	
 	public abstract T getById(int id);
 	
-	public abstract List<T> getAll();
+	public abstract Cursor getAll();
 }

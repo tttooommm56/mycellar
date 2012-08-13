@@ -79,20 +79,17 @@ public class AppellationDao extends AbstractDao<Appellation> {
 		return a;
 	}
 	
-	public List<Appellation> getAll() {
-		List<Appellation> list = new ArrayList<Appellation>();
+	public Cursor getAll() {
 		String sql = " SELECT " + COL_ID + ", " + COL_REGION + ", " + COL_NOM + " FROM " + TABLE ;
-		if (bdd==null) super.openForRead();
-		Cursor c = bdd.rawQuery(sql, null);
-		c.moveToFirst();
-		while (!c.isAfterLast()) {
-			Appellation a = new Appellation();
-			a.setId(c.getInt(0));
-			a.setIdRegion(c.getInt(1));
-			a.setNom(c.getString(2));
-			list.add(a);
-			c.moveToNext();
-		}
-		return list;
+		if (bdd==null) super.openForRead();		
+		return bdd.rawQuery(sql, null);
+	}
+	
+	public Cursor getListByRegion(int idRegion) {
+		String sql = " SELECT " + COL_ID + ", " + COL_REGION + ", " + COL_NOM + 
+					" FROM " + TABLE +
+					" WHERE " + COL_REGION + " = " + idRegion;
+		if (bdd==null) super.openForRead();		
+		return bdd.rawQuery(sql, null);
 	}
 }

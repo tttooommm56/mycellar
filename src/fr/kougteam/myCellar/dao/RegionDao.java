@@ -81,22 +81,29 @@ public class RegionDao extends AbstractDao<Region> {
 		return r;
 	}
 	
-	public List<Region> getAll() {
-		List<Region> list = new ArrayList<Region>();
+	public Cursor getAll() {
 		String sql = " SELECT " + COL_ID + ", " + COL_PAYS + ", " + COL_NOM + ", " + COL_REGION_PARENT +
-					 " FROM " + TABLE ;
-		if (bdd==null) super.openForRead();
-		Cursor c = bdd.rawQuery(sql, null);
-		c.moveToFirst();
-		while (!c.isAfterLast()) {
-			Region r = new Region();
-			r.setId(c.getInt(0));
-			r.setIdPays(c.getInt(1));
-			r.setNom(c.getString(2));
-			r.setIdRegionParent(c.getInt(3));
-			list.add(r);
-			c.moveToNext();
-		}
-		return list;
+					 " FROM " + TABLE  +
+					 " ORDER BY " + COL_NOM ;
+		if (bdd==null) super.openForRead();		
+		return bdd.rawQuery(sql, null);
+	}
+	
+	public Cursor getRegionsByPays(int idPays) {
+		String sql = " SELECT " + COL_ID + ", " + COL_PAYS + ", " + COL_NOM + ", " + COL_REGION_PARENT +
+					 " FROM " + TABLE + 
+					 " WHERE " + COL_REGION_PARENT + "=0 AND " + COL_PAYS + " = " + idPays +
+					 " ORDER BY " + COL_NOM ;
+		if (bdd==null) super.openForRead();		
+		return bdd.rawQuery(sql, null);
+	}
+	
+	public Cursor getSousRegionsByRegion(int idRegion) {
+		String sql = " SELECT " + COL_ID + ", " + COL_PAYS + ", " + COL_NOM + ", " + COL_REGION_PARENT +
+					 " FROM " + TABLE + 
+					 " WHERE " + COL_REGION_PARENT + " = " + idRegion +
+					 " ORDER BY " + COL_NOM ;
+		if (bdd==null) super.openForRead();		
+		return bdd.rawQuery(sql, null);
 	}
 }

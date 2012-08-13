@@ -8,5 +8,19 @@
         android:id="@+id/addVinPays"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
+	
+    <Spinner
+        android:id="@+id/addVinRegion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    
+    <Spinner
+        android:id="@+id/addVinSousRegion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    
+    <Spinner
+        android:id="@+id/addVinAppellation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>

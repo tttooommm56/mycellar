@@ -1,8 +1,5 @@
 package fr.kougteam.myCellar.dao;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -75,20 +72,11 @@ public class PaysDao extends AbstractDao<Pays> {
 		return p;
 	}
 	
-	public List<Pays> getAll() {
-		List<Pays> list = new ArrayList<Pays>();
+	public Cursor getAll() {
 		String sql = " SELECT " + COL_ID + ", " + COL_NOM + 
 					 " FROM " + TABLE ;
-		if (bdd==null) super.openForRead();
-		Cursor c = bdd.rawQuery(sql, null);
-		c.moveToFirst();
-		while (!c.isAfterLast()) {
-			Pays p = new Pays();
-			p.setId(c.getInt(0));
-			p.setNom(c.getString(1));
-			list.add(p);
-			c.moveToNext();
-		}
-		return list;
+		if (bdd==null) super.openForRead();	
+		return bdd.rawQuery(sql, null);
 	}
+
 }
