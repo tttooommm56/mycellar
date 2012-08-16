@@ -378,5 +378,3 @@ INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(336,'Quincy',39);
 INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(337,'Reuilly',39);
 INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(338,'Saint-pourçain',39);
 INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(339,'Sancerre',39);
-
-COMMIT;

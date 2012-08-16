@@ -22,27 +22,26 @@ public final class R {
         public static final int ic_menu_view=0x7f020003;
     }
     public static final class id {
-        public static final int addVinAppellation=0x7f080003;
-        public static final int addVinPays=0x7f080000;
-        public static final int addVinRegion=0x7f080001;
-        public static final int addVinSousRegion=0x7f080002;
-        public static final int listeVinsBlancItem=0x7f080007;
-        public static final int listeVinsBlancTab=0x7f080006;
-        public static final int listeVinsRoseItem=0x7f080009;
-        public static final int listeVinsRoseTab=0x7f080008;
-        public static final int listeVinsRougeItem=0x7f080005;
-        public static final int listeVinsRougeTab=0x7f080004;
-        public static final int mainItemAction=0x7f08000d;
-        public static final int mainItemImg=0x7f08000b;
-        public static final int mainItemTitre=0x7f08000c;
-        public static final int mainListView=0x7f08000a;
-        public static final int menu_settings=0x7f08000e;
+        public static final int addVinItemText=0x7f080001;
+        public static final int addVinListView=0x7f080000;
+        public static final int listeVinsBlancItem=0x7f080005;
+        public static final int listeVinsBlancTab=0x7f080004;
+        public static final int listeVinsRoseItem=0x7f080007;
+        public static final int listeVinsRoseTab=0x7f080006;
+        public static final int listeVinsRougeItem=0x7f080003;
+        public static final int listeVinsRougeTab=0x7f080002;
+        public static final int mainItemAction=0x7f08000b;
+        public static final int mainItemImg=0x7f080009;
+        public static final int mainItemTitre=0x7f08000a;
+        public static final int mainListView=0x7f080008;
+        public static final int menu_settings=0x7f08000c;
     }
     public static final class layout {
         public static final int add_vin=0x7f030000;
-        public static final int liste_vins=0x7f030001;
-        public static final int main=0x7f030002;
-        public static final int main_item=0x7f030003;
+        public static final int add_vin_item=0x7f030001;
+        public static final int liste_vins=0x7f030002;
+        public static final int main=0x7f030003;
+        public static final int main_item=0x7f030004;
     }
     public static final class menu {
         public static final int main=0x7f070000;

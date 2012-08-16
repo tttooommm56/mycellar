@@ -106,4 +106,12 @@ public class RegionDao extends AbstractDao<Region> {
 		if (bdd==null) super.openForRead();		
 		return bdd.rawQuery(sql, null);
 	}
+	
+	public boolean hasSousRegion(int idRegion) {
+		String sql = " SELECT 1 " + 
+					 " FROM " + TABLE + 
+					 " WHERE " + COL_REGION_PARENT + " = " + idRegion;
+		if (bdd==null) super.openForRead();		
+		return bdd.rawQuery(sql, null).getCount() > 0;
+	}
 }
