@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <resources>
     <string name="app_name">Mon Cellier</string>
-    <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Paramètres</string>
     <string name="title_activity_main">Mon Cellier</string>
     <string name="title_activity_add_vin">Ajout d\'un vin</string>
+    <string name="save">Enregistrer</string>
+    <string name="cancel">Annuler</string>
+    <string name="region">Région</string>
+    <string name="appellation">Appellation</string>
+    <string name="nom">Nom</string>
+    <string name="producteur">Producteur</string>
+    <string name="annee">Année</string>
+    <string name="bouteilles">Bouteilles</string>
 </resources>

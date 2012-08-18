@@ -1,6 +1,7 @@
 package fr.kougteam.myCellar.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
@@ -15,15 +16,16 @@ import fr.kougteam.myCellar.dao.PaysDao;
 import fr.kougteam.myCellar.dao.RegionDao;
 
 public class AddVinActivity extends Activity {
+	Intent intent2Form;
 	private ListView regionsListView;
 	private SimpleCursorAdapter regionAdapter;
 	private PaysDao paysDao;
 	private RegionDao regionDao;
 	private AppellationDao appellationDao;
-	private int mPaysId;
-	private int mRegionId;
-	private int mSousRegionId;
-	private int mAppellationId;
+	private int mPaysId = -1;
+	private int mRegionId = -1;
+	private int mSousRegionId = -1;
+	private int mAppellationId = -1;
 	
 	/**
 	 * @see android.app.Activity#onCreate(Bundle)
@@ -33,6 +35,7 @@ public class AddVinActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.add_vin);
 		regionsListView = (ListView) findViewById(R.id.addVinListView);
+		intent2Form = new Intent(this, AddVinFormActivity.class);
 		
 		paysDao = new PaysDao(this);	
 		regionDao = new RegionDao(this);
@@ -115,6 +118,13 @@ public class AddVinActivity extends Activity {
 		    public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
 				Cursor c = (Cursor)parent.getItemAtPosition(pos);
 				mAppellationId = c.getInt(c.getColumnIndexOrThrow(AppellationDao.COL_ID));
+
+				// Redirection vers le formulaire
+				intent2Form.putExtra("appellationId", mAppellationId);
+				intent2Form.putExtra("sousRegionId", mSousRegionId);
+				intent2Form.putExtra("regionId", mRegionId);
+				intent2Form.putExtra("paysId", mPaysId);
+				startActivity(intent2Form);
 			}	    
 		});
 	}
