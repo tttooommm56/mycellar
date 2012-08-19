@@ -2,76 +2,110 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:shrinkColumns="*"  
+    android:stretchColumns="*" >
 
     <TableRow
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dip" >
+        android:padding="3dp">
         
         <TextView
             android:id="@+id/addVinFormRegionTitle"
-            android:layout_width="80dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
             android:text="@string/region" />
         
         <TextView
             android:id="@+id/addVinFormRegion"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_span="3" />
     </TableRow>
     
     <TableRow
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dip" >
+        android:padding="3dp">
         
         <TextView
             android:id="@+id/addVinFormAppellationTitle"
-            android:layout_width="80dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
             android:text="@string/appellation" />
         
         <TextView
             android:id="@+id/addVinFormAppellation"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_span="3" />
     </TableRow>
     
     <TableRow
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dip" >
+        android:padding="3dp">
+        
+        <TextView
+            android:id="@+id/addVinFormCouleurText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/couleur" />
+        
+        <ToggleButton
+	            android:id="@+id/addVinFormRouge"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:textOn="@string/couleur_rouge"
+	            android:textOff="@string/couleur_rouge" 
+	            android:checked="true"/>
+        <ToggleButton
+	            android:id="@+id/addVinFormBlanc"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:textOn="@string/couleur_blanc"
+	            android:textOff="@string/couleur_blanc" />
+        <ToggleButton
+	            android:id="@+id/addVinFormRose"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginRight="10dp"
+	            android:textOn="@string/couleur_rose" 
+	            android:textOff="@string/couleur_rose"/>
+    </TableRow>
+    
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="3dp">
 
         <TextView
             android:id="@+id/addVinFormNomText"
-            android:layout_width="80dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
             android:text="@string/nom" />
 
         <AutoCompleteTextView
             android:id="@+id/addVinFormNom"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:ems="10" >
-
-            <requestFocus />
+            android:ems="10" 
+            android:layout_span="3"
+            android:layout_marginRight="10dp">
         </AutoCompleteTextView>
     </TableRow>
 
     <TableRow
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dip" >
+        android:padding="3dp">
 
         <TextView
             android:id="@+id/addVinFormProducteurText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
             android:text="@string/producteur" />
 
         <AutoCompleteTextView
@@ -79,84 +113,89 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:text="@string/producteur" />
+            android:layout_span="3" 
+            android:layout_marginRight="10dp"/>
     </TableRow>
 
     <TableRow
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dip" >
+        android:padding="3dp">
 
         <TextView
             android:id="@+id/addVinFormAnneeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"
             android:text="@string/annee" />
 
         <fr.kougteam.myCellar.widget.NumberPicker
-            android:id="@+id/yearPicker"
+            android:id="@+id/addVinFormAnnee"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             defaultValue="2012"
             maxValue="2050"
             minValue="1900"
-            plusminus_width="80"
+            plusminus_width="80dp"
             repeatAcceleration="10"
             textSize="20dp"
-            textarea_width="150"
-            vertical="false" />
+            textarea_width="150dp"
+            vertical="false"
+            android:layout_span="3" />
     </TableRow>
 
     <TableRow
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dip" >
+        android:padding="3dp">
 
         <TextView
             android:id="@+id/addVinFormBouteillesText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"
             android:text="@string/bouteilles" />
 
         <fr.kougteam.myCellar.widget.NumberPicker
-            android:id="@+id/bouteillesPicker"
+            android:id="@+id/addVinFormBouteilles"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             defaultValue="1"
             minValue="0"
-            plusminus_width="80"
+            plusminus_width="80dp"
             repeatAcceleration="10"
             textSize="20dp"
-            textarea_width="50"
-            vertical="false" />
+            textarea_width="90dp"
+            vertical="false" 
+            android:layout_span="3"/>
     </TableRow>
 
     <View
         android:layout_height="2dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         android:background="#CCCCCC" />
 
     <TableRow
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dip" >
+        android:padding="3dp">
 
-        <Button
-            android:id="@+id/addVinFormCancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cancel" />
-        
         <Button
             android:id="@+id/addVinFormSave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/save" />
+            android:text="@string/save"
+            android:layout_span="2" />
+        
+        <Button
+            android:id="@+id/addVinFormCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="@string/cancel"
+            android:layout_span="2"  />
+      
     </TableRow>
 
 </TableLayout>

@@ -5,11 +5,18 @@
     <string name="title_activity_main">Mon Cellier</string>
     <string name="title_activity_add_vin">Ajout d\'un vin</string>
     <string name="save">Enregistrer</string>
+    <string name="save_ok">Enregistré avec succès.</string>
+    <string name="save_error">Erreur lors de l\'enregistrement !</string>
     <string name="cancel">Annuler</string>
     <string name="region">Région</string>
     <string name="appellation">Appellation</string>
+    <string name="couleur">Couleur</string>
+    <string name="couleur_rouge">Rouge</string>
+    <string name="couleur_blanc">Blanc</string>
+    <string name="couleur_rose">Rosé</string>
     <string name="nom">Nom</string>
     <string name="producteur">Producteur</string>
     <string name="annee">Année</string>
     <string name="bouteilles">Bouteilles</string>
+    
 </resources>
