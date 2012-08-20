@@ -163,4 +163,22 @@ public class VinDao extends AbstractDao<Vin> {
 		if (bdd==null) super.openForRead();		
 		return bdd.rawQuery(sql, null);
 	}
+	
+	public Cursor getMatchingsNoms(String nom) {
+		String sql = " SELECT DISTINCT 1 _id, "+ COL_NOM + 
+					" FROM " + TABLE +
+					" WHERE UPPER("+ COL_NOM + ") LIKE ? " +
+					" ORDER BY " + COL_NOM;
+		if (bdd==null) super.openForRead();		
+		return bdd.rawQuery(sql, new String[] {nom.toUpperCase()});
+	}
+	
+	public Cursor getMatchingsProducteurs(String producteur) {
+		String sql = " SELECT DISTINCT 1 _id, "+ COL_PRODUCTEUR + 
+					" FROM " + TABLE +
+					" WHERE UPPER("+ COL_PRODUCTEUR + ") LIKE ? " +
+					" ORDER BY " + COL_PRODUCTEUR;
+		if (bdd==null) super.openForRead();		
+		return bdd.rawQuery(sql, new String[] {producteur.toUpperCase()});
+	}
 }
