@@ -5,8 +5,10 @@ import java.util.HashMap;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -17,7 +19,7 @@ import fr.kougteam.myCellar.enums.CrudActions;
 
 public class MainActivity extends Activity {
 	 
-		private ListView menuListView;
+		private ListView menuListView;		
 	 
 	    /** Called when the activity is first created. */
 	    @Override
@@ -79,5 +81,29 @@ public class MainActivity extends Activity {
 	        	}
 	         });
 	 
+	    }
+	    
+	    @Override
+		public boolean onKeyDown(int keyCode, KeyEvent event) {
+	    	if (keyCode == KeyEvent.KEYCODE_BACK) {
+	    		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	    		builder.setMessage(R.string.app_quit_msg)
+	    		.setCancelable(false)
+	    		.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+	    			public void onClick(DialogInterface dialog, int id) {
+	    				MainActivity.this.finish();
+	    			}
+	    		})
+	    		.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+	    			public void onClick(DialogInterface dialog, int id) {
+	    			}
+	    		});
+	    		AlertDialog alert = builder.create();
+	    		alert.show();
+	    		return true;
+	    		
+	    	} else {
+	    		return super.onKeyDown(keyCode, event);
+	    	}
 	    }
 	}

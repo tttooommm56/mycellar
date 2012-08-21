@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <resources>
     <string name="app_name">Mon Cellier</string>
+    <string name="app_quit_msg">Etes-vous sûr de vouloir quitter ?</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
     <string name="menu_settings">Paramètres</string>
     <string name="title_activity_main">Mon Cellier</string>
     <string name="title_activity_add_vin">Ajout d\'un vin</string>

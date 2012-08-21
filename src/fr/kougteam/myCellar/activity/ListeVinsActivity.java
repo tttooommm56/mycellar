@@ -61,6 +61,12 @@ public class ListeVinsActivity extends TabActivity {
 	    loadVinsRoseList();
 	}
 	
+	@Override
+	protected void onDestroy() {
+		vinDao.close();
+		super.onDestroy();	
+	}
+	
 	private void loadVinsRougeList() {
 		Cursor vinCursor = vinDao.getListVinsDisposByCouleur(Couleur.ROUGE);
 		String[] from = new String[] { VinDao.COL_PRODUCTEUR, VinDao.COL_ANNEE, VinDao.COL_NB_BOUTEILLES, "nom_appellation" };

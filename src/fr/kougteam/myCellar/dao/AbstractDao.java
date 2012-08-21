@@ -26,7 +26,7 @@ public abstract class AbstractDao<T> {
 	}
 	
 	public void close() {
-		this.close();
+		if (bdd != null) bdd.close();
 	}
 	
 	public long insert(String table, ContentValues values) {

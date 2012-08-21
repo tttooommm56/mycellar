@@ -77,6 +77,15 @@ public class AddVinFormActivity extends Activity {
 		initCancelButton();
 		initSaveButton();		
 	}
+	
+	@Override
+	protected void onDestroy() {
+		paysDao.close();
+		regionDao.close();
+		appellationDao.close();
+		vinDao.close();
+		super.onDestroy();	
+	}
 
 	private void fillRegionAppellationFields() {
 		String region = paysDao.getById(mPaysId).getNom();

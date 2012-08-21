@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -40,10 +41,18 @@ public class AddVinActivity extends Activity {
 		paysDao = new PaysDao(this);	
 		regionDao = new RegionDao(this);
 		appellationDao = new AppellationDao(this);
-		
-		//loadPaysSpinner();	
-		loadPaysList();
-		
+			
+		//loadPaysList(); //TODO uniquement si option international activée dans les paramètres
+		mPaysId = 1; // France par défaut
+		loadRegionList();
+	}
+	
+	@Override
+	protected void onDestroy() {
+		paysDao.close();
+		regionDao.close();
+		appellationDao.close();
+		super.onDestroy();
 	}
 	
 	private void loadPaysList() {
@@ -128,81 +137,30 @@ public class AddVinActivity extends Activity {
 			}	    
 		});
 	}
-//	private void loadPaysSpinner() {
-//		Cursor paysCursor = paysDao.getAll();	
-//		Spinner paysSpinner = (Spinner)findViewById(R.id.addVinPays);
-//		String[] fromPays = new String[] { PaysDao.COL_NOM };
-//		int[] toPays = new int[] { android.R.id.text1 };
-//		SimpleCursorAdapter paysSpinnerAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, paysCursor, fromPays, toPays);
-//		paysSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//		paysSpinner.setAdapter(paysSpinnerAdapter);
-//		
-//		paysSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {		    
-//		    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-//		        Cursor c = (Cursor)parent.getItemAtPosition(pos);
-//		        mPaysId = c.getInt(c.getColumnIndexOrThrow(PaysDao.COL_ID));
-//		        
-//		        // Rafraichissement des régions
-//		        loadRegionSpinner();
-//		    }	    
-//		    public void onNothingSelected(AdapterView<?> parent) {}
-//		});
-//	}
-//	
-//	private void loadRegionSpinner() {
-//		Cursor regionCursor = regionDao.getRegionsByPays(mPaysId);	
-//		Spinner regionSpinner = (Spinner)findViewById(R.id.addVinRegion);
-//		String[] from = new String[] { RegionDao.COL_NOM };
-//		int[] to = new int[] { android.R.id.text1 };
-//		SimpleCursorAdapter regionSpinnerAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, regionCursor, from, to);
-//		regionSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//		regionSpinner.setAdapter(regionSpinnerAdapter);
-//		
-//		regionSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {		    
-//		    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-//		        Cursor c = (Cursor)parent.getItemAtPosition(pos);
-//		        mRegionId = c.getInt(c.getColumnIndexOrThrow(RegionDao.COL_ID));
-//		        loadAppellationSpinner(mRegionId);
-//		        loadSousRegionSpinner();	        
-//		    }	    
-//		    public void onNothingSelected(AdapterView<?> parent) {}
-//		});
-//	}
-//	
-//	private void loadSousRegionSpinner() {
-//		Cursor regionCursor = regionDao.getSousRegionsByRegion(mRegionId);	
-//		Spinner sousRegionSpinner = (Spinner)findViewById(R.id.addVinSousRegion);
-//		String[] from = new String[] { RegionDao.COL_NOM };
-//		int[] to = new int[] { android.R.id.text1 };
-//		SimpleCursorAdapter sousRegionSpinnerAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, regionCursor, from, to);
-//		sousRegionSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//		sousRegionSpinner.setAdapter(sousRegionSpinnerAdapter);
-//		
-//		sousRegionSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {		    
-//		    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-//		        Cursor c = (Cursor)parent.getItemAtPosition(pos);
-//		        mSousRegionId = c.getInt(c.getColumnIndexOrThrow(RegionDao.COL_ID));
-//		        loadAppellationSpinner(mSousRegionId);
-//		    }	    
-//		    public void onNothingSelected(AdapterView<?> parent) {}
-//		});
-//	}
-//	
-//	private void loadAppellationSpinner(int idRegion) {
-//		Cursor appellationCursor = appellationDao.getListByRegion(idRegion);	
-//		Spinner appellationSpinner = (Spinner)findViewById(R.id.addVinAppellation);
-//		String[] from = new String[] { AppellationDao.COL_NOM };
-//		int[] to = new int[] { android.R.id.text1 };
-//		SimpleCursorAdapter appellationSpinnerAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, appellationCursor, from, to);
-//		appellationSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//		appellationSpinner.setAdapter(appellationSpinnerAdapter);
-//		
-//		appellationSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {		    
-//		    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-//		        Cursor c = (Cursor)parent.getItemAtPosition(pos);
-//		        mAppellationId = c.getInt(c.getColumnIndexOrThrow(AppellationDao.COL_ID));
-//		    }	    
-//		    public void onNothingSelected(AdapterView<?> parent) {}
-//		});
-//	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			if (mAppellationId != -1) {
+				mAppellationId = -1;
+				if (regionDao.hasSousRegion(mRegionId)) {
+					loadSousRegionList();						
+				} else {
+					loadRegionList();
+				} 
+				
+			} else if (mSousRegionId != -1) {
+				mSousRegionId = -1;
+				loadSousRegionList();
+				
+			} else if (mRegionId != -1) {
+				mRegionId = -1;
+				loadRegionList();
+				
+			} else {
+				return super.onKeyDown(keyCode, event);
+			}
+		}
+		return true;
+	}
 }
