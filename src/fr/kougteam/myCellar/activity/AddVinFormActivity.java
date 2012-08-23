@@ -6,8 +6,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -141,15 +139,6 @@ public class AddVinFormActivity extends Activity {
 		SimpleCursorAdapter nomsAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_dropdown_item_1line, null, fromNom, to);
 		nomInput.setAdapter(nomsAdapter);
 
-		nomInput.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> listView, View view,
-					int position, long id) {
-				Cursor cursor = (Cursor) listView.getItemAtPosition(position);
-				String nom = cursor.getString(cursor.getColumnIndexOrThrow(VinDao.COL_NOM));
-				nomInput.setText(nom);
-			}
-		});
-
 		nomsAdapter.setCursorToStringConverter(new CursorToStringConverter() {
 			public String convertToString(android.database.Cursor cursor) {
 				final int columnIndex = cursor.getColumnIndexOrThrow(VinDao.COL_NOM);
@@ -170,15 +159,6 @@ public class AddVinFormActivity extends Activity {
 		int[] to = new int[] { android.R.id.text1 };
 		SimpleCursorAdapter producteurAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_dropdown_item_1line, null, fromProducteur, to);
 		producteurInput.setAdapter(producteurAdapter);
-
-		producteurInput.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> listView, View view,
-					int position, long id) {
-				Cursor cursor = (Cursor) listView.getItemAtPosition(position);
-				String producteur = cursor.getString(cursor.getColumnIndexOrThrow(VinDao.COL_PRODUCTEUR));
-				producteurInput.setText(producteur);
-			}
-		});
 
 		producteurAdapter.setCursorToStringConverter(new CursorToStringConverter() {
 			public String convertToString(android.database.Cursor cursor) {
