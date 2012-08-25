@@ -21,8 +21,9 @@
     <string name="producteur">Producteur</string>
     <string name="annee">Année</string>
     <string name="bouteilles">Bouteilles</string>
-    <string name="retirer">Retirer 1 bouteille</string>
+    <string name="retirer">Retirer une bouteille</string>
     <string name="detail">Détail</string>
     <string name="editer">Editer</string>
     <string name="supprimer">Supprimer</string>
+    <string name="action">Action</string>
 </resources>

@@ -1,4 +1,4 @@
-package fr.kougteam.myCellar.widget;
+package fr.kougteam.myCellar.ui;
 
 import android.content.Context;
 import android.os.Handler;

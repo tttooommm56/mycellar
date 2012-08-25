@@ -24,7 +24,7 @@ import fr.kougteam.myCellar.dao.RegionDao;
 import fr.kougteam.myCellar.dao.VinDao;
 import fr.kougteam.myCellar.enums.Couleur;
 import fr.kougteam.myCellar.modele.Vin;
-import fr.kougteam.myCellar.widget.NumberPicker;
+import fr.kougteam.myCellar.ui.NumberPicker;
 
 public class AddVinFormActivity extends Activity {
 	private PaysDao paysDao;

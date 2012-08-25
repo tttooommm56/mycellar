@@ -35,14 +35,14 @@ public class MainActivity extends Activity {
 	        HashMap<String, String> map = new HashMap<String, String>();
 	        map.put("action", Integer.toString(CrudActions.ADD.getId()));
 	        map.put("titre", "Ajouter des bouteilles");
-	        map.put("img", String.valueOf(R.drawable.ic_menu_add));
+	        map.put("img", String.valueOf(R.drawable.ic_plus_green));
 	        listItem.add(map);
 	 
 	        // Item "Voir la cave"
 	        map = new HashMap<String, String>();
 	        map.put("action", Integer.toString(CrudActions.VIEW.getId()));
 	        map.put("titre", "Voir la cave");
-	        map.put("img", String.valueOf(R.drawable.ic_menu_view));
+	        map.put("img", String.valueOf(R.drawable.ic_loupe_blue));
 	        listItem.add(map);
 	 
 	        SimpleAdapter menuAdapter = new SimpleAdapter (this.getBaseContext(), listItem, R.layout.main_item,

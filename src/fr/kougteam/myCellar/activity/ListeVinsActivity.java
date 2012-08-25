@@ -1,9 +1,9 @@
 package fr.kougteam.myCellar.activity;
 
-import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.TabActivity;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
@@ -18,8 +18,16 @@ import android.widget.Toast;
 import fr.kougteam.myCellar.R;
 import fr.kougteam.myCellar.dao.VinDao;
 import fr.kougteam.myCellar.enums.Couleur;
+import fr.kougteam.myCellar.ui.IconContextMenu;
 
 public class ListeVinsActivity extends TabActivity {
+	private final int CONTEXT_MENU_ID = 1;
+	private IconContextMenu iconContextMenu = null;
+	private final int MENU_RETIRER_ACTION = 1;
+	private final int MENU_DETAIL_ACTION = 2;
+	private final int MENU_EDITER_ACTION = 3;
+	private final int MENU_SUPPRIMER_ACTION = 4;
+	private Resources res;
 	
 	private static final String TAB_ROUGE = "TAB_ROUGE";
 	private static final String TAB_BLANC = "TAB_BLANC";
@@ -35,6 +43,8 @@ public class ListeVinsActivity extends TabActivity {
 	private boolean listBlancLoaded;
 	private boolean listRoseLoaded;
 	
+	private Cursor selectedItem;
+	
 	/**
 	 * @see android.app.Activity#onCreate(Bundle)
 	 */
@@ -43,6 +53,7 @@ public class ListeVinsActivity extends TabActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.liste_vins);
 		mCtxt = getApplicationContext();
+		res = getResources();
 		
 		vinDao = new VinDao(this);
 		
@@ -86,6 +97,8 @@ public class ListeVinsActivity extends TabActivity {
 	    vinsRougeListView = (ListView)findViewById(R.id.listeVinsRougeTab);	    
 	    vinsBlancListView = (ListView)findViewById(R.id.listeVinsBlancTab);	    
 	    vinsRoseListView = (ListView)findViewById(R.id.listeVinsRoseTab);
+	    
+	    initActionDialog();
 	}
 	
 	@Override
@@ -103,8 +116,8 @@ public class ListeVinsActivity extends TabActivity {
 
 		vinsRougeListView.setOnItemClickListener(new OnItemClickListener() {		 
 		    public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
-				Cursor c = (Cursor)parent.getItemAtPosition(pos);
-				showActionDialog(c);
+		    	selectedItem = (Cursor)parent.getItemAtPosition(pos);
+				showDialog(CONTEXT_MENU_ID);
 			}	    
 		});
 	}
@@ -118,8 +131,8 @@ public class ListeVinsActivity extends TabActivity {
 
 		vinsBlancListView.setOnItemClickListener(new OnItemClickListener() {		 
 		    public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
-				Cursor c = (Cursor)parent.getItemAtPosition(pos);
-				showActionDialog(c);
+		    	selectedItem = (Cursor)parent.getItemAtPosition(pos);
+				showDialog(CONTEXT_MENU_ID);
 			}	    
 		});
 	}
@@ -133,58 +146,48 @@ public class ListeVinsActivity extends TabActivity {
 
 		vinsRoseListView.setOnItemClickListener(new OnItemClickListener() {		 
 		    public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
-				Cursor c = (Cursor)parent.getItemAtPosition(pos);
-				showActionDialog(c);
+		    	selectedItem = (Cursor)parent.getItemAtPosition(pos);
+				showDialog(CONTEXT_MENU_ID);
 			}	    
 		});
 	}
 	
-	/**
-	 * Affiche la popup contenant les actions sur les vins
-	 * 
-	 * @param c
-	 */
-	private void showActionDialog(Cursor c) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-	    builder.setTitle("Action");
-	        
-	    final CharSequence[] items = {
-	    		mCtxt.getText(R.string.retirer), 
-	    		mCtxt.getText(R.string.detail), 
-	    		mCtxt.getText(R.string.editer), 
-	    		mCtxt.getText(R.string.supprimer)
-	    	};
-
-	    builder.setItems(items, new DialogInterface.OnClickListener(){
-            public void onClick(DialogInterface dialogInterface, int item) {
-            	switch (item) {
-            		// Retirer 1 bouteille
-            		case 0 : 
-            			break;
-            			
-            		// Détail
-            		case 1 : 
-            			break;
-            			
-            		// Editer
-            		case 2 : 
-            			break;
-            			
-            		// Supprimer
-            		case 3 : 
-            			break;        		
-            	}
-                Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
-            }
+	private void initActionDialog() {
+		iconContextMenu = new IconContextMenu(this, CONTEXT_MENU_ID);
+        iconContextMenu.addItem(res, R.string.retirer, R.drawable.ic_retirer_green, MENU_RETIRER_ACTION);
+        iconContextMenu.addItem(res, R.string.detail, R.drawable.ic_loupe_blue, MENU_DETAIL_ACTION);
+        iconContextMenu.addItem(res, R.string.editer, R.drawable.ic_edit_yellow, MENU_EDITER_ACTION);
+        iconContextMenu.addItem(res, R.string.supprimer, R.drawable.ic_delete_red, MENU_SUPPRIMER_ACTION);
+        
+        //set onclick listener for context menu
+        iconContextMenu.setOnClickListener(new IconContextMenu.IconContextMenuOnClickListener() {
+			public void onClick(int menuId) {
+				switch(menuId) {
+					case MENU_RETIRER_ACTION :
+						Toast.makeText(getApplicationContext(), "You've clicked on menu item 1", Toast.LENGTH_LONG).show();
+						break;
+					case MENU_DETAIL_ACTION :
+						Toast.makeText(getApplicationContext(), "You've clicked on menu item 2", Toast.LENGTH_LONG).show();
+						break;
+					case MENU_EDITER_ACTION :
+						Toast.makeText(getApplicationContext(), "You've clicked on menu item 3", Toast.LENGTH_LONG).show();
+						break;
+					case MENU_SUPPRIMER_ACTION :
+						Toast.makeText(getApplicationContext(), "You've clicked on menu item 4", Toast.LENGTH_LONG).show();
+						break;
+				}
+			}
         });
-
-	    builder.setPositiveButton("Annuler", 
-	    		new DialogInterface.OnClickListener() {
-	    			public void onClick(DialogInterface dialog, int which) {}
-	    		}
-	    );
-	    
-	    AlertDialog alert = builder.create();
-	    alert.show();
+	}
+	
+	/**
+	 * create context menu
+	 */
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		if (id == CONTEXT_MENU_ID) {
+			return iconContextMenu.createMenu("Action");
+		}
+		return super.onCreateDialog(id);
 	}
 }
