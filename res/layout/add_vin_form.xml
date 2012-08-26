@@ -47,33 +47,35 @@
         android:layout_height="wrap_content"
         android:padding="3dp">
         
-        <TextView
-            android:id="@+id/addVinFormCouleurText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/couleur" />
-        
-        <ToggleButton
+        <RadioGroup
+	        android:id="@+id/addVinFormCouleur"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content" 
+	        android:orientation="horizontal"
+	        android:layout_span="4" >
+	 
+	        <RadioButton
 	            android:id="@+id/addVinFormRouge"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:textOn="@string/couleur_rouge"
-	            android:textOff="@string/couleur_rouge" 
-	            android:checked="true"/>
-        <ToggleButton
+	            android:text="@string/couleur_rouge" 
+	            android:checked="true" />
+	 
+	        <RadioButton
 	            android:id="@+id/addVinFormBlanc"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:textOn="@string/couleur_blanc"
-	            android:textOff="@string/couleur_blanc" />
-        <ToggleButton
+	            android:text="@string/couleur_blanc"
+	            android:layout_marginLeft="30dp" />
+	 
+	        <RadioButton
 	            android:id="@+id/addVinFormRose"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:layout_marginRight="10dp"
-	            android:textOn="@string/couleur_rose" 
-	            android:textOff="@string/couleur_rose"/>
+	            android:text="@string/couleur_rose"
+	            android:layout_marginLeft="30dp" />
+	        
+	    </RadioGroup>
     </TableRow>
     
     <TableRow
@@ -129,7 +131,7 @@
             android:layout_gravity="center_vertical"
             android:text="@string/annee" />
 
-        <fr.kougteam.myCellar.widget.NumberPicker
+        <fr.kougteam.myCellar.ui.NumberPicker
             android:id="@+id/addVinFormAnnee"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -156,7 +158,7 @@
             android:layout_gravity="center_vertical"
             android:text="@string/bouteilles" />
 
-        <fr.kougteam.myCellar.widget.NumberPicker
+        <fr.kougteam.myCellar.ui.NumberPicker
             android:id="@+id/addVinFormBouteilles"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -26,4 +26,5 @@
     <string name="editer">Editer</string>
     <string name="supprimer">Supprimer</string>
     <string name="action">Action</string>
+    <string name="delete_item_msg">Etes-vous sûr de vouloir supprimer cet item ?</string>
 </resources>

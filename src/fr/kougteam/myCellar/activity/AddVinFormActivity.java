@@ -12,6 +12,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.FilterQueryProvider;
+import android.widget.RadioButton;
 import android.widget.SimpleCursorAdapter;
 import android.widget.SimpleCursorAdapter.CursorToStringConverter;
 import android.widget.TextView;
@@ -35,10 +36,9 @@ public class AddVinFormActivity extends Activity {
 	private int mRegionId;
 	private int mSousRegionId;
 	private int mAppellationId;
-	private Intent intentBack;
-	private ToggleButton rougeButton;
-	private ToggleButton blancButton;
-	private ToggleButton roseButton;
+	private RadioButton rougeButton;
+	private RadioButton blancButton;
+	private RadioButton roseButton;
 	private AutoCompleteTextView nomInput;
 	private AutoCompleteTextView producteurInput;
 
@@ -49,8 +49,6 @@ public class AddVinFormActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.add_vin_form);
-
-		intentBack = new Intent(this, MainActivity.class);
 
 		paysDao = new PaysDao(this);	
 		regionDao = new RegionDao(this);
@@ -66,8 +64,10 @@ public class AddVinFormActivity extends Activity {
 
 			fillRegionAppellationFields();
 		} 
-
-		initToggleButtons();
+		
+		rougeButton = (RadioButton)findViewById(R.id.addVinFormRouge);
+		blancButton = (RadioButton)findViewById(R.id.addVinFormBlanc);
+		roseButton = (RadioButton)findViewById(R.id.addVinFormRose);
 		
 		initAutocompleteNom();
 		initAutotcompleteProducteur();
@@ -77,11 +77,18 @@ public class AddVinFormActivity extends Activity {
 	}
 	
 	@Override
+	protected void onStop() {
+	    setResult(RESULT_CANCELED);
+	    super.onStop();
+	}
+	
+	@Override
 	protected void onDestroy() {
 		paysDao.close();
 		regionDao.close();
 		appellationDao.close();
 		vinDao.close();
+		setResult(RESULT_CANCELED);
 		super.onDestroy();	
 	}
 
@@ -93,43 +100,6 @@ public class AddVinFormActivity extends Activity {
 
 		TextView appellationText = (TextView)findViewById(R.id.addVinFormAppellation);
 		appellationText.setText(appellationDao.getById(mAppellationId).getNom());
-	}
-	
-	private void initToggleButtons() {
-		rougeButton = (ToggleButton)findViewById(R.id.addVinFormRouge);
-		blancButton = (ToggleButton)findViewById(R.id.addVinFormBlanc);
-		roseButton = (ToggleButton)findViewById(R.id.addVinFormRose);
-
-		rougeButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			public void onCheckedChanged(CompoundButton button, boolean isChecked) {
-				if (isChecked) {
-					// On déselectionne les autres boutons
-					blancButton.setChecked(false);
-					roseButton.setChecked(false);
-				}		
-			}   	
-		});
-
-		blancButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			public void onCheckedChanged(CompoundButton button, boolean isChecked) {
-				if (isChecked) {
-					// On déselectionne les autres boutons
-					rougeButton.setChecked(false);
-					roseButton.setChecked(false);
-				}		
-			}   	
-		});
-
-		roseButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			public void onCheckedChanged(CompoundButton button, boolean isChecked) {
-				if (isChecked) {
-					// On déselectionne les autres boutons
-					blancButton.setChecked(false);
-					rougeButton.setChecked(false);
-				}		
-			}   	
-		});
-
 	}
 
 	private void initAutocompleteNom() {
@@ -178,7 +148,7 @@ public class AddVinFormActivity extends Activity {
 		Button cancelBtn = (Button)findViewById(R.id.addVinFormCancel);
 		cancelBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				startActivity(intentBack);
+				AddVinFormActivity.this.finish();
 			}
 		});
 	}
@@ -207,7 +177,7 @@ public class AddVinFormActivity extends Activity {
 
 				if (vinDao.insert(vin) != -1) {
 					Toast.makeText(getApplicationContext(), R.string.save_ok, Toast.LENGTH_SHORT).show();
-					startActivity(intentBack);
+					AddVinFormActivity.this.finish();
 				} else {
 					Toast.makeText(getApplicationContext(), R.string.save_error, Toast.LENGTH_SHORT).show();
 				}

@@ -133,7 +133,7 @@ public class AddVinActivity extends Activity {
 				intent2Form.putExtra("sousRegionId", mSousRegionId);
 				intent2Form.putExtra("regionId", mRegionId);
 				intent2Form.putExtra("paysId", mPaysId);
-				startActivity(intent2Form);
+				startActivityForResult(intent2Form, 1);
 			}	    
 		});
 	}
@@ -162,5 +162,12 @@ public class AddVinActivity extends Activity {
 			}
 		}
 		return true;
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	    if (resultCode == RESULT_CANCELED) {
+	        finish();
+	    }
 	}
 }

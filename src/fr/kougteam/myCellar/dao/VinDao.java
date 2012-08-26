@@ -92,6 +92,17 @@ public class VinDao extends AbstractDao<Vin> {
 		return super.update(TABLE, getContentValues(v, false), v.getId());
 	}
 	
+	public void delete(int id) {
+		super.delete(TABLE, id);
+	}
+	
+	public long retire1Bouteille(int id, int currentStock) {
+		if (bdd==null) openForWrite();
+		ContentValues cv = new ContentValues();
+		cv.put(COL_NB_BOUTEILLES, currentStock-1);
+		return bdd.update(TABLE, cv, COL_ID + " = " + id, null);
+	}
+	
 	public Vin getById(int id) {
 		Vin v = new Vin();
 		String sql = " SELECT "+COL_COULEUR + ", " + 
@@ -142,7 +153,8 @@ public class VinDao extends AbstractDao<Vin> {
 					" FROM " + TABLE + " v " +
 					" JOIN " + AppellationDao.TABLE + " a ON a."+AppellationDao.COL_ID+"=v."+COL_APPELLATION +
 					" WHERE " + COL_COULEUR + "= '" + couleur.name() + "'" +
-					" AND " + COL_NB_BOUTEILLES + " > 0";
+					" AND " + COL_NB_BOUTEILLES + " > 0 " +
+					" ORDER BY " + COL_ANNEE + " DESC, nom_appellation, " + COL_PRODUCTEUR + ", v." + COL_NOM;
 		if (bdd==null) super.openForRead();		
 		return bdd.rawQuery(sql, null);
 	}
@@ -159,7 +171,8 @@ public class VinDao extends AbstractDao<Vin> {
 								COL_COMMENTAIRES + ", " +
 								COL_NB_BOUTEILLES + ", " +
 								COL_NOTE + " " + 
-					" FROM " + TABLE ;
+					" FROM " + TABLE +
+					" ORDER BY " + COL_ANNEE + " DESC, " + COL_APPELLATION + "," + COL_PRODUCTEUR + ", " + COL_NOM;
 		if (bdd==null) super.openForRead();		
 		return bdd.rawQuery(sql, null);
 	}

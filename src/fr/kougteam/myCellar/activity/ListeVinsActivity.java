@@ -1,8 +1,9 @@
 package fr.kougteam.myCellar.activity;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.TabActivity;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -33,17 +34,15 @@ public class ListeVinsActivity extends TabActivity {
 	private static final String TAB_BLANC = "TAB_BLANC";
 	private static final String TAB_ROSE = "TAB_ROSE";
 	
-	private Context mCtxt;
 	private VinDao vinDao;
 	private SimpleCursorAdapter vinAdapter;
 	private ListView vinsRougeListView;
 	private ListView vinsBlancListView;
 	private ListView vinsRoseListView;
-	private boolean listRougeLoaded;
-	private boolean listBlancLoaded;
-	private boolean listRoseLoaded;
 	
 	private Cursor selectedItem;
+	private String currentTab;
+	
 	
 	/**
 	 * @see android.app.Activity#onCreate(Bundle)
@@ -52,14 +51,9 @@ public class ListeVinsActivity extends TabActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.liste_vins);
-		mCtxt = getApplicationContext();
 		res = getResources();
 		
 		vinDao = new VinDao(this);
-		
-		listRougeLoaded = false;
-		listBlancLoaded = false;
-		listRoseLoaded = false;
 		
 		// initialisation des onglets
 		TabHost tabs = getTabHost();
@@ -83,15 +77,7 @@ public class ListeVinsActivity extends TabActivity {
 	    
 	    tabs.setOnTabChangedListener(new OnTabChangeListener(){
 	    	public void onTabChanged(String tabId) {
-	    	    if (TAB_ROUGE.equals(tabId)) {
-	    	    	if (!listRougeLoaded) loadVinsRougeList();
-	    	    }
-	    	    if (TAB_BLANC.equals(tabId)) {
-	    	    	if (!listBlancLoaded) loadVinsBlancList();
-	    	    }
-	    	    if (TAB_BLANC.equals(tabId)) {
-	    	    	if (!listRoseLoaded) loadVinsRoseList();
-	    	    }
+	    	    loadTabList(tabId);
 	    	}});
 	    
 	    vinsRougeListView = (ListView)findViewById(R.id.listeVinsRougeTab);	    
@@ -99,6 +85,9 @@ public class ListeVinsActivity extends TabActivity {
 	    vinsRoseListView = (ListView)findViewById(R.id.listeVinsRoseTab);
 	    
 	    initActionDialog();
+	    
+	    currentTab = TAB_ROUGE;
+	    loadTabList(currentTab);
 	}
 	
 	@Override
@@ -162,18 +151,46 @@ public class ListeVinsActivity extends TabActivity {
         //set onclick listener for context menu
         iconContextMenu.setOnClickListener(new IconContextMenu.IconContextMenuOnClickListener() {
 			public void onClick(int menuId) {
+				int idVin = selectedItem.getInt(selectedItem.getColumnIndex(VinDao.COL_ID));
+				
 				switch(menuId) {
+				
 					case MENU_RETIRER_ACTION :
-						Toast.makeText(getApplicationContext(), "You've clicked on menu item 1", Toast.LENGTH_LONG).show();
+						int currentStock = selectedItem.getInt(selectedItem.getColumnIndex(VinDao.COL_NB_BOUTEILLES));
+						if (vinDao.retire1Bouteille(idVin, currentStock) > 0) {
+							loadTabList(currentTab);
+							Toast.makeText(getApplicationContext(), "Le stock a été mis à jour.", Toast.LENGTH_LONG).show();
+						} else {
+							Toast.makeText(getApplicationContext(), "Le stock n'a pas pu être mis à jour.", Toast.LENGTH_LONG).show();
+						}					
 						break;
+						
 					case MENU_DETAIL_ACTION :
 						Toast.makeText(getApplicationContext(), "You've clicked on menu item 2", Toast.LENGTH_LONG).show();
 						break;
+						
 					case MENU_EDITER_ACTION :
 						Toast.makeText(getApplicationContext(), "You've clicked on menu item 3", Toast.LENGTH_LONG).show();
 						break;
+						
 					case MENU_SUPPRIMER_ACTION :
-						Toast.makeText(getApplicationContext(), "You've clicked on menu item 4", Toast.LENGTH_LONG).show();
+						AlertDialog.Builder builder = new AlertDialog.Builder(ListeVinsActivity.this);
+			    		builder.setMessage(R.string.delete_item_msg)
+			    		.setCancelable(false)
+			    		.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+			    			public void onClick(DialogInterface dialog, int id) {
+			    				int idVin = selectedItem.getInt(selectedItem.getColumnIndex(VinDao.COL_ID));
+			    				vinDao.delete(idVin);
+			    				loadTabList(currentTab);
+			    				Toast.makeText(getApplicationContext(), "L'item a été supprimé.", Toast.LENGTH_LONG).show();
+			    			}
+			    		})
+			    		.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+			    			public void onClick(DialogInterface dialog, int id) {
+			    			}
+			    		});
+			    		AlertDialog alert = builder.create();
+			    		alert.show();
 						break;
 				}
 			}
@@ -189,5 +206,26 @@ public class ListeVinsActivity extends TabActivity {
 			return iconContextMenu.createMenu("Action");
 		}
 		return super.onCreateDialog(id);
+	}
+	
+	/**
+	 * Charge les données dans l'onglet concerné
+	 * 
+	 * @param tab l'onglet dans lequel charger les données
+	 * 
+	 */
+	private void loadTabList(String tab) {
+		if (TAB_ROUGE.equals(tab)) {
+	    	currentTab = TAB_ROUGE;
+	    	loadVinsRougeList();
+	    	
+	    } else if (TAB_BLANC.equals(tab)) {
+	    	currentTab = TAB_BLANC;
+	    	loadVinsBlancList();
+	    	
+	    } else if (TAB_ROSE.equals(tab)) {
+	    	currentTab = TAB_ROSE;
+	    	loadVinsRoseList();
+	    }
 	}
 }
