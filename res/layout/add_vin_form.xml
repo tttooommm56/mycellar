@@ -6,6 +6,35 @@
     android:shrinkColumns="*"  
     android:stretchColumns="*" >
 
+    <RadioGroup
+       android:id="@+id/addVinFormCouleur"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content" 
+       android:orientation="horizontal">
+
+       <RadioButton
+           android:id="@+id/addVinFormRouge"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="@string/couleur_rouge" 
+           android:checked="true"/>
+
+       <RadioButton
+           android:id="@+id/addVinFormBlanc"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="@string/couleur_blanc"
+           android:layout_marginLeft="30dp"  />
+
+       <RadioButton
+           android:id="@+id/addVinFormRose"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="@string/couleur_rose"
+           android:layout_marginLeft="30dp"/>
+       
+   </RadioGroup>
+
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,7 +50,8 @@
             android:id="@+id/addVinFormRegion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_span="3" />
+            android:layout_span="3" 
+            android:textSize="18dp"/>
     </TableRow>
     
     <TableRow
@@ -39,43 +69,8 @@
             android:id="@+id/addVinFormAppellation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_span="3" />
-    </TableRow>
-    
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="3dp">
-        
-        <RadioGroup
-	        android:id="@+id/addVinFormCouleur"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content" 
-	        android:orientation="horizontal"
-	        android:layout_span="4" >
-	 
-	        <RadioButton
-	            android:id="@+id/addVinFormRouge"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:text="@string/couleur_rouge" 
-	            android:checked="true" />
-	 
-	        <RadioButton
-	            android:id="@+id/addVinFormBlanc"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:text="@string/couleur_blanc"
-	            android:layout_marginLeft="30dp" />
-	 
-	        <RadioButton
-	            android:id="@+id/addVinFormRose"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:text="@string/couleur_rose"
-	            android:layout_marginLeft="30dp" />
-	        
-	    </RadioGroup>
+            android:layout_span="3"
+            android:textSize="18dp" />
     </TableRow>
     
     <TableRow

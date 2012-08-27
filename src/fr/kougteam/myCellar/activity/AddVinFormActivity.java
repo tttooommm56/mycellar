@@ -1,15 +1,12 @@
 package fr.kougteam.myCellar.activity;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.RadioButton;
@@ -17,7 +14,6 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.SimpleCursorAdapter.CursorToStringConverter;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 import fr.kougteam.myCellar.R;
 import fr.kougteam.myCellar.dao.AppellationDao;
 import fr.kougteam.myCellar.dao.PaysDao;

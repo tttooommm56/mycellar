@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<manifest android:versionCode="1" android:versionName="1.0" android:screenOrientation="portrait"
+<manifest android:versionCode="1" android:versionName="1.0"
     package="fr.kougteam.myCellar" xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="15"/>
     <application android:icon="@drawable/ic_launcher"
@@ -12,6 +12,8 @@
         </activity>
         <activity android:name=".activity.ListeVinsActivity" android:theme="@android:style/Theme.NoTitleBar"/>
         <activity android:label="@string/title_activity_add_vin" android:name=".activity.AddVinActivity"/>
-        <activity android:label="@string/title_activity_add_vin" android:name="fr.kougteam.myCellar.activity.AddVinFormActivity" android:screenOrientation="portrait"/>
+        <activity android:label="@string/title_activity_add_vin"
+            android:name="fr.kougteam.myCellar.activity.AddVinFormActivity" android:screenOrientation="portrait"/>
+        <activity android:label="@string/title_activity_detail_vin" android:name=".activity.DetailVinActivity"/>
     </application>
 </manifest>

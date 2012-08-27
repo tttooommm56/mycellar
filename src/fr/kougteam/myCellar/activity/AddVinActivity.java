@@ -8,7 +8,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import fr.kougteam.myCellar.R;
@@ -17,7 +16,7 @@ import fr.kougteam.myCellar.dao.PaysDao;
 import fr.kougteam.myCellar.dao.RegionDao;
 
 public class AddVinActivity extends Activity {
-	Intent intent2Form;
+	private Intent intent2Form;
 	private ListView regionsListView;
 	private SimpleCursorAdapter regionAdapter;
 	private PaysDao paysDao;

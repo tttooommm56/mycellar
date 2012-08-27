@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.TabActivity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -42,6 +43,8 @@ public class ListeVinsActivity extends TabActivity {
 	
 	private Cursor selectedItem;
 	private String currentTab;
+	
+	private Intent intent2View;
 	
 	
 	/**
@@ -88,6 +91,8 @@ public class ListeVinsActivity extends TabActivity {
 	    
 	    currentTab = TAB_ROUGE;
 	    loadTabList(currentTab);
+	    
+	    intent2View = new Intent(this, DetailVinActivity.class);
 	}
 	
 	@Override
@@ -166,7 +171,8 @@ public class ListeVinsActivity extends TabActivity {
 						break;
 						
 					case MENU_DETAIL_ACTION :
-						Toast.makeText(getApplicationContext(), "You've clicked on menu item 2", Toast.LENGTH_LONG).show();
+						intent2View.putExtra("idVin", idVin);
+						startActivity(intent2View);
 						break;
 						
 					case MENU_EDITER_ACTION :
