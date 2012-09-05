@@ -87,7 +87,9 @@ public class MainActivity extends Activity {
 		public boolean onKeyDown(int keyCode, KeyEvent event) {
 	    	if (keyCode == KeyEvent.KEYCODE_BACK) {
 	    		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-	    		builder.setMessage(R.string.app_quit_msg)
+	    		builder.setTitle(R.string.app_quit_title)
+	    		.setIcon(android.R.drawable.ic_dialog_alert)
+	    		.setMessage(R.string.app_quit_msg)
 	    		.setCancelable(false)
 	    		.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 	    			public void onClick(DialogInterface dialog, int id) {

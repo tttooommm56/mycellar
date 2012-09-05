@@ -45,7 +45,7 @@ public class ListeVinsActivity extends TabActivity {
 	private String currentTab;
 	
 	private Intent intent2View;
-	
+	private Intent intent2Edit;
 	
 	/**
 	 * @see android.app.Activity#onCreate(Bundle)
@@ -93,12 +93,20 @@ public class ListeVinsActivity extends TabActivity {
 	    loadTabList(currentTab);
 	    
 	    intent2View = new Intent(this, DetailVinActivity.class);
+	    intent2Edit = new Intent(this, EditVinFormActivity.class);
 	}
 	
 	@Override
 	protected void onDestroy() {
 		vinDao.close();
 		super.onDestroy();	
+	}
+	
+	@Override
+	protected void onResume() {
+		// Mise à jour des données de l'onglet courant
+		loadTabList(currentTab);
+		super.onResume();
 	}
 	
 	private void loadVinsRougeList() {
@@ -176,12 +184,15 @@ public class ListeVinsActivity extends TabActivity {
 						break;
 						
 					case MENU_EDITER_ACTION :
-						Toast.makeText(getApplicationContext(), "You've clicked on menu item 3", Toast.LENGTH_LONG).show();
+						intent2Edit.putExtra("idVin", idVin);
+						startActivity(intent2Edit);
 						break;
 						
 					case MENU_SUPPRIMER_ACTION :
 						AlertDialog.Builder builder = new AlertDialog.Builder(ListeVinsActivity.this);
-			    		builder.setMessage(R.string.delete_item_msg)
+			    		builder.setTitle(R.string.warning)
+			    		.setIcon(android.R.drawable.ic_dialog_alert)
+			    		.setMessage(R.string.delete_item_msg)
 			    		.setCancelable(false)
 			    		.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 			    			public void onClick(DialogInterface dialog, int id) {
@@ -209,7 +220,7 @@ public class ListeVinsActivity extends TabActivity {
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		if (id == CONTEXT_MENU_ID) {
-			return iconContextMenu.createMenu("Action");
+			return iconContextMenu.createMenu(R.string.action, android.R.drawable.ic_menu_more);
 		}
 		return super.onCreateDialog(id);
 	}

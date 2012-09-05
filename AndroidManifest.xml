@@ -14,6 +14,8 @@
         <activity android:label="@string/title_activity_add_vin" android:name=".activity.AddVinActivity"/>
         <activity android:label="@string/title_activity_add_vin"
             android:name="fr.kougteam.myCellar.activity.AddVinFormActivity" android:screenOrientation="portrait"/>
+        <activity android:label="@string/title_activity_edit_vin"
+            android:name="fr.kougteam.myCellar.activity.EditVinFormActivity" android:screenOrientation="portrait"/>
         <activity android:label="@string/title_activity_detail_vin" android:name=".activity.DetailVinActivity"/>
     </application>
 </manifest>
