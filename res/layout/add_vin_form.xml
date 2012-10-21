@@ -1,198 +1,206 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:shrinkColumns="*"  
-    android:stretchColumns="*" >
-
-    <RadioGroup
-       android:id="@+id/addVinFormCouleur"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content" 
-       android:orientation="horizontal">
-
-       <RadioButton
-           android:id="@+id/addVinFormRouge"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="@string/couleur_rouge" 
-           android:checked="true"/>
-
-       <RadioButton
-           android:id="@+id/addVinFormBlanc"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="@string/couleur_blanc"
-           android:layout_marginLeft="30dp"  />
-
-       <RadioButton
-           android:id="@+id/addVinFormRose"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="@string/couleur_rose"
-           android:layout_marginLeft="30dp"/>
-       
-   </RadioGroup>
-
-    <TableRow
-        android:layout_width="match_parent"
+    >
+    <!-- Boutons -->
+    <LinearLayout
+        android:id="@+id/footer"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:padding="3dp">
-        
-        <TextView
-            android:id="@+id/addVinFormRegionTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/region" />
-        
-        <TextView
-            android:id="@+id/addVinFormRegion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_span="3" 
-            android:textSize="18dp"/>
-    </TableRow>
-    
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="3dp">
-        
-        <TextView
-            android:id="@+id/addVinFormAppellationTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/appellation" />
-        
-        <TextView
-            android:id="@+id/addVinFormAppellation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_span="3"
-            android:textSize="18dp" />
-    </TableRow>
-    
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="3dp">
-
-        <TextView
-            android:id="@+id/addVinFormNomText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/nom" />
-
-        <AutoCompleteTextView
-            android:id="@+id/addVinFormNom"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:ems="10" 
-            android:layout_span="3"
-            android:layout_marginRight="10dp">
-        </AutoCompleteTextView>
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="3dp">
-
-        <TextView
-            android:id="@+id/addVinFormProducteurText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/producteur" />
-
-        <AutoCompleteTextView
-            android:id="@+id/addVinFormProducteur"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:layout_span="3" 
-            android:layout_marginRight="10dp"/>
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="3dp">
-
-        <TextView
-            android:id="@+id/addVinFormAnneeText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/annee" />
-
-        <fr.kougteam.myCellar.ui.NumberPicker
-            android:id="@+id/addVinFormAnnee"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            defaultValue="2012"
-            maxValue="2050"
-            minValue="1900"
-            plusminus_width="80dp"
-            repeatAcceleration="10"
-            textSize="20dp"
-            textarea_width="150dp"
-            vertical="false"
-            android:layout_span="3" />
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="3dp">
-
-        <TextView
-            android:id="@+id/addVinFormBouteillesText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/bouteilles" />
-
-        <fr.kougteam.myCellar.ui.NumberPicker
-            android:id="@+id/addVinFormBouteilles"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            defaultValue="1"
-            minValue="0"
-            plusminus_width="80dp"
-            repeatAcceleration="10"
-            textSize="20dp"
-            textarea_width="90dp"
-            vertical="false" 
-            android:layout_span="3"/>
-    </TableRow>
-
-    <View
-        android:layout_height="2dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
-        android:background="#CCCCCC" />
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="3dp">
-
+        android:layout_alignParentBottom="true"
+        >        
         <Button
             android:id="@+id/addVinFormSave"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/save"
-            android:layout_span="2" />
-        
-        <Button
+            android:text="@string/save" 
+            android:drawableLeft="@android:drawable/ic_menu_save"
+            android:layout_width="fill_parent" 
+			android:layout_height="wrap_content"
+			android:layout_weight="1"/>      
+		<Button
             android:id="@+id/addVinFormCancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:text="@string/cancel"
-            android:layout_span="2"  />
-      
-    </TableRow>
+            android:text="@string/cancel" 
+            android:drawableLeft="@android:drawable/ic_menu_close_clear_cancel"
+            android:layout_width="fill_parent" 
+			android:layout_height="wrap_content"
+			android:layout_weight="1"/>
+    </LinearLayout>
+    
+    <!-- Formulaire -->
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@id/footer"
+        >
+        <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="vertical"
+		    android:shrinkColumns="*"  
+		    android:stretchColumns="*" >
+		
+		    <RadioGroup
+		       android:id="@+id/addVinFormCouleur"
+		       android:layout_width="wrap_content"
+		       android:layout_height="wrap_content" 
+		       android:orientation="horizontal">
+		
+		       <RadioButton
+		           android:id="@+id/addVinFormRouge"
+		           android:layout_width="wrap_content"
+		           android:layout_height="wrap_content"
+		           android:text="@string/couleur_rouge" 
+		           android:checked="true"/>
+		
+		       <RadioButton
+		           android:id="@+id/addVinFormBlanc"
+		           android:layout_width="wrap_content"
+		           android:layout_height="wrap_content"
+		           android:text="@string/couleur_blanc"
+		           android:layout_marginLeft="30dp"  />
+		
+		       <RadioButton
+		           android:id="@+id/addVinFormRose"
+		           android:layout_width="wrap_content"
+		           android:layout_height="wrap_content"
+		           android:text="@string/couleur_rose"
+		           android:layout_marginLeft="30dp"/>
+		       
+		   </RadioGroup>
+		
+		    <TableRow
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:padding="3dp">
+		        
+		        <TextView
+		            android:id="@+id/addVinFormRegionTitle"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="@string/region" />
+		        
+		        <TextView
+		            android:id="@+id/addVinFormRegion"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_span="3" 
+		            android:textSize="18dp"/>
+		    </TableRow>
+		    
+		    <TableRow
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:padding="3dp">
+		        
+		        <TextView
+		            android:id="@+id/addVinFormAppellationTitle"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="@string/appellation" />
+		        
+		        <TextView
+		            android:id="@+id/addVinFormAppellation"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_span="3"
+		            android:textSize="18dp" />
+		    </TableRow>
+		    
+		    <TableRow
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:padding="3dp">
+		
+		        <TextView
+		            android:id="@+id/addVinFormNomText"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="@string/nom" />
+		
+		        <AutoCompleteTextView
+		            android:id="@+id/addVinFormNom"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:ems="10" 
+		            android:layout_span="3"
+		            android:layout_marginRight="10dp">
+		        </AutoCompleteTextView>
+		    </TableRow>
+		
+		    <TableRow
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:padding="3dp">
+		
+		        <TextView
+		            android:id="@+id/addVinFormProducteurText"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="@string/producteur" />
+		
+		        <AutoCompleteTextView
+		            android:id="@+id/addVinFormProducteur"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:ems="10"
+		            android:layout_span="3" 
+		            android:layout_marginRight="10dp"/>
+		    </TableRow>
+		
+		    <TableRow
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:padding="3dp">
+		
+		        <TextView
+		            android:id="@+id/addVinFormAnneeText"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical"
+		            android:text="@string/annee" />
+		
+		        <fr.kougteam.myCellar.ui.NumberPicker
+		            android:id="@+id/addVinFormAnnee"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            defaultValue="2012"
+		            maxValue="2050"
+		            minValue="1900"
+		            plusminus_width="80dp"
+		            repeatAcceleration="10"
+		            textSize="20dp"
+		            textarea_width="150dp"
+		            vertical="false"
+		            android:layout_span="3" />
+		    </TableRow>
+		
+		    <TableRow
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:padding="3dp">
+		
+		        <TextView
+		            android:id="@+id/addVinFormBouteillesText"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical"
+		            android:text="@string/bouteilles" />
+		
+		        <fr.kougteam.myCellar.ui.NumberPicker
+		            android:id="@+id/addVinFormBouteilles"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            defaultValue="1"
+		            minValue="0"
+		            plusminus_width="80dp"
+		            repeatAcceleration="10"
+		            textSize="20dp"
+		            textarea_width="90dp"
+		            vertical="false" 
+		            android:layout_span="3"/>
+		    </TableRow>
+		</TableLayout>
+    </ScrollView>
+</RelativeLayout>
 
-</TableLayout>
