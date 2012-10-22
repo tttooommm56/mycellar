@@ -2,6 +2,7 @@ package fr.kougteam.myCellar.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import fr.kougteam.myCellar.R;
 import fr.kougteam.myCellar.dao.AppellationDao;
@@ -43,6 +44,7 @@ public class DetailVinActivity extends Activity {
 			((TextView)findViewById(R.id.detailVinProducteur)).setText(vin.getProducteur());
 			((TextView)findViewById(R.id.detailVinAnnee)).setText(Integer.toString(vin.getAnnee()));
 			((TextView)findViewById(R.id.detailVinBouteilles)).setText(Integer.toString(vin.getNbBouteilles()));
+			((RatingBar)findViewById(R.id.detailVinNote)).setRating((float)vin.getNote());
 		} 
 	}
 	

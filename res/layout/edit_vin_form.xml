@@ -1,197 +1,229 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:shrinkColumns="*"  
-    android:stretchColumns="*" >
-
-    <RadioGroup
-       android:id="@+id/editVinFormCouleur"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content" 
-       android:orientation="horizontal">
-
-       <RadioButton
-           android:id="@+id/editVinFormRouge"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="@string/couleur_rouge"/>
-
-       <RadioButton
-           android:id="@+id/editVinFormBlanc"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="@string/couleur_blanc"
-           android:layout_marginLeft="30dp"  />
-
-       <RadioButton
-           android:id="@+id/editVinFormRose"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="@string/couleur_rose"
-           android:layout_marginLeft="30dp"/>
-       
-   </RadioGroup>
-
-    <TableRow
-        android:layout_width="match_parent"
+    >
+    <!-- Boutons -->
+    <LinearLayout
+        android:id="@+id/footer"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:padding="3dp">
-        
-        <TextView
-            android:id="@+id/editVinFormRegionTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/region" />
-        
-        <TextView
-            android:id="@+id/editVinFormRegion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_span="3" 
-            android:textSize="18dp"/>
-    </TableRow>
-    
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="3dp">
-        
-        <TextView
-            android:id="@+id/editVinFormAppellationTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/appellation" />
-        
-        <TextView
-            android:id="@+id/editVinFormAppellation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_span="3"
-            android:textSize="18dp" />
-    </TableRow>
-    
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="3dp">
-
-        <TextView
-            android:id="@+id/editVinFormNomText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/nom" />
-
-        <AutoCompleteTextView
-            android:id="@+id/editVinFormNom"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:ems="10" 
-            android:layout_span="3"
-            android:layout_marginRight="10dp">
-        </AutoCompleteTextView>
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="3dp">
-
-        <TextView
-            android:id="@+id/editVinFormProducteurText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/producteur" />
-
-        <AutoCompleteTextView
-            android:id="@+id/editVinFormProducteur"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:layout_span="3" 
-            android:layout_marginRight="10dp"/>
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="3dp">
-
-        <TextView
-            android:id="@+id/editVinFormAnneeText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/annee" />
-
-        <fr.kougteam.myCellar.ui.NumberPicker
-            android:id="@+id/editVinFormAnnee"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            defaultValue="2012"
-            maxValue="2050"
-            minValue="1900"
-            plusminus_width="80dp"
-            repeatAcceleration="10"
-            textSize="20dp"
-            textarea_width="150dp"
-            vertical="false"
-            android:layout_span="3" />
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="3dp">
-
-        <TextView
-            android:id="@+id/editVinFormBouteillesText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/bouteilles" />
-
-        <fr.kougteam.myCellar.ui.NumberPicker
-            android:id="@+id/editVinFormBouteilles"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            defaultValue="1"
-            minValue="0"
-            plusminus_width="80dp"
-            repeatAcceleration="10"
-            textSize="20dp"
-            textarea_width="90dp"
-            vertical="false" 
-            android:layout_span="3"/>
-    </TableRow>
-
-    <View
-        android:layout_height="2dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
-        android:background="#CCCCCC" />
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="3dp">
-
-        <Button
+        android:layout_alignParentBottom="true"
+        >       
+     	<Button
             android:id="@+id/editVinFormSave"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/save"
-            android:layout_span="2" />
+            android:drawableLeft="@android:drawable/ic_menu_save"
+            android:layout_width="fill_parent" 
+			android:layout_height="wrap_content"
+			android:layout_weight="1"/>
         
         <Button
             android:id="@+id/editVinFormCancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
             android:text="@string/cancel"
-            android:layout_span="2"  />
-      
-    </TableRow>
-
-</TableLayout>
+            android:drawableLeft="@android:drawable/ic_menu_close_clear_cancel"
+            android:layout_width="fill_parent" 
+			android:layout_height="wrap_content"
+			android:layout_weight="1" />   
+     </LinearLayout>
+    
+    <!-- Formulaire -->
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@id/footer"
+        >     
+		<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		    android:layout_width="fill_parent"
+		    android:layout_height="fill_parent"
+		    android:orientation="vertical"
+		    android:shrinkColumns="*"  
+		    android:stretchColumns="*" >
+		
+		    <RadioGroup
+		       android:id="@+id/editVinFormCouleur"
+		       android:layout_width="wrap_content"
+		       android:layout_height="wrap_content" 
+		       android:orientation="horizontal">
+		
+		       <RadioButton
+		           android:id="@+id/editVinFormRouge"
+		           android:layout_width="wrap_content"
+		           android:layout_height="wrap_content"
+		           android:text="@string/couleur_rouge"/>
+		
+		       <RadioButton
+		           android:id="@+id/editVinFormBlanc"
+		           android:layout_width="wrap_content"
+		           android:layout_height="wrap_content"
+		           android:text="@string/couleur_blanc"
+		           android:layout_marginLeft="30dp"  />
+		
+		       <RadioButton
+		           android:id="@+id/editVinFormRose"
+		           android:layout_width="wrap_content"
+		           android:layout_height="wrap_content"
+		           android:text="@string/couleur_rose"
+		           android:layout_marginLeft="30dp"/>
+		       
+		   </RadioGroup>
+		
+		    <TableRow
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:padding="3dp">
+		        
+		        <TextView
+		            android:id="@+id/editVinFormRegionTitle"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="@string/region" />
+		        
+		        <TextView
+		            android:id="@+id/editVinFormRegion"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_span="3" 
+		            android:textSize="18dp"/>
+		    </TableRow>
+		    
+		    <TableRow
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:padding="3dp">
+		        
+		        <TextView
+		            android:id="@+id/editVinFormAppellationTitle"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="@string/appellation" />
+		        
+		        <TextView
+		            android:id="@+id/editVinFormAppellation"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_span="3"
+		            android:textSize="18dp" />
+		    </TableRow>
+		    
+		    <TableRow
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:padding="3dp">
+		
+		        <TextView
+		            android:id="@+id/editVinFormNomText"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="@string/nom" />
+		
+		        <AutoCompleteTextView
+		            android:id="@+id/editVinFormNom"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:ems="10" 
+		            android:layout_span="3"
+		            android:layout_marginRight="10dp">
+		        </AutoCompleteTextView>
+		    </TableRow>
+		
+		    <TableRow
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:padding="3dp">
+		
+		        <TextView
+		            android:id="@+id/editVinFormProducteurText"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="@string/producteur" />
+		
+		        <AutoCompleteTextView
+		            android:id="@+id/editVinFormProducteur"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:ems="10"
+		            android:layout_span="3" 
+		            android:layout_marginRight="10dp"/>
+		    </TableRow>
+		
+		    <TableRow
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:padding="3dp">
+		
+		        <TextView
+		            android:id="@+id/editVinFormAnneeText"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical"
+		            android:text="@string/annee" />
+		
+		        <fr.kougteam.myCellar.ui.NumberPicker
+		            android:id="@+id/editVinFormAnnee"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            defaultValue="2012"
+		            maxValue="2050"
+		            minValue="1900"
+		            plusminus_width="80dp"
+		            repeatAcceleration="10"
+		            textSize="20dp"
+		            textarea_width="150dp"
+		            vertical="false"
+		            android:layout_span="3" />
+		    </TableRow>
+		
+		    <TableRow
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:padding="3dp">
+		
+		        <TextView
+		            android:id="@+id/editVinFormBouteillesText"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical"
+		            android:text="@string/bouteilles" />
+		
+		        <fr.kougteam.myCellar.ui.NumberPicker
+		            android:id="@+id/editVinFormBouteilles"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            defaultValue="1"
+		            minValue="0"
+		            plusminus_width="80dp"
+		            repeatAcceleration="10"
+		            textSize="20dp"
+		            textarea_width="90dp"
+		            vertical="false" 
+		            android:layout_span="3"/>
+		    </TableRow>
+		    
+		    <TableRow
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:padding="3dp">
+		
+		        <TextView
+		            android:id="@+id/editVinFormNoteText"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical"
+		            android:text="@string/note"/>
+				
+		        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		            android:orientation="vertical" android:layout_width="wrap_content"
+		            android:layout_height="wrap_content">
+			        <RatingBar
+				        android:id="@+id/editVinFormNote"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:numStars="4"
+				        android:stepSize="1.0"/>
+			    </LinearLayout>
+		    </TableRow>
+		</TableLayout>
+	</ScrollView>
+</RelativeLayout>

@@ -28,6 +28,7 @@
     <string name="producteur">Producteur</string>
     <string name="annee">Année</string>
     <string name="bouteilles">Bouteilles</string>
+    <string name="note">Note</string>
     <string name="retirer">Retirer une bouteille</string>
     <string name="detail">Détail</string>
     <string name="editer">Editer</string>

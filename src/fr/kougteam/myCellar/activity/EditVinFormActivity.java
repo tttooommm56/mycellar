@@ -9,6 +9,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.FilterQueryProvider;
 import android.widget.RadioButton;
+import android.widget.RatingBar;
 import android.widget.SimpleCursorAdapter;
 import android.widget.SimpleCursorAdapter.CursorToStringConverter;
 import android.widget.TextView;
@@ -36,6 +37,7 @@ public class EditVinFormActivity extends Activity {
 	private AutoCompleteTextView producteurInput;
 	private NumberPicker anneePicker;
 	private NumberPicker nbBouteillesPicker;
+	private RatingBar noteRatingBar;
 
 	/**
 	 * @see android.app.Activity#onCreate(Bundle)
@@ -54,6 +56,8 @@ public class EditVinFormActivity extends Activity {
 
 		anneePicker = (NumberPicker)findViewById(R.id.editVinFormAnnee);
 		nbBouteillesPicker = (NumberPicker)findViewById(R.id.editVinFormBouteilles);
+		
+		noteRatingBar = (RatingBar)findViewById(R.id.editVinFormNote);
 		
 		paysDao = new PaysDao(this);	
 		regionDao = new RegionDao(this);
@@ -118,6 +122,9 @@ public class EditVinFormActivity extends Activity {
 		
 		// Nb bouteilles
 		nbBouteillesPicker.setValue(vin.getNbBouteilles());
+		
+		// Note
+		noteRatingBar.setRating((float)vin.getNote());
 	}
 
 	private void initAutocompleteNom() {
@@ -182,6 +189,7 @@ public class EditVinFormActivity extends Activity {
 				vin.setProducteur(producteurInput.getText().toString());
 				vin.setAnnee(anneePicker.getValue());
 				vin.setNbBouteilles(nbBouteillesPicker.getValue());
+				vin.setNote(noteRatingBar.getRating());
 				Couleur couleur = null;
 				if (rougeButton.isChecked()) {
 					couleur = Couleur.ROUGE;

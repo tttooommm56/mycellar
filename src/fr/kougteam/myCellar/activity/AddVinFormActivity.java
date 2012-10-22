@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.RadioButton;
+import android.widget.RatingBar;
 import android.widget.SimpleCursorAdapter;
 import android.widget.SimpleCursorAdapter.CursorToStringConverter;
 import android.widget.TextView;
@@ -67,7 +68,7 @@ public class AddVinFormActivity extends Activity {
 		
 		initAutocompleteNom();
 		initAutotcompleteProducteur();
-
+		
 		initCancelButton();
 		initSaveButton();		
 	}
@@ -161,6 +162,7 @@ public class AddVinFormActivity extends Activity {
 				vin.setProducteur(((EditText)findViewById(R.id.addVinFormProducteur)).getText().toString());
 				vin.setAnnee(((NumberPicker)findViewById(R.id.addVinFormAnnee)).getValue());
 				vin.setNbBouteilles(((NumberPicker)findViewById(R.id.addVinFormBouteilles)).getValue());
+				vin.setNote(((RatingBar) findViewById(R.id.addVinFormNote)).getRating());
 				Couleur couleur = null;
 				if (rougeButton.isChecked()) {
 					couleur = Couleur.ROUGE;

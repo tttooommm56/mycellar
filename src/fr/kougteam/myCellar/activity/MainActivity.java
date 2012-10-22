@@ -16,7 +16,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import fr.kougteam.myCellar.R;
-import fr.kougteam.myCellar.dao.AppellationDao;
 import fr.kougteam.myCellar.dao.VinDao;
 import fr.kougteam.myCellar.enums.Couleur;
 
@@ -24,7 +23,6 @@ public class MainActivity extends Activity {
 	 
 		private ListView menuListView;	
 		private VinDao vinDao;
-		private AppellationDao appellationDao;
 		
 	    /** Called when the activity is first created. */
 	    @Override
@@ -33,26 +31,25 @@ public class MainActivity extends Activity {
 	        setContentView(R.layout.main);
 	 
 	        vinDao = new VinDao(this);
-	        appellationDao = new AppellationDao(this);
 	        
 	        // Création des items
 	        menuListView = (ListView) findViewById(R.id.mainListView);
 	        ArrayList<HashMap<String, String>> listItem = new ArrayList<HashMap<String, String>>();
 	 
-	        // Item "Ajouter bouteilles"
+	        // Item "Voir la cave"
 	        HashMap<String, String> map = new HashMap<String, String>();
+	        map.put("action", "LIST");
+	        map.put("titre", getString(R.string.main_list_vin));
+	        map.put("img", String.valueOf(R.drawable.ic_loupe_blue));
+	        listItem.add(map);       
+	        
+	        // Item "Ajouter bouteilles"
+	        map = new HashMap<String, String>();
 	        map.put("action", "ADD");
 	        map.put("titre", getString(R.string.main_add_vin));
 	        map.put("img", String.valueOf(R.drawable.ic_plus_green));
 	        listItem.add(map);
-	 
-	        // Item "Voir la cave"
-	        map = new HashMap<String, String>();
-	        map.put("action", "LIST");
-	        map.put("titre", getString(R.string.main_list_vin));
-	        map.put("img", String.valueOf(R.drawable.ic_loupe_blue));
-	        listItem.add(map);
-	        
+	         
 	        // Item "Envoi liste par mail"
 	        map = new HashMap<String, String>();
 	        map.put("action", "MAIL");
@@ -131,12 +128,15 @@ public class MainActivity extends Activity {
 	    	if (c.getCount()>0) {
 	    		sb.append(titreListe + " :\r\n");
 	    		while (c.moveToNext()) {
-	    			sb.append("- ");
-	    			String nom = c.getString(c.getColumnIndex(VinDao.COL_NOM));
-	    			if (nom!=null && !"".equals(nom)) {
-	    				sb.append(nom+", ");
+	    			sb.append("- "+c.getString(c.getColumnIndex("nom_appellation")));
+	    			String producteur = c.getString(c.getColumnIndex(VinDao.COL_PRODUCTEUR));
+	    			if (producteur!=null && !"".equals(producteur)) {
+	    				sb.append(", "+producteur);
 	    			}
-	    			sb.append(appellationDao.getById(c.getInt(c.getColumnIndex(VinDao.COL_APPELLATION))).getNom());
+//	    			int regionId = c.getInt(c.getColumnIndex(VinDao.COL_REGION));
+//	    			if (regionId > 0) {
+//	    				sb.append(", "+regionDao.getById(regionId).getNom());
+//	    			}
 	    			sb.append(", "+c.getString(c.getColumnIndex(VinDao.COL_ANNEE))+" : ");
 	    			sb.append(c.getString(c.getColumnIndex(VinDao.COL_NB_BOUTEILLES)) + " bouteilles\r\n");
 	    		}
