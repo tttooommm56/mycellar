@@ -12,6 +12,9 @@
     <string name="main_send_list">Envoyer la liste des vins</string>
     <string name="title_activity_main">Mon Cellier</string>
     <string name="title_activity_add_vin">Ajout d\'un vin</string>
+    <string name="title_activity_add_vin_region_choix">Ajout d\'un vin : choisissez la région</string>
+    <string name="title_activity_add_vin_sous_region_choix">Ajout d\'un vin : choisissez le territoire</string>
+    <string name="title_activity_add_vin_appellation_choix">Ajout d\'un vin : choisissez l\'appellation</string>
     <string name="title_activity_edit_vin">Edition d\'un vin</string>
     <string name="title_activity_detail_vin">Détail</string>
     <string name="save">Enregistrer</string>

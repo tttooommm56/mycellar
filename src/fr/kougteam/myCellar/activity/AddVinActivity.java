@@ -137,6 +137,7 @@ public class AddVinActivity extends Activity {
 	}
 	
 	private void loadRegionList() {
+		setTitle(R.string.title_activity_add_vin_region_choix);
 		Cursor regionCursor = regionDao.getRegionsByPays(mPaysId);	
 		String[] from = new String[] { RegionDao.COL_NOM };
 		int[] to = new int[] { R.id.addVinItemText };
@@ -160,6 +161,7 @@ public class AddVinActivity extends Activity {
 	}
 	
 	private void loadSousRegionList() {
+		setTitle(R.string.title_activity_add_vin_sous_region_choix);
 		Cursor regionCursor = regionDao.getSousRegionsByRegion(mRegionId);	
 		String[] from = new String[] { RegionDao.COL_NOM };
 		int[] to = new int[] { R.id.addVinItemText };
@@ -178,6 +180,7 @@ public class AddVinActivity extends Activity {
 	}
 	
 	private void loadAppellationList(int idRegion) {
+		setTitle(R.string.title_activity_add_vin_appellation_choix);
 		Cursor appellationCursor = appellationDao.getListByRegion(idRegion);	
 		String[] from = new String[] { AppellationDao.COL_NOM };
 		int[] to = new int[] { R.id.addVinItemText };

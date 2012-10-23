@@ -15,6 +15,9 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+
+import com.pushlink.android.PushLink;
+
 import fr.kougteam.myCellar.R;
 import fr.kougteam.myCellar.dao.VinDao;
 import fr.kougteam.myCellar.enums.Couleur;
@@ -30,6 +33,9 @@ public class MainActivity extends Activity {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.main);
 	 
+	        // Vérification d'une nouvelle version disponible
+	        PushLink.start(this, R.drawable.ic_launcher, "nc5l426cfb1uv083");
+	        
 	        vinDao = new VinDao(this);
 	        
 	        // Création des items
