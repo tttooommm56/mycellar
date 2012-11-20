@@ -209,7 +209,7 @@ public class VocalActivity extends TabActivity {
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		if (id == CONTEXT_MENU_ID) {
-			return iconContextMenu.createMenu("Action");
+			//return iconContextMenu.createMenu("Action");
 		}
 		return super.onCreateDialog(id);
 	}
