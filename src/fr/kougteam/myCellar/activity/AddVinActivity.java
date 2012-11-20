@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -26,7 +29,7 @@ public class AddVinActivity extends Activity {
 	private int mRegionId = -1;
 	private int mSousRegionId = -1;
 	private int mAppellationId = -1;
-	
+      
 	/**
 	 * @see android.app.Activity#onCreate(Bundle)
 	 */
@@ -34,6 +37,7 @@ public class AddVinActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.add_vin);
+		
 		regionsListView = (ListView) findViewById(R.id.addVinListView);
 		intent2Form = new Intent(this, AddVinFormActivity.class);
 		
@@ -52,6 +56,66 @@ public class AddVinActivity extends Activity {
 		regionDao.close();
 		appellationDao.close();
 		super.onDestroy();
+	}
+	
+	/**
+	 * Méthode qui se déclenchera lorsque vous appuierez sur le bouton menu du téléphone
+	 */
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+      //Création d'un MenuInflater qui va permettre d'instancier un Menu XML en un objet Menu
+      MenuInflater inflater = getMenuInflater();
+      //Instanciation du menu XML spécifier en un objet Menu
+      inflater.inflate(R.layout.add_vin_list_menu, menu); 
+      return true;	
+	};
+	
+    /**
+     * Méthode qui se déclenchera au clic sur un item du menu
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+         //On regarde quel item a été cliqué grâce à son id et on déclenche une action
+         switch (item.getItemId()) {
+            case R.id.addVinPasser:
+               goToForm();
+               return true;
+         }
+         return false;
+    }
+    
+    @Override
+	public boolean dispatchKeyEvent(KeyEvent event) {
+		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+			if (mAppellationId != -1) {
+				mAppellationId = -1;
+				if (regionDao.hasSousRegion(mRegionId)) {
+					loadSousRegionList();						
+				} else {
+					loadRegionList();
+				} 
+				return true;
+				
+			} else if (mSousRegionId != -1) {
+				mSousRegionId = -1;
+				loadSousRegionList();
+				return true;
+				
+			} else if (mRegionId != -1) {
+				mRegionId = -1;
+				loadRegionList();	
+				return true;
+			} 
+			
+		}
+		return super.dispatchKeyEvent(event);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	    if (resultCode == RESULT_CANCELED) {
+	        finish();
+	    }
 	}
 	
 	private void loadPaysList() {
@@ -73,6 +137,7 @@ public class AddVinActivity extends Activity {
 	}
 	
 	private void loadRegionList() {
+		setTitle(R.string.title_activity_add_vin_region_choix);
 		Cursor regionCursor = regionDao.getRegionsByPays(mPaysId);	
 		String[] from = new String[] { RegionDao.COL_NOM };
 		int[] to = new int[] { R.id.addVinItemText };
@@ -96,6 +161,7 @@ public class AddVinActivity extends Activity {
 	}
 	
 	private void loadSousRegionList() {
+		setTitle(R.string.title_activity_add_vin_sous_region_choix);
 		Cursor regionCursor = regionDao.getSousRegionsByRegion(mRegionId);	
 		String[] from = new String[] { RegionDao.COL_NOM };
 		int[] to = new int[] { R.id.addVinItemText };
@@ -114,6 +180,7 @@ public class AddVinActivity extends Activity {
 	}
 	
 	private void loadAppellationList(int idRegion) {
+		setTitle(R.string.title_activity_add_vin_appellation_choix);
 		Cursor appellationCursor = appellationDao.getListByRegion(idRegion);	
 		String[] from = new String[] { AppellationDao.COL_NOM };
 		int[] to = new int[] { R.id.addVinItemText };
@@ -127,46 +194,19 @@ public class AddVinActivity extends Activity {
 				Cursor c = (Cursor)parent.getItemAtPosition(pos);
 				mAppellationId = c.getInt(c.getColumnIndexOrThrow(AppellationDao.COL_ID));
 
-				// Redirection vers le formulaire
-				intent2Form.putExtra("appellationId", mAppellationId);
-				intent2Form.putExtra("sousRegionId", mSousRegionId);
-				intent2Form.putExtra("regionId", mRegionId);
-				intent2Form.putExtra("paysId", mPaysId);
-				startActivityForResult(intent2Form, 1);
+				goToForm();
 			}	    
 		});
 	}
 	
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			if (mAppellationId != -1) {
-				mAppellationId = -1;
-				if (regionDao.hasSousRegion(mRegionId)) {
-					loadSousRegionList();						
-				} else {
-					loadRegionList();
-				} 
-				
-			} else if (mSousRegionId != -1) {
-				mSousRegionId = -1;
-				loadSousRegionList();
-				
-			} else if (mRegionId != -1) {
-				mRegionId = -1;
-				loadRegionList();
-				
-			} else {
-				return super.onKeyDown(keyCode, event);
-			}
-		}
-		return true;
-	}
-	
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-	    if (resultCode == RESULT_CANCELED) {
-	        finish();
-	    }
+	/**
+	 * Redirection vers le formulaire
+	 */
+	private void goToForm() {
+		intent2Form.putExtra("appellationId", mAppellationId);
+		intent2Form.putExtra("sousRegionId", mSousRegionId);
+		intent2Form.putExtra("regionId", mRegionId);
+		intent2Form.putExtra("paysId", mPaysId);
+		startActivityForResult(intent2Form, 1);
 	}
 }

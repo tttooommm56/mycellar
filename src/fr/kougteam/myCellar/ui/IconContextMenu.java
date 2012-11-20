@@ -86,9 +86,10 @@ public class IconContextMenu implements DialogInterface.OnCancelListener,
 	 * Create menu
 	 * @return
 	 */
-	public Dialog createMenu(String menuItitle) {
+	public Dialog createMenu(int stringMenuTitle, int drawableIcon) {
 		final AlertDialog.Builder builder = new AlertDialog.Builder(parentActivity);
-        builder.setTitle(menuItitle);
+        builder.setTitle(stringMenuTitle);
+        builder.setIcon(drawableIcon);
         builder.setAdapter(menuAdapter, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialoginterface, int i) {
 				IconContextMenuItem item = (IconContextMenuItem) menuAdapter.getItem(i);

@@ -2,6 +2,7 @@
 <manifest android:versionCode="1" android:versionName="1.0"
     package="fr.kougteam.myCellar" xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="15"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <application android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" android:theme="@style/AppTheme">
         <activity android:label="@string/title_activity_main" android:name=".activity.MainActivity">
@@ -11,9 +12,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.ListeVinsActivity" android:theme="@android:style/Theme.NoTitleBar"/>
-        <activity android:label="@string/title_activity_add_vin" android:name=".activity.AddVinActivity"/>
+        <activity android:label="@string/title_activity_add_vin_region_choix" android:name=".activity.AddVinActivity"/>
         <activity android:label="@string/title_activity_add_vin"
             android:name="fr.kougteam.myCellar.activity.AddVinFormActivity" android:screenOrientation="portrait"/>
+        <activity android:label="@string/title_activity_edit_vin"
+            android:name="fr.kougteam.myCellar.activity.EditVinFormActivity" android:screenOrientation="portrait"/>
         <activity android:label="@string/title_activity_detail_vin" android:name=".activity.DetailVinActivity"/>
     </application>
 </manifest>

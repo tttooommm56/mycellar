@@ -149,9 +149,9 @@ public class VinDao extends AbstractDao<Vin> {
 							COL_COMMENTAIRES + ", " +
 							COL_NB_BOUTEILLES + ", " +
 							COL_NOTE + ", " + 
-							"a." + AppellationDao.COL_NOM + " as nom_appellation " +
+							" CASE WHEN "+COL_APPELLATION+"<0 THEN v." + COL_NOM + " ELSE a." + AppellationDao.COL_NOM + " END as nom_appellation " +
 					" FROM " + TABLE + " v " +
-					" JOIN " + AppellationDao.TABLE + " a ON a."+AppellationDao.COL_ID+"=v."+COL_APPELLATION +
+					" LEFT JOIN " + AppellationDao.TABLE + " a ON a."+AppellationDao.COL_ID+"=v."+COL_APPELLATION +
 					" WHERE " + COL_COULEUR + "= '" + couleur.name() + "'" +
 					" AND " + COL_NB_BOUTEILLES + " > 0 " +
 					" ORDER BY " + COL_ANNEE + " DESC, nom_appellation, " + COL_PRODUCTEUR + ", v." + COL_NOM;

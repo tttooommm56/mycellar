@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.RadioButton;
 import android.widget.RatingBar;
@@ -24,20 +23,21 @@ import fr.kougteam.myCellar.enums.Couleur;
 import fr.kougteam.myCellar.modele.Vin;
 import fr.kougteam.myCellar.ui.NumberPicker;
 
-public class AddVinFormActivity extends Activity {
+public class EditVinFormActivity extends Activity {
 	private PaysDao paysDao;
 	private RegionDao regionDao;
 	private AppellationDao appellationDao;
 	private VinDao vinDao;
-	private int mPaysId;
-	private int mRegionId;
-	private int mSousRegionId;
-	private int mAppellationId;
+	private Vin vin;
+	private int mVinId;
 	private RadioButton rougeButton;
 	private RadioButton blancButton;
 	private RadioButton roseButton;
 	private AutoCompleteTextView nomInput;
 	private AutoCompleteTextView producteurInput;
+	private NumberPicker anneePicker;
+	private NumberPicker nbBouteillesPicker;
+	private RatingBar noteRatingBar;
 
 	/**
 	 * @see android.app.Activity#onCreate(Bundle)
@@ -45,8 +45,20 @@ public class AddVinFormActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.add_vin_form);
+		setContentView(R.layout.edit_vin_form);
 
+		rougeButton = (RadioButton)findViewById(R.id.editVinFormRouge);
+		blancButton = (RadioButton)findViewById(R.id.editVinFormBlanc);
+		roseButton = (RadioButton)findViewById(R.id.editVinFormRose);
+		
+		initAutocompleteNom();
+		initAutotcompleteProducteur();
+
+		anneePicker = (NumberPicker)findViewById(R.id.editVinFormAnnee);
+		nbBouteillesPicker = (NumberPicker)findViewById(R.id.editVinFormBouteilles);
+		
+		noteRatingBar = (RatingBar)findViewById(R.id.editVinFormNote);
+		
 		paysDao = new PaysDao(this);	
 		regionDao = new RegionDao(this);
 		appellationDao = new AppellationDao(this);
@@ -54,20 +66,12 @@ public class AddVinFormActivity extends Activity {
 
 		Bundle extra = this.getIntent().getExtras(); 
 		if (extra!=null) {
-			mAppellationId =  extra.getInt("appellationId");
-			mSousRegionId =  extra.getInt("sousRegionId");
-			mRegionId =  extra.getInt("regionId");
-			mPaysId =  extra.getInt("paysId");
-
-			fillRegionAppellationFields();
-		} 
-		
-		rougeButton = (RadioButton)findViewById(R.id.addVinFormRouge);
-		blancButton = (RadioButton)findViewById(R.id.addVinFormBlanc);
-		roseButton = (RadioButton)findViewById(R.id.addVinFormRose);
-		
-		initAutocompleteNom();
-		initAutotcompleteProducteur();
+			mVinId =  extra.getInt("idVin");
+			vin = vinDao.getById(mVinId);
+			fillFields();
+		} else {
+			vin = new Vin();
+		}
 		
 		initCancelButton();
 		initSaveButton();		
@@ -89,18 +93,42 @@ public class AddVinFormActivity extends Activity {
 		super.onDestroy();	
 	}
 
-	private void fillRegionAppellationFields() {
-		String region = paysDao.getById(mPaysId).getNom();
-		region += " / " + regionDao.getById(mRegionId).getNom();
-		TextView regionText = (TextView)findViewById(R.id.addVinFormRegion);
+	private void fillFields() {
+		// Region
+		String region = paysDao.getById(vin.getIdPays()).getNom();
+		region += " / " + regionDao.getById(vin.getIdRegion()).getNom();
+		TextView regionText = (TextView)findViewById(R.id.editVinFormRegion);
 		regionText.setText(region);
 
-		TextView appellationText = (TextView)findViewById(R.id.addVinFormAppellation);
-		appellationText.setText(appellationDao.getById(mAppellationId).getNom());
+		// Appellation
+		TextView appellationText = (TextView)findViewById(R.id.editVinFormAppellation);
+		appellationText.setText(appellationDao.getById(vin.getIdAppellation()).getNom());
+		
+		// Couleur
+		switch (vin.getCouleur()) {
+			case ROUGE : rougeButton.setChecked(true); break;
+			case ROSE : roseButton.setChecked(true); break;
+			case BLANC : blancButton.setChecked(true); break;
+		}
+		
+		// Nom
+		nomInput.setText(vin.getNom());
+		
+		// Producteur
+		producteurInput.setText(vin.getProducteur());
+		
+		// Année
+		anneePicker.setValue(vin.getAnnee());
+		
+		// Nb bouteilles
+		nbBouteillesPicker.setValue(vin.getNbBouteilles());
+		
+		// Note
+		noteRatingBar.setRating((float)vin.getNote());
 	}
 
 	private void initAutocompleteNom() {
-		nomInput = (AutoCompleteTextView)findViewById(R.id.addVinFormNom);
+		nomInput = (AutoCompleteTextView)findViewById(R.id.editVinFormNom);
 		String[] fromNom = new String[] { VinDao.COL_NOM };
 		int[] to = new int[] { android.R.id.text1 };
 		SimpleCursorAdapter nomsAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_dropdown_item_1line, null, fromNom, to);
@@ -121,7 +149,7 @@ public class AddVinFormActivity extends Activity {
 	}
 
 	private void initAutotcompleteProducteur() {
-		producteurInput = (AutoCompleteTextView)findViewById(R.id.addVinFormProducteur);
+		producteurInput = (AutoCompleteTextView)findViewById(R.id.editVinFormProducteur);
 		String[] fromProducteur = new String[] { VinDao.COL_PRODUCTEUR };
 		int[] to = new int[] { android.R.id.text1 };
 		SimpleCursorAdapter producteurAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_dropdown_item_1line, null, fromProducteur, to);
@@ -142,27 +170,26 @@ public class AddVinFormActivity extends Activity {
 	}
 	
 	private void initCancelButton() {
-		Button cancelBtn = (Button)findViewById(R.id.addVinFormCancel);
+		Button cancelBtn = (Button)findViewById(R.id.editVinFormCancel);
 		cancelBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				AddVinFormActivity.this.finish();
+				EditVinFormActivity.this.finish();
 			}
 		});
 	}
 	
 	private void initSaveButton() {
-		Button saveBtn = (Button)findViewById(R.id.addVinFormSave);
+		Button saveBtn = (Button)findViewById(R.id.editVinFormSave);
 		saveBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				Vin vin = new Vin();
-				vin.setIdAppellation(mAppellationId);
-				vin.setIdRegion(mRegionId);
-				vin.setIdPays(mPaysId);
-				vin.setNom(((EditText)findViewById(R.id.addVinFormNom)).getText().toString());
-				vin.setProducteur(((EditText)findViewById(R.id.addVinFormProducteur)).getText().toString());
-				vin.setAnnee(((NumberPicker)findViewById(R.id.addVinFormAnnee)).getValue());
-				vin.setNbBouteilles(((NumberPicker)findViewById(R.id.addVinFormBouteilles)).getValue());
-				vin.setNote(((RatingBar) findViewById(R.id.addVinFormNote)).getRating());
+//				vin.setIdAppellation(mAppellationId);
+//				vin.setIdRegion(mRegionId);
+//				vin.setIdPays(mPaysId);
+				vin.setNom(nomInput.getText().toString());
+				vin.setProducteur(producteurInput.getText().toString());
+				vin.setAnnee(anneePicker.getValue());
+				vin.setNbBouteilles(nbBouteillesPicker.getValue());
+				vin.setNote(noteRatingBar.getRating());
 				Couleur couleur = null;
 				if (rougeButton.isChecked()) {
 					couleur = Couleur.ROUGE;
@@ -173,9 +200,9 @@ public class AddVinFormActivity extends Activity {
 				}
 				vin.setCouleur(couleur);
 
-				if (vinDao.insert(vin) != -1) {
+				if (vinDao.update(vin) != -1) {
 					Toast.makeText(getApplicationContext(), R.string.save_ok, Toast.LENGTH_SHORT).show();
-					AddVinFormActivity.this.finish();
+					EditVinFormActivity.this.finish();
 				} else {
 					Toast.makeText(getApplicationContext(), R.string.save_error, Toast.LENGTH_SHORT).show();
 				}

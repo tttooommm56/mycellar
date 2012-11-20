@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <resources>
     <string name="app_name">Mon Cellier</string>
-    <string name="app_quit_msg">Etes-vous sûr de vouloir quitter ?</string>
+    <string name="app_quit_title">Quitter</string>
+    <string name="app_quit_msg">Etes-vous sûr de vouloir quitter l\'application ?</string>
     <string name="yes">Oui</string>
     <string name="no">Non</string>
+    <string name="warning">Attention</string>
     <string name="menu_settings">Paramètres</string>
+    <string name="main_add_vin">Ajouter des bouteilles</string>
+    <string name="main_list_vin">Voir la cave</string>
+    <string name="main_send_list">Envoyer la liste des vins</string>
     <string name="title_activity_main">Mon Cellier</string>
     <string name="title_activity_add_vin">Ajout d\'un vin</string>
+    <string name="title_activity_add_vin_region_choix">Ajout d\'un vin : choisissez la région</string>
+    <string name="title_activity_add_vin_sous_region_choix">Ajout d\'un vin : choisissez le territoire</string>
+    <string name="title_activity_add_vin_appellation_choix">Ajout d\'un vin : choisissez l\'appellation</string>
+    <string name="title_activity_edit_vin">Edition d\'un vin</string>
     <string name="title_activity_detail_vin">Détail</string>
     <string name="save">Enregistrer</string>
     <string name="save_ok">Enregistré avec succès.</string>
@@ -22,10 +31,12 @@
     <string name="producteur">Producteur</string>
     <string name="annee">Année</string>
     <string name="bouteilles">Bouteilles</string>
+    <string name="note">Note</string>
     <string name="retirer">Retirer une bouteille</string>
     <string name="detail">Détail</string>
     <string name="editer">Editer</string>
     <string name="supprimer">Supprimer</string>
     <string name="action">Action</string>
     <string name="delete_item_msg">Etes-vous sûr de vouloir supprimer cet item ?</string>
+    <string name="send">Envoyer</string>
 </resources>
