@@ -12,7 +12,8 @@ public enum CrudActions {
 	ADD(1, "Ajouter"),
 	EDIT(2, "Editer"),
 	DELETE(3, "Supprimer"),
-	VIEW(4, "Voir");
+	VIEW(4, "Voir"),
+	VOCAL(5, "Parler");
 	
 	private int id;
 	private String label;
