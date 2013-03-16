@@ -10,6 +10,7 @@
     <string name="main_add_vin">Ajouter des bouteilles</string>
     <string name="main_list_vin">Voir la cave</string>
     <string name="main_send_list">Envoyer la liste des vins</string>
+    <string name="main_histo_vin">Anciennes bouteilles</string>
     <string name="title_activity_main">Mon Cellier</string>
     <string name="title_activity_add_vin">Ajout d\'un vin</string>
     <string name="title_activity_add_vin_region_choix">Ajout d\'un vin : choisissez la région</string>
@@ -39,4 +40,5 @@
     <string name="action">Action</string>
     <string name="delete_item_msg">Etes-vous sûr de vouloir supprimer cet item ?</string>
     <string name="send">Envoyer</string>
+    <string name="skip_step">Passer cette étape</string>
 </resources>

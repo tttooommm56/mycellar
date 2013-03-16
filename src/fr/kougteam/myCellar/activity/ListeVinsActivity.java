@@ -47,6 +47,8 @@ public class ListeVinsActivity extends TabActivity {
 	private Intent intent2View;
 	private Intent intent2Edit;
 	
+	private boolean emptyBottlesOnly = false;
+	
 	/**
 	 * @see android.app.Activity#onCreate(Bundle)
 	 */
@@ -57,6 +59,10 @@ public class ListeVinsActivity extends TabActivity {
 		res = getResources();
 		
 		vinDao = new VinDao(this);
+		
+		// récupération des paramètres de l'intent
+		Bundle bundle = this.getIntent().getExtras();
+		emptyBottlesOnly = (Boolean)bundle.get("emptyBottlesOnly");
 		
 		// initialisation des onglets
 		TabHost tabs = getTabHost();
@@ -109,8 +115,8 @@ public class ListeVinsActivity extends TabActivity {
 		super.onResume();
 	}
 	
-	private void loadVinsRougeList() {
-		Cursor vinCursor = vinDao.getListVinsDisposByCouleur(Couleur.ROUGE);
+	private void loadVinsRougeList(boolean emptyBottlesOnly) {
+		Cursor vinCursor = vinDao.getListVinsDisposByCouleur(Couleur.ROUGE, emptyBottlesOnly);
 		String[] from = new String[] { VinDao.COL_PRODUCTEUR, VinDao.COL_ANNEE, VinDao.COL_NB_BOUTEILLES, "nom_appellation" };
 		int[] to = new int[] { R.id.listeVinsItemProducteur, R.id.listeVinsItemAnnee, R.id.listeVinsItemBouteilles, R.id.listeVinsItemAppellation };
 		vinAdapter = new SimpleCursorAdapter(this, R.layout.liste_vins_item, vinCursor, from, to);
@@ -124,8 +130,8 @@ public class ListeVinsActivity extends TabActivity {
 		});
 	}
 	
-	private void loadVinsBlancList() {
-		Cursor vinCursor = vinDao.getListVinsDisposByCouleur(Couleur.BLANC);
+	private void loadVinsBlancList(boolean emptyBottlesOnly) {
+		Cursor vinCursor = vinDao.getListVinsDisposByCouleur(Couleur.BLANC, emptyBottlesOnly);
 		String[] from = new String[] { VinDao.COL_PRODUCTEUR, VinDao.COL_ANNEE, VinDao.COL_NB_BOUTEILLES, "nom_appellation" };
 		int[] to = new int[] { R.id.listeVinsItemProducteur, R.id.listeVinsItemAnnee, R.id.listeVinsItemBouteilles, R.id.listeVinsItemAppellation };
 		vinAdapter = new SimpleCursorAdapter(this, R.layout.liste_vins_item, vinCursor, from, to);
@@ -139,8 +145,8 @@ public class ListeVinsActivity extends TabActivity {
 		});
 	}
 	
-	private void loadVinsRoseList() {
-		Cursor vinCursor = vinDao.getListVinsDisposByCouleur(Couleur.ROSE);
+	private void loadVinsRoseList(boolean emptyBottlesOnly) {
+		Cursor vinCursor = vinDao.getListVinsDisposByCouleur(Couleur.ROSE, emptyBottlesOnly);
 		String[] from = new String[] { VinDao.COL_PRODUCTEUR, VinDao.COL_ANNEE, VinDao.COL_NB_BOUTEILLES, "nom_appellation" };
 		int[] to = new int[] { R.id.listeVinsItemProducteur, R.id.listeVinsItemAnnee, R.id.listeVinsItemBouteilles, R.id.listeVinsItemAppellation };
 		vinAdapter = new SimpleCursorAdapter(this, R.layout.liste_vins_item, vinCursor, from, to);
@@ -156,7 +162,10 @@ public class ListeVinsActivity extends TabActivity {
 	
 	private void initActionDialog() {
 		iconContextMenu = new IconContextMenu(this, CONTEXT_MENU_ID);
-        iconContextMenu.addItem(res, R.string.retirer, R.drawable.ic_retirer_green, MENU_RETIRER_ACTION);
+		if (!emptyBottlesOnly) {
+			// On ne peut pas retirer de bouteille si on est dans la liste des bouteilles vides !
+			iconContextMenu.addItem(res, R.string.retirer, R.drawable.ic_retirer_green, MENU_RETIRER_ACTION);
+		}
         iconContextMenu.addItem(res, R.string.detail, R.drawable.ic_loupe_blue, MENU_DETAIL_ACTION);
         iconContextMenu.addItem(res, R.string.editer, R.drawable.ic_edit_yellow, MENU_EDITER_ACTION);
         iconContextMenu.addItem(res, R.string.supprimer, R.drawable.ic_delete_red, MENU_SUPPRIMER_ACTION);
@@ -234,15 +243,15 @@ public class ListeVinsActivity extends TabActivity {
 	private void loadTabList(String tab) {
 		if (TAB_ROUGE.equals(tab)) {
 	    	currentTab = TAB_ROUGE;
-	    	loadVinsRougeList();
+	    	loadVinsRougeList(emptyBottlesOnly);
 	    	
 	    } else if (TAB_BLANC.equals(tab)) {
 	    	currentTab = TAB_BLANC;
-	    	loadVinsBlancList();
+	    	loadVinsBlancList(emptyBottlesOnly);
 	    	
 	    } else if (TAB_ROSE.equals(tab)) {
 	    	currentTab = TAB_ROSE;
-	    	loadVinsRoseList();
+	    	loadVinsRoseList(emptyBottlesOnly);
 	    }
 	}
 }

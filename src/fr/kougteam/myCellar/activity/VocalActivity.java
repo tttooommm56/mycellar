@@ -102,7 +102,7 @@ public class VocalActivity extends TabActivity {
 	}
 	
 	private void loadVinsRougeList() {
-		Cursor vinCursor = vinDao.getListVinsDisposByCouleur(Couleur.ROUGE);
+		Cursor vinCursor = vinDao.getListVinsDisposByCouleur(Couleur.ROUGE, false);
 		String[] from = new String[] { VinDao.COL_PRODUCTEUR, VinDao.COL_ANNEE, VinDao.COL_NB_BOUTEILLES, "nom_appellation" };
 		int[] to = new int[] { R.id.listeVinsItemProducteur, R.id.listeVinsItemAnnee, R.id.listeVinsItemBouteilles, R.id.listeVinsItemAppellation };
 		vinAdapter = new SimpleCursorAdapter(this, R.layout.liste_vins_item, vinCursor, from, to);
@@ -117,7 +117,7 @@ public class VocalActivity extends TabActivity {
 	}
 	
 	private void loadVinsBlancList() {
-		Cursor vinCursor = vinDao.getListVinsDisposByCouleur(Couleur.BLANC);
+		Cursor vinCursor = vinDao.getListVinsDisposByCouleur(Couleur.BLANC, false);
 		String[] from = new String[] { VinDao.COL_PRODUCTEUR, VinDao.COL_ANNEE, VinDao.COL_NB_BOUTEILLES, "nom_appellation" };
 		int[] to = new int[] { R.id.listeVinsItemProducteur, R.id.listeVinsItemAnnee, R.id.listeVinsItemBouteilles, R.id.listeVinsItemAppellation };
 		vinAdapter = new SimpleCursorAdapter(this, R.layout.liste_vins_item, vinCursor, from, to);
@@ -132,7 +132,7 @@ public class VocalActivity extends TabActivity {
 	}
 	
 	private void loadVinsRoseList() {
-		Cursor vinCursor = vinDao.getListVinsDisposByCouleur(Couleur.ROSE);
+		Cursor vinCursor = vinDao.getListVinsDisposByCouleur(Couleur.ROSE, false);
 		String[] from = new String[] { VinDao.COL_PRODUCTEUR, VinDao.COL_ANNEE, VinDao.COL_NB_BOUTEILLES, "nom_appellation" };
 		int[] to = new int[] { R.id.listeVinsItemProducteur, R.id.listeVinsItemAnnee, R.id.listeVinsItemBouteilles, R.id.listeVinsItemAppellation };
 		vinAdapter = new SimpleCursorAdapter(this, R.layout.liste_vins_item, vinCursor, from, to);

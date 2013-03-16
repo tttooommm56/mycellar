@@ -137,7 +137,7 @@ public class VinDao extends AbstractDao<Vin> {
 		return v;
 	}
 	
-	public Cursor getListVinsDisposByCouleur(final Couleur couleur) {
+	public Cursor getListVinsDisposByCouleur(final Couleur couleur, final boolean emptyBottlesOnly) {
 		String sql = " SELECT v."+COL_ID + ", " + 
 							COL_COULEUR + ", " + 
 							COL_PAYS + " , " +
@@ -152,10 +152,19 @@ public class VinDao extends AbstractDao<Vin> {
 							" CASE WHEN "+COL_APPELLATION+"<0 THEN v." + COL_NOM + " ELSE a." + AppellationDao.COL_NOM + " END as nom_appellation " +
 					" FROM " + TABLE + " v " +
 					" LEFT JOIN " + AppellationDao.TABLE + " a ON a."+AppellationDao.COL_ID+"=v."+COL_APPELLATION +
-					" WHERE " + COL_COULEUR + "= '" + couleur.name() + "'" +
-					" AND " + COL_NB_BOUTEILLES + " > 0 " +
-					" ORDER BY " + COL_ANNEE + " DESC, nom_appellation, " + COL_PRODUCTEUR + ", v." + COL_NOM;
+					" WHERE " + COL_COULEUR + "= '" + couleur.name() + "' " ;
+		
+		if (emptyBottlesOnly) {
+			sql += " AND " + COL_NB_BOUTEILLES + " = 0 ";
+			
+		} else {
+			sql += " AND " + COL_NB_BOUTEILLES + " > 0 ";
+		}
+
+		sql +=	" ORDER BY " + COL_ANNEE + " DESC, nom_appellation, " + COL_PRODUCTEUR + ", v." + COL_NOM;
+		
 		if (bdd==null) super.openForRead();		
+		
 		return bdd.rawQuery(sql, null);
 	}
 	
