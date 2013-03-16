@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:id="@+id/detailVinRetirer" 
+	     android:title="@string/retirer"
+	     android:icon="@android:drawable/ic_menu_set_as" />
+	<item android:id="@+id/detailVinEditer" 
+	     android:title="@string/editer"
+	     android:icon="@android:drawable/ic_menu_edit" />
+	<item android:id="@+id/detailVinSupprimer" 
+	     android:title="@string/supprimer"
+	     android:icon="@android:drawable/ic_menu_delete" />
+</menu>
