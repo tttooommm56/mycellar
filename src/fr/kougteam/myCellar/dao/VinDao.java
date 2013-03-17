@@ -54,11 +54,10 @@ public class VinDao extends AbstractDao<Vin> {
 	}
 
 	public static void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
-		Log.w(VinDao.class.getName(), "Upgrading database from version "
-				+ oldVersion + " to " + newVersion
-				+ ", which will destroy all old data");
-		database.execSQL("DROP TABLE IF EXISTS " + TABLE);
-		onCreate(database);
+//		Log.w(VinDao.class.getName(), "Upgrading database from version "
+//				+ oldVersion + " to " + newVersion
+//				+ "...");
+		// Rien à mettre à jour pour l'instant
 	}
 	
 	/**
@@ -135,6 +134,28 @@ public class VinDao extends AbstractDao<Vin> {
 			v.setNote(c.getDouble(i++));
 		}
 		return v;
+	}
+	
+	public int getTotalBouteillesByCouleur(final Couleur couleur, final boolean emptyBottlesOnly) {
+		int total = 0;
+		String sql = " SELECT SUM( "+ COL_NB_BOUTEILLES + ")" +
+					 " FROM " + TABLE +
+					 " WHERE " + COL_COULEUR + "= '" + couleur.name() + "' " ;
+		
+		if (emptyBottlesOnly) {
+			sql += " AND " + COL_NB_BOUTEILLES + " = 0 ";
+			
+		} else {
+			sql += " AND " + COL_NB_BOUTEILLES + " > 0 ";
+		}
+		
+		if (bdd==null) super.openForRead();
+		Cursor c = bdd.rawQuery(sql, null);
+		if (c.getCount()==1) {
+			c.moveToFirst();
+			total = c.getInt(0);
+		}
+		return total;
 	}
 	
 	public Cursor getListVinsDisposByCouleur(final Couleur couleur, final boolean emptyBottlesOnly) {

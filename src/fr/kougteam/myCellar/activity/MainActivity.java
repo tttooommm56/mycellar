@@ -78,7 +78,7 @@ public class MainActivity extends Activity {
 	        		Intent intent = new Intent();
 	        		
 	        		if ("ADD".equals(action)) {
-        				intent.setClass(MainActivity.this.getBaseContext(), AddVinActivity.class);
+        				intent.setClass(MainActivity.this.getBaseContext(), EditVinFormActivity.class);
         				startActivity(intent);
         				
 	        		} else if ("LIST".equals(action)) {
@@ -151,7 +151,8 @@ public class MainActivity extends Activity {
 //	    				sb.append(", "+regionDao.getById(regionId).getNom());
 //	    			}
 	    			sb.append(", "+c.getString(c.getColumnIndex(VinDao.COL_ANNEE))+" : ");
-	    			sb.append(c.getString(c.getColumnIndex(VinDao.COL_NB_BOUTEILLES)) + " bouteilles\r\n");
+	    			int nbBouteilles = c.getInt(c.getColumnIndex(VinDao.COL_NB_BOUTEILLES));
+	    			sb.append(nbBouteilles + " bouteille" + (nbBouteilles>1 ? "s" : "") + "\r\n");
 	    		}
 	    		sb.append("\r\n");
 	    	}

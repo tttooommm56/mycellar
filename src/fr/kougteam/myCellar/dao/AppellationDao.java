@@ -40,9 +40,11 @@ public class AppellationDao extends AbstractDao<Appellation> {
 	public static void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
 		Log.w(AppellationDao.class.getName(), "Upgrading database from version "
 				+ oldVersion + " to " + newVersion
-				+ ", which will destroy all old data");
-		database.execSQL("DROP TABLE IF EXISTS " + TABLE);
-		onCreate(database);
+				+ "...");
+		if (oldVersion==1 && newVersion==2) {
+			// Ajout d'une appellation vide
+			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_REGION+","+COL_NOM+") VALUES (-1,-1,'')"); 
+		}
 	}
 	
 	/**
@@ -85,7 +87,8 @@ public class AppellationDao extends AbstractDao<Appellation> {
 	public Cursor getListByRegion(int idRegion) {
 		String sql = " SELECT " + COL_ID + ", " + COL_REGION + ", " + COL_NOM + 
 					" FROM " + TABLE +
-					" WHERE " + COL_REGION + " = " + idRegion;
+					" WHERE " + COL_REGION + " = " + idRegion + " OR " + COL_ID + "=-1" +
+					" ORDER BY " + COL_NOM;
 		if (bdd==null) super.openForRead();		
 		return bdd.rawQuery(sql, null);
 	}

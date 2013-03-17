@@ -22,8 +22,14 @@
     <string name="save_ok">Enregistré avec succès.</string>
     <string name="save_error">Erreur lors de l\'enregistrement !</string>
     <string name="cancel">Annuler</string>
+    <string name="pays">Pays</string>
     <string name="region">Région</string>
+    <string name="territoire">Territoire</string>
     <string name="appellation">Appellation</string>
+    <string name="choix_pays">Choix d\'un pays</string>
+    <string name="choix_region">Choix d\'une région</string>
+    <string name="choix_territoire">Choix d\'un territoire</string>
+    <string name="choix_appellation">Choix d\'une appellation</string>
     <string name="couleur">Couleur</string>
     <string name="couleur_rouge">Rouge</string>
     <string name="couleur_blanc">Blanc</string>
