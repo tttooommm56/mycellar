@@ -1,14 +1,13 @@
 package fr.kougteam.myCellar.activity;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
 import java.util.Date;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
-import android.hardware.Camera;
-import android.hardware.Camera.PictureCallback;
-import android.hardware.Camera.ShutterCallback;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,7 +16,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.FilterQueryProvider;
-import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RatingBar;
 import android.widget.SimpleCursorAdapter;
@@ -34,10 +33,12 @@ import fr.kougteam.myCellar.enums.Couleur;
 import fr.kougteam.myCellar.modele.Appellation;
 import fr.kougteam.myCellar.modele.Region;
 import fr.kougteam.myCellar.modele.Vin;
-import fr.kougteam.myCellar.ui.CameraSurfaceView;
 import fr.kougteam.myCellar.ui.NumberPicker;
 
 public class EditVinFormActivity extends Activity {
+	
+	private static final int CAMERA_PIC_REQUEST = 1337;
+
 	private PaysDao paysDao;
 	private RegionDao regionDao;
 	private AppellationDao appellationDao;
@@ -59,13 +60,12 @@ public class EditVinFormActivity extends Activity {
 	private TableRow regionTableRow;
 	private TableRow territoireTableRow;
 	private TableRow appellationTableRow;
+	private ImageView etiquetteView;
 	
 	private int mPaysSpinnerId = -1;
     private int mRegionSpinnerId = -1;
     private int mTerritoireSpinnerId = -1;
     private int mAppellationSpinnerId = -1;
-    
-    protected CameraSurfaceView cameraView;
 
 	/**
 	 * @see android.app.Activity#onCreate(Bundle)
@@ -96,8 +96,7 @@ public class EditVinFormActivity extends Activity {
 		territoireTableRow = (TableRow)findViewById(R.id.editVinFormTerritoireRow);
 		appellationTableRow = (TableRow)findViewById(R.id.editVinFormAppellationRow);
 		
-		cameraView = new CameraSurfaceView(this, null);
-		((FrameLayout)findViewById(R.id.frameView)).addView(cameraView);
+		etiquetteView = (ImageView) findViewById(R.id.editVinResultPhoto); 
 		
 		paysDao = new PaysDao(this);	
 		regionDao = new RegionDao(this);
@@ -418,28 +417,23 @@ public class EditVinFormActivity extends Activity {
 		Button photoBtn = (Button)findViewById(R.id.editVinFormPhoto);
 		photoBtn.setOnClickListener(new OnClickListener() {
 		      public void onClick(View v) {
-		    	  cameraView.getCamera().takePicture(shutterCallback, rawCallback, jpegCallback);
+		    	  //cameraView.getCamera().takePicture(shutterCallback, rawCallback, jpegCallback);
+		    	  Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);  
+		    	  startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);  
 		      }
 		});
 	}
 	
-	// Called when shutter is opened
-	ShutterCallback shutterCallback = new ShutterCallback() {
-		public void onShutter() {
-		}
-	};
-
-	// Handles data for raw picture
-	PictureCallback rawCallback = new PictureCallback() {
-		public void onPictureTaken(byte[] data, Camera camera) {
-		}
-	};
-
-	// Handles data for jpeg picture
-	PictureCallback jpegCallback = new PictureCallback() {
-		public void onPictureTaken(byte[] data, Camera camera) {
-			vin.setImage(data);
-			cameraView.getCamera().startPreview();
-		}
-	};
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	    if (requestCode == CAMERA_PIC_REQUEST) {
+	    	Bitmap imageBmp = (Bitmap) data.getExtras().get("data");  
+	    	
+	    	etiquetteView.setImageBitmap(imageBmp);  
+	    	
+	    	ByteArrayOutputStream stream = new ByteArrayOutputStream();
+	    	imageBmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+	    	byte[] byteArray = stream.toByteArray();
+	    	vin.setImage(byteArray);
+	    }
+	}
 }

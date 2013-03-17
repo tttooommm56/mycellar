@@ -285,17 +285,16 @@
 		    </TableRow>
 		   
 		    <TableRow
-		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content"
-		        android:padding="3dp">
-     
-		         <FrameLayout 
-				  android:id="@+id/frameView"
-				  android:layout_width="340dp" 
-				  android:layout_height="256dp"
-				  android:layout_span="2"/>	
-
-		    </TableRow>
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:padding="3dp">
+	
+	         <ImageView
+	            android:id="@+id/editVinResultPhoto"
+	            android:layout_width="340dp" 
+				android:layout_height="256dp"
+				android:layout_span="2"/>         
+	    </TableRow>
 		</TableLayout>
 	</ScrollView>
 </RelativeLayout>
