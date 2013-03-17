@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:id="@+id/layout">
+	<FrameLayout android:id="@+id/preview"
+		android:layout_weight="1" android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+	</FrameLayout>
+
+	<LinearLayout
+        android:id="@+id/footer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+
+        >       
+     	<Button
+            android:id="@+id/cameraPreviewSave"
+            android:text="@string/save"
+            android:drawableLeft="@android:drawable/ic_menu_camera"
+            android:layout_width="fill_parent" 
+			android:layout_height="wrap_content"
+			android:layout_weight="1"/>
+        
+        <Button
+            android:id="@+id/cameraPreviewCancel"
+            android:text="@string/cancel"
+            android:drawableLeft="@android:drawable/ic_menu_close_clear_cancel"
+            android:layout_width="fill_parent" 
+			android:layout_height="wrap_content"
+			android:layout_weight="1" />   
+     </LinearLayout>
+</LinearLayout>
+
+
