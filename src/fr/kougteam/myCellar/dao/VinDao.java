@@ -28,6 +28,7 @@ public class VinDao extends AbstractDao<Vin> {
 	public static final String COL_COMMENTAIRES = "commentaires";
 	public static final String COL_NB_BOUTEILLES = "nb_bouteilles";
 	public static final String COL_NOTE 		= "note";
+	public static final String COL_IMAGE 		= "image";
 	
 	// Database creation SQL statement
 	private static final String DATABASE_CREATE = 
@@ -42,7 +43,8 @@ public class VinDao extends AbstractDao<Vin> {
 				COL_PRODUCTEUR + " text, " +
 				COL_COMMENTAIRES + " text, " +
 				COL_NB_BOUTEILLES + " integer, " +
-				COL_NOTE + " real " +
+				COL_NOTE + " real, " +
+				COL_IMAGE + " blob"+
 			");";
 
 	public VinDao(Context context) {
@@ -54,10 +56,12 @@ public class VinDao extends AbstractDao<Vin> {
 	}
 
 	public static void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
-//		Log.w(VinDao.class.getName(), "Upgrading database from version "
-//				+ oldVersion + " to " + newVersion
-//				+ "...");
-		// Rien à mettre à jour pour l'instant
+		Log.w(VinDao.class.getName(), "Upgrading database from version "
+				+ oldVersion + " to " + newVersion
+				+ "...");
+		if (oldVersion<3 && newVersion==3) {
+			database.execSQL("ALTER TABLE " + TABLE + " ADD "+COL_IMAGE+" BLOB");
+		}
 	}
 	
 	/**
@@ -80,6 +84,7 @@ public class VinDao extends AbstractDao<Vin> {
 		cv.put(COL_COMMENTAIRES, v.getCommentaire());
 		cv.put(COL_NB_BOUTEILLES, v.getNbBouteilles());
 		cv.put(COL_NOTE, v.getNote());
+		cv.put(COL_IMAGE, v.getImage());
 		return cv;
 	}
 	
@@ -113,7 +118,8 @@ public class VinDao extends AbstractDao<Vin> {
 								COL_PRODUCTEUR + ", " +
 								COL_COMMENTAIRES + ", " +
 								COL_NB_BOUTEILLES + ", " +
-								COL_NOTE + " " + 
+								COL_NOTE + ", " + 
+								COL_IMAGE + " " + 
 					 " FROM " + TABLE + 
 					 " WHERE " + COL_ID + "=" + id;
 		if (bdd==null) super.openForRead();
@@ -132,6 +138,7 @@ public class VinDao extends AbstractDao<Vin> {
 			v.setCommentaire(c.getString(i++));
 			v.setNbBouteilles(c.getInt(i++));
 			v.setNote(c.getDouble(i++));
+			v.setImage(c.getBlob(i++));
 		}
 		return v;
 	}
@@ -207,7 +214,7 @@ public class VinDao extends AbstractDao<Vin> {
 		return bdd.rawQuery(sql, null);
 	}
 	
-	public Cursor getMatchingsNoms(String nom) {
+	public Cursor getMatchingNoms(String nom) {
 		String sql = " SELECT DISTINCT 1 _id, "+ COL_NOM + 
 					" FROM " + TABLE +
 					" WHERE UPPER("+ COL_NOM + ") LIKE '%"+nom.toUpperCase()+"%' " +
@@ -216,7 +223,7 @@ public class VinDao extends AbstractDao<Vin> {
 		return bdd.rawQuery(sql, null);
 	}
 	
-	public Cursor getMatchingsProducteurs(String producteur) {
+	public Cursor getMatchingProducteurs(String producteur) {
 		String sql = " SELECT DISTINCT 1 _id, "+ COL_PRODUCTEUR + 
 					" FROM " + TABLE +
 					" WHERE UPPER("+ COL_PRODUCTEUR + ") LIKE '%"+producteur.toUpperCase()+"%' " +

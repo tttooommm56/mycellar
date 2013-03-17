@@ -262,6 +262,40 @@
 				        android:stepSize="1.0"/>
 			    </LinearLayout>
 		    </TableRow>
+		    
+		    <TableRow
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:padding="3dp">
+		
+		        <TextView
+		            android:id="@+id/editVinFormEtiquetteText"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical"
+		            android:text="@string/etiquette"/>
+				
+		         <Button
+		            android:id="@+id/editVinFormPhoto"
+		            android:text="@string/photographier"
+		            android:drawableLeft="@android:drawable/ic_menu_camera"
+		            android:layout_width="fill_parent" 
+					android:layout_height="wrap_content"/>
+		         
+		    </TableRow>
+		   
+		    <TableRow
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:padding="3dp">
+     
+		         <FrameLayout 
+				  android:id="@+id/frameView"
+				  android:layout_width="340dp" 
+				  android:layout_height="256dp"
+				  android:layout_span="2"/>	
+
+		    </TableRow>
 		</TableLayout>
 	</ScrollView>
 </RelativeLayout>

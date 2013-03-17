@@ -66,9 +66,13 @@ public class ListeVinsActivity extends TabActivity {
 		vinDao = new VinDao(this);
 		
 		// récupération des paramètres de l'intent
+		int tabIndex = 0;
 		Bundle bundle = this.getIntent().getExtras();
 		if (bundle!=null) {
 			emptyBottlesOnly = (Boolean)bundle.get("emptyBottlesOnly");
+			if (bundle.get("tabIndex")!=null) {
+				tabIndex = (Integer)bundle.get("tabIndex");
+			}
 		}
 		
 		// initialisation des onglets
@@ -98,7 +102,7 @@ public class ListeVinsActivity extends TabActivity {
 	    tabs.addTab(tspecRose);
 	    title = (TextView) tabs.getTabWidget().getChildAt(2).findViewById(android.R.id.title); 
 	    title.setSingleLine(false);
-	    
+	       
 	    tabs.setOnTabChangedListener(new OnTabChangeListener(){
 	    	public void onTabChanged(String tabId) {
 	    	    loadTabList(tabId);
@@ -110,12 +114,22 @@ public class ListeVinsActivity extends TabActivity {
 	    
 	    initActionDialog();
 	    
-	    currentTab = TAB_ROUGE;
+	    
+	    switch (tabIndex) {
+	    	case 0 : currentTab = TAB_ROUGE; break;
+	    	case 1 : currentTab = TAB_BLANC; break;
+	    	case 2 : currentTab = TAB_ROSE; break;
+	    	default : currentTab = TAB_ROUGE;
+	    }
+	    
 	    loadTabList(currentTab);
+	    tabs.setCurrentTab(tabIndex);
 	    
 	    intent2View = new Intent(this, DetailVinActivity.class);
 	    intent2Edit = new Intent(this, EditVinFormActivity.class);
 	    intent2Add = new Intent(this, EditVinFormActivity.class);
+	    
+	    
 	}
 	
 	@Override

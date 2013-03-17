@@ -4,10 +4,13 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -148,5 +151,10 @@ public class DetailVinActivity extends Activity {
 		((TextView)findViewById(R.id.detailVinAnnee)).setText(Integer.toString(vin.getAnnee()));
 		((TextView)findViewById(R.id.detailVinBouteilles)).setText(Integer.toString(vin.getNbBouteilles()));
 		((RatingBar)findViewById(R.id.detailVinNote)).setRating((float)vin.getNote());
+		
+		ImageView imageView = (ImageView) findViewById(R.id.detailVinPhoto);
+		if (vin.getImage()!=null && vin.getImage().length>0) {
+			imageView.setImageBitmap(BitmapFactory.decodeByteArray(vin.getImage() , 0, vin.getImage().length));
+		}
     }
 }

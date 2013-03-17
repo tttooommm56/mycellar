@@ -1,8 +1,16 @@
-INSERT INTO PAYS VALUES(1, "France");
-INSERT INTO PAYS VALUES(2, "Allemagne");
-INSERT INTO PAYS VALUES(3, "Italie");
-INSERT INTO PAYS VALUES(4, "Espagne");
+INSERT INTO PAYS VALUES(-1, '');
+INSERT INTO PAYS VALUES(1, 'France');
+INSERT INTO PAYS VALUES(2, 'Allemagne');
+INSERT INTO PAYS VALUES(3, 'Italie');
+INSERT INTO PAYS VALUES(4, 'Espagne');
+INSERT INTO PAYS VALUES(5, 'USA');
+INSERT INTO PAYS VALUES(6, 'Australie');
+INSERT INTO PAYS VALUES(7, 'Argentine');
+INSERT INTO PAYS VALUES(8, 'Portugal');
+INSERT INTO PAYS VALUES(9, 'Chili');
+INSERT INTO PAYS VALUES(10, 'Afrique du Sud');
 
+INSERT INTO REGIONS VALUES(-1,1,'',0);
 INSERT INTO REGIONS VALUES(1,1,'Alsace',0);
 INSERT INTO REGIONS VALUES(2,1,'Beaujolais et Lyonnais',0);
 INSERT INTO REGIONS VALUES(3,1,'Bordelais',0);
@@ -39,6 +47,7 @@ INSERT INTO REGIONS VALUES(33,1,'Piémont pyrénéen',29);
 INSERT INTO REGIONS VALUES(34,1,'Vallée de la Loire et Centre',0);
 INSERT INTO REGIONS VALUES(35,1,'Appellations régionales de la Loire',34);
 
+INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(-1,'',-1);
 INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(1,'Alsace chasselas ou gutedel',1);
 INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(2,'Alsace edelzwicker',1);
 INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(3,'Alsace gewurztraminer',1);

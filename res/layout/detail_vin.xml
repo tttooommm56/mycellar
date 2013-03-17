@@ -1,151 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:shrinkColumns="1">
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp">
-        
-        <TextView
-            android:id="@+id/detailVinRegionTitle"
-            android:singleLine="true"
-            android:text="@string/region" />
-        
-        <TextView
-            android:id="@+id/detailVinRegion"
-            android:singleLine="false" 
-            android:textSize="20dp"
-            android:layout_marginLeft="10dp" />
-    </TableRow>
-    
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp">
-        
-        <TextView
-            android:id="@+id/detailVinAppellationTitle"
-			android:singleLine="true"
-            android:text="@string/appellation" />
-        
-        <TextView
-            android:id="@+id/detailVinAppellation"
-            android:singleLine="false" 
-            android:textSize="20dp"
-            android:layout_marginLeft="10dp"/>
-    </TableRow>
-    
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp">
-        
-        <TextView
-            android:id="@+id/detailVinCouleurTitle"
-            android:singleLine="true"
-            android:text="@string/couleur" />
-        
-        <TextView
-            android:id="@+id/detailVinCouleur"
-            android:textSize="20dp"
-            android:layout_marginLeft="10dp"/>
-        
-    </TableRow>
-    
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp">
-
-        <TextView
-            android:id="@+id/detailVinNomText"
-            android:singleLine="true"
-            android:text="@string/nom" />
-
-        <TextView
-            android:id="@+id/detailVinNom"
-            android:singleLine="false" 
-            android:textSize="20dp"
-            android:layout_marginLeft="10dp"/>
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp">
-
-        <TextView
-            android:id="@+id/detailVinProducteurText"
-            android:singleLine="true"
-            android:text="@string/producteur" />
-
-        <TextView
-            android:id="@+id/detailVinProducteur"
-            android:singleLine="false" 
-            android:textSize="20dp"
-            android:layout_marginLeft="10dp"/>
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp">
-
-        <TextView
-            android:id="@+id/detailVinAnneeText"
-            android:singleLine="true"
-            android:text="@string/annee" />
-
-        <TextView
-            android:id="@+id/detailVinAnnee"
-            android:textSize="20dp"
-            android:layout_marginLeft="10dp"/>
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp">
-
-        <TextView
-            android:id="@+id/detailVinBouteillesText"
-            android:singleLine="true"
-            android:text="@string/bouteilles" />
-
-        <TextView
-            android:id="@+id/detailVinBouteilles"
-            android:textSize="20dp"
-            android:layout_marginLeft="10dp"/>
-    </TableRow>
-    
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp">
-
-        <TextView
-            android:id="@+id/detailVinNoteText"
-            android:singleLine="true"
-            android:text="@string/note" 
-            android:layout_gravity="center_vertical"/>
-		
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-		            android:orientation="vertical" android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:layout_marginLeft="10dp">
-
-	        <RatingBar
-		        android:id="@+id/detailVinNote"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:isIndicator="true"
-		        android:numStars="4"
-		        android:stepSize="1.0"/>
-	    </LinearLayout>
-    </TableRow>
-
-</TableLayout>
+    android:layout_height="fill_parent">
+	<TableLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:orientation="vertical"
+	    android:shrinkColumns="1">
+	
+	    <TableRow
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:padding="5dp">
+	        
+	        <TextView
+	            android:id="@+id/detailVinRegionTitle"
+	            android:singleLine="true"
+	            android:text="@string/region" />
+	        
+	        <TextView
+	            android:id="@+id/detailVinRegion"
+	            android:singleLine="false" 
+	            android:textSize="20dp"
+	            android:layout_marginLeft="10dp" />
+	    </TableRow>
+	    
+	    <TableRow
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:padding="5dp">
+	        
+	        <TextView
+	            android:id="@+id/detailVinAppellationTitle"
+				android:singleLine="true"
+	            android:text="@string/appellation" />
+	        
+	        <TextView
+	            android:id="@+id/detailVinAppellation"
+	            android:singleLine="false" 
+	            android:textSize="20dp"
+	            android:layout_marginLeft="10dp"/>
+	    </TableRow>
+	    
+	    <TableRow
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:padding="5dp">
+	        
+	        <TextView
+	            android:id="@+id/detailVinCouleurTitle"
+	            android:singleLine="true"
+	            android:text="@string/couleur" />
+	        
+	        <TextView
+	            android:id="@+id/detailVinCouleur"
+	            android:textSize="20dp"
+	            android:layout_marginLeft="10dp"/>
+	        
+	    </TableRow>
+	    
+	    <TableRow
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:padding="5dp">
+	
+	        <TextView
+	            android:id="@+id/detailVinNomText"
+	            android:singleLine="true"
+	            android:text="@string/nom" />
+	
+	        <TextView
+	            android:id="@+id/detailVinNom"
+	            android:singleLine="false" 
+	            android:textSize="20dp"
+	            android:layout_marginLeft="10dp"/>
+	    </TableRow>
+	
+	    <TableRow
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:padding="5dp">
+	
+	        <TextView
+	            android:id="@+id/detailVinProducteurText"
+	            android:singleLine="true"
+	            android:text="@string/producteur" />
+	
+	        <TextView
+	            android:id="@+id/detailVinProducteur"
+	            android:singleLine="false" 
+	            android:textSize="20dp"
+	            android:layout_marginLeft="10dp"/>
+	    </TableRow>
+	
+	    <TableRow
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:padding="5dp">
+	
+	        <TextView
+	            android:id="@+id/detailVinAnneeText"
+	            android:singleLine="true"
+	            android:text="@string/annee" />
+	
+	        <TextView
+	            android:id="@+id/detailVinAnnee"
+	            android:textSize="20dp"
+	            android:layout_marginLeft="10dp"/>
+	    </TableRow>
+	
+	    <TableRow
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:padding="5dp">
+	
+	        <TextView
+	            android:id="@+id/detailVinBouteillesText"
+	            android:singleLine="true"
+	            android:text="@string/bouteilles" />
+	
+	        <TextView
+	            android:id="@+id/detailVinBouteilles"
+	            android:textSize="20dp"
+	            android:layout_marginLeft="10dp"/>
+	    </TableRow>
+	    
+	    <TableRow
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:padding="5dp">
+	
+	        <TextView
+	            android:id="@+id/detailVinNoteText"
+	            android:singleLine="true"
+	            android:text="@string/note" 
+	            android:layout_gravity="center_vertical"/>
+			
+	        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			            android:orientation="vertical" android:layout_width="wrap_content"
+			            android:layout_height="wrap_content"
+			            android:layout_marginLeft="10dp">
+	
+		        <RatingBar
+			        android:id="@+id/detailVinNote"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:isIndicator="true"
+			        android:numStars="4"
+			        android:stepSize="1.0"/>
+		    </LinearLayout>
+	    </TableRow>
+	    
+	    <TableRow
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:padding="3dp">
+	
+	        <TextView
+	            android:id="@+id/detailVinEtiquetteText"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="center_vertical"
+	            android:text="@string/etiquette"/>
+	         
+	    </TableRow>
+	    
+		<TableRow
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:padding="3dp">
+	
+	         <ImageView
+	            android:id="@+id/detailVinPhoto"
+	            android:layout_width="340dp" 
+				android:layout_height="256dp"
+				android:layout_span="2"/>         
+	    </TableRow>
+	</TableLayout>
+</ScrollView>

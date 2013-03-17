@@ -4,7 +4,11 @@ import java.util.Calendar;
 import java.util.Date;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
+import android.hardware.Camera;
+import android.hardware.Camera.PictureCallback;
+import android.hardware.Camera.ShutterCallback;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,6 +17,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.FilterQueryProvider;
+import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RatingBar;
 import android.widget.SimpleCursorAdapter;
@@ -29,6 +34,7 @@ import fr.kougteam.myCellar.enums.Couleur;
 import fr.kougteam.myCellar.modele.Appellation;
 import fr.kougteam.myCellar.modele.Region;
 import fr.kougteam.myCellar.modele.Vin;
+import fr.kougteam.myCellar.ui.CameraSurfaceView;
 import fr.kougteam.myCellar.ui.NumberPicker;
 
 public class EditVinFormActivity extends Activity {
@@ -58,6 +64,8 @@ public class EditVinFormActivity extends Activity {
     private int mRegionSpinnerId = -1;
     private int mTerritoireSpinnerId = -1;
     private int mAppellationSpinnerId = -1;
+    
+    protected CameraSurfaceView cameraView;
 
 	/**
 	 * @see android.app.Activity#onCreate(Bundle)
@@ -88,6 +96,9 @@ public class EditVinFormActivity extends Activity {
 		territoireTableRow = (TableRow)findViewById(R.id.editVinFormTerritoireRow);
 		appellationTableRow = (TableRow)findViewById(R.id.editVinFormAppellationRow);
 		
+		cameraView = new CameraSurfaceView(this, null);
+		((FrameLayout)findViewById(R.id.frameView)).addView(cameraView);
+		
 		paysDao = new PaysDao(this);	
 		regionDao = new RegionDao(this);
 		appellationDao = new AppellationDao(this);
@@ -115,7 +126,8 @@ public class EditVinFormActivity extends Activity {
 		loadPaysSpinner();
 		
 		initCancelButton();
-		initSaveButton();		
+		initSaveButton();	
+		initPhotoButton();
 	}
 	
 	@Override
@@ -184,7 +196,7 @@ public class EditVinFormActivity extends Activity {
 
 		nomsAdapter.setFilterQueryProvider(new FilterQueryProvider() {
 			public Cursor runQuery(CharSequence constraint) {
-				return vinDao.getMatchingsNoms((constraint != null ? constraint.toString() : ""));
+				return vinDao.getMatchingNoms((constraint != null ? constraint.toString() : ""));
 			}
 		});
 	}
@@ -205,7 +217,7 @@ public class EditVinFormActivity extends Activity {
 
 		producteurAdapter.setFilterQueryProvider(new FilterQueryProvider() {
 			public Cursor runQuery(CharSequence constraint) {
-				return vinDao.getMatchingsProducteurs((constraint != null ? constraint.toString() : ""));
+				return vinDao.getMatchingProducteurs((constraint != null ? constraint.toString() : ""));
 			}
 		});
 	}
@@ -369,24 +381,65 @@ public class EditVinFormActivity extends Activity {
 				}
 				vin.setCouleur(couleur);
 
+				boolean isOk = false;
 				if (vin.getId()>0) {
 					if (vinDao.update(vin) != -1) {
-						Toast.makeText(getApplicationContext(), R.string.save_ok, Toast.LENGTH_SHORT).show();
-						EditVinFormActivity.this.finish();
+						isOk = true;
 					} else {
-						Toast.makeText(getApplicationContext(), R.string.save_error, Toast.LENGTH_SHORT).show();
+						isOk = false;
 					}
 					
 				} else {
 					if (vinDao.insert(vin) != -1) {
-						Toast.makeText(getApplicationContext(), R.string.save_ok, Toast.LENGTH_SHORT).show();
-						EditVinFormActivity.this.finish();
+						isOk = true;
 					} else {
-						Toast.makeText(getApplicationContext(), R.string.save_error, Toast.LENGTH_SHORT).show();
+						isOk = false;
 					}
+				}
+				
+				if (isOk) {
+					Toast.makeText(getApplicationContext(), R.string.save_ok, Toast.LENGTH_SHORT).show();				
+					Intent intent = new Intent();
+					intent.setClass(EditVinFormActivity.this.getBaseContext(), ListeVinsActivity.class);
+    				intent.putExtra("emptyBottlesOnly", vin.getNbBouteilles()==0);
+    				intent.putExtra("tabIndex", vin.getCouleur().getTabIndex());
+    				startActivity(intent);
+    				EditVinFormActivity.this.finish();
+    				
+				} else {
+					Toast.makeText(getApplicationContext(), R.string.save_error, Toast.LENGTH_SHORT).show();
 				}
 				vinDao.close();
 			}
 		});
 	}
+	
+	private void initPhotoButton() {
+		Button photoBtn = (Button)findViewById(R.id.editVinFormPhoto);
+		photoBtn.setOnClickListener(new OnClickListener() {
+		      public void onClick(View v) {
+		    	  cameraView.getCamera().takePicture(shutterCallback, rawCallback, jpegCallback);
+		      }
+		});
+	}
+	
+	// Called when shutter is opened
+	ShutterCallback shutterCallback = new ShutterCallback() {
+		public void onShutter() {
+		}
+	};
+
+	// Handles data for raw picture
+	PictureCallback rawCallback = new PictureCallback() {
+		public void onPictureTaken(byte[] data, Camera camera) {
+		}
+	};
+
+	// Handles data for jpeg picture
+	PictureCallback jpegCallback = new PictureCallback() {
+		public void onPictureTaken(byte[] data, Camera camera) {
+			vin.setImage(data);
+			cameraView.getCamera().startPreview();
+		}
+	};
 }
