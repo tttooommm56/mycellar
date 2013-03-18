@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -427,7 +428,11 @@ public class EditVinFormActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 	    if (requestCode == CAMERA_PIC_REQUEST) {
 	    	Bitmap imageBmp = (Bitmap) data.getExtras().get("data");  
-	    	
+	    	int maxWidth = 340;
+	    	if (imageBmp.getWidth() > maxWidth) {
+	    		float percent = imageBmp.getWidth() / maxWidth;
+	    		imageBmp = getResizedBitmap(imageBmp, (int)(imageBmp.getHeight()/percent), (int)(imageBmp.getWidth()/percent));
+	    	}	
 	    	etiquetteView.setImageBitmap(imageBmp);  
 	    	
 	    	ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -435,5 +440,20 @@ public class EditVinFormActivity extends Activity {
 	    	byte[] byteArray = stream.toByteArray();
 	    	vin.setImage(byteArray);
 	    }
+	}
+	
+	private Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth) {
+	    int width = bm.getWidth();
+	    int height = bm.getHeight();
+	    float scaleWidth = ((float) newWidth) / width;
+	    float scaleHeight = ((float) newHeight) / height;
+	    // CREATE A MATRIX FOR THE MANIPULATION
+	    Matrix matrix = new Matrix();
+	    // RESIZE THE BIT MAP
+	    matrix.postScale(scaleWidth, scaleHeight);
+
+	    // "RECREATE" THE NEW BITMAP
+	    Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, width, height, matrix, false);
+	    return resizedBitmap;
 	}
 }

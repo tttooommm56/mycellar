@@ -5,13 +5,16 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.RatingBar;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 import fr.kougteam.myCellar.R;
@@ -29,6 +32,9 @@ public class DetailVinActivity extends Activity {
 	private VinDao vinDao;
 	private Vin vin;
 	
+	private TableRow photoTableRow;
+	private TableRow etiquetteTableRow;
+	
 	private Intent intent2Edit;
 	
 	/**
@@ -38,6 +44,9 @@ public class DetailVinActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.detail_vin);
+		
+		photoTableRow = (TableRow)findViewById(R.id.detailVinPhotoRow);
+		etiquetteTableRow = (TableRow)findViewById(R.id.detailVinEtiquetteRow);
 		
 		paysDao = new PaysDao(this);	
 		regionDao = new RegionDao(this);
@@ -138,7 +147,7 @@ public class DetailVinActivity extends Activity {
     private void fillFields() {
     	String region = paysDao.getById(vin.getIdPays()).getNom();
 		Region r = regionDao.getById(vin.getIdRegion());
-		if (r!=null && r.getNom()!=null) {
+		if (r!=null && r.getNom()!=null && r.getNom().trim()!="") {
 			region += " / " + r.getNom();
 		}
 		TextView regionText = (TextView)findViewById(R.id.detailVinRegion);
@@ -155,6 +164,9 @@ public class DetailVinActivity extends Activity {
 		ImageView imageView = (ImageView) findViewById(R.id.detailVinPhoto);
 		if (vin.getImage()!=null && vin.getImage().length>0) {
 			imageView.setImageBitmap(BitmapFactory.decodeByteArray(vin.getImage() , 0, vin.getImage().length));
+		} else {
+			etiquetteTableRow.setVisibility(View.GONE);
+			photoTableRow.setVisibility(View.GONE);
 		}
     }
 }
