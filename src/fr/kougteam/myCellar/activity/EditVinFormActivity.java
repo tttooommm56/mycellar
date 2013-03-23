@@ -427,18 +427,20 @@ public class EditVinFormActivity extends Activity {
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 	    if (requestCode == CAMERA_PIC_REQUEST) {
-	    	Bitmap imageBmp = (Bitmap) data.getExtras().get("data");  
-	    	int maxWidth = 340;
-	    	if (imageBmp.getWidth() > maxWidth) {
-	    		float percent = imageBmp.getWidth() / maxWidth;
-	    		imageBmp = getResizedBitmap(imageBmp, (int)(imageBmp.getHeight()/percent), (int)(imageBmp.getWidth()/percent));
-	    	}	
-	    	etiquetteView.setImageBitmap(imageBmp);  
-	    	
-	    	ByteArrayOutputStream stream = new ByteArrayOutputStream();
-	    	imageBmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-	    	byte[] byteArray = stream.toByteArray();
-	    	vin.setImage(byteArray);
+	    	if (resultCode == RESULT_OK) {
+		    	Bitmap imageBmp = (Bitmap) data.getExtras().get("data");  
+//		    	int maxWidth = 340;
+//		    	if (imageBmp.getWidth() > maxWidth) {
+//		    		float percent = imageBmp.getWidth() / maxWidth;
+//		    		imageBmp = getResizedBitmap(imageBmp, (int)(imageBmp.getHeight()/percent), (int)(imageBmp.getWidth()/percent));
+//		    	}	
+		    	etiquetteView.setImageBitmap(imageBmp);  
+		    	
+		    	ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		    	imageBmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+		    	byte[] byteArray = stream.toByteArray();
+		    	vin.setImage(byteArray);
+	    	}
 	    }
 	}
 	
