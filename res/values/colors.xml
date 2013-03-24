@@ -1,0 +1,7 @@
+<resources>
+    
+    <drawable name="listDivider">#b5b5b5</drawable><!-- #b5b5b5 -->
+    <drawable name="darkGrey">#313031</drawable>
+    <drawable name="redGrey">#e3b2b2</drawable>
+    
+</resources>

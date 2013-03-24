@@ -1,6 +1,5 @@
 <resources>
 
-    <style name="AppTheme" parent="@android:style/Theme.Black" >
-    </style>
-
+<!--     <style name="AppTheme" parent="@android:style/Theme.Dark" > -->
+<!--     </style> -->
 </resources>
