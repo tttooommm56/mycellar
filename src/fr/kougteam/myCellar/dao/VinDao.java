@@ -28,6 +28,7 @@ public class VinDao extends AbstractDao<Vin> {
 	public static final String COL_COMMENTAIRES = "commentaires";
 	public static final String COL_NB_BOUTEILLES = "nb_bouteilles";
 	public static final String COL_NOTE 		= "note";
+	public static final String COL_IMAGE 		= "image";
 	
 	// Database creation SQL statement
 	private static final String DATABASE_CREATE = 
@@ -42,7 +43,8 @@ public class VinDao extends AbstractDao<Vin> {
 				COL_PRODUCTEUR + " text, " +
 				COL_COMMENTAIRES + " text, " +
 				COL_NB_BOUTEILLES + " integer, " +
-				COL_NOTE + " real " +
+				COL_NOTE + " real, " +
+				COL_IMAGE + " blob"+
 			");";
 
 	public VinDao(Context context) {
@@ -56,9 +58,10 @@ public class VinDao extends AbstractDao<Vin> {
 	public static void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
 		Log.w(VinDao.class.getName(), "Upgrading database from version "
 				+ oldVersion + " to " + newVersion
-				+ ", which will destroy all old data");
-		database.execSQL("DROP TABLE IF EXISTS " + TABLE);
-		onCreate(database);
+				+ "...");
+		if (oldVersion<3 && newVersion==3) {
+			database.execSQL("ALTER TABLE " + TABLE + " ADD "+COL_IMAGE+" BLOB");
+		}
 	}
 	
 	/**
@@ -81,6 +84,7 @@ public class VinDao extends AbstractDao<Vin> {
 		cv.put(COL_COMMENTAIRES, v.getCommentaire());
 		cv.put(COL_NB_BOUTEILLES, v.getNbBouteilles());
 		cv.put(COL_NOTE, v.getNote());
+		cv.put(COL_IMAGE, v.getImage());
 		return cv;
 	}
 	
@@ -114,7 +118,8 @@ public class VinDao extends AbstractDao<Vin> {
 								COL_PRODUCTEUR + ", " +
 								COL_COMMENTAIRES + ", " +
 								COL_NB_BOUTEILLES + ", " +
-								COL_NOTE + " " + 
+								COL_NOTE + ", " + 
+								COL_IMAGE + " " + 
 					 " FROM " + TABLE + 
 					 " WHERE " + COL_ID + "=" + id;
 		if (bdd==null) super.openForRead();
@@ -133,11 +138,34 @@ public class VinDao extends AbstractDao<Vin> {
 			v.setCommentaire(c.getString(i++));
 			v.setNbBouteilles(c.getInt(i++));
 			v.setNote(c.getDouble(i++));
+			v.setImage(c.getBlob(i++));
 		}
 		return v;
 	}
 	
-	public Cursor getListVinsDisposByCouleur(final Couleur couleur) {
+	public int getTotalBouteillesByCouleur(final Couleur couleur, final boolean emptyBottlesOnly) {
+		int total = 0;
+		String sql = " SELECT SUM( "+ COL_NB_BOUTEILLES + ")" +
+					 " FROM " + TABLE +
+					 " WHERE " + COL_COULEUR + "= '" + couleur.name() + "' " ;
+		
+		if (emptyBottlesOnly) {
+			sql += " AND " + COL_NB_BOUTEILLES + " = 0 ";
+			
+		} else {
+			sql += " AND " + COL_NB_BOUTEILLES + " > 0 ";
+		}
+		
+		if (bdd==null) super.openForRead();
+		Cursor c = bdd.rawQuery(sql, null);
+		if (c.getCount()==1) {
+			c.moveToFirst();
+			total = c.getInt(0);
+		}
+		return total;
+	}
+	
+	public Cursor getListVinsDisposByCouleur(final Couleur couleur, final boolean emptyBottlesOnly) {
 		String sql = " SELECT v."+COL_ID + ", " + 
 							COL_COULEUR + ", " + 
 							COL_PAYS + " , " +
@@ -152,10 +180,19 @@ public class VinDao extends AbstractDao<Vin> {
 							" CASE WHEN "+COL_APPELLATION+"<0 THEN v." + COL_NOM + " ELSE a." + AppellationDao.COL_NOM + " END as nom_appellation " +
 					" FROM " + TABLE + " v " +
 					" LEFT JOIN " + AppellationDao.TABLE + " a ON a."+AppellationDao.COL_ID+"=v."+COL_APPELLATION +
-					" WHERE " + COL_COULEUR + "= '" + couleur.name() + "'" +
-					" AND " + COL_NB_BOUTEILLES + " > 0 " +
-					" ORDER BY " + COL_ANNEE + " DESC, nom_appellation, " + COL_PRODUCTEUR + ", v." + COL_NOM;
+					" WHERE " + COL_COULEUR + "= '" + couleur.name() + "' " ;
+		
+		if (emptyBottlesOnly) {
+			sql += " AND " + COL_NB_BOUTEILLES + " = 0 ";
+			
+		} else {
+			sql += " AND " + COL_NB_BOUTEILLES + " > 0 ";
+		}
+
+		sql +=	" ORDER BY " + COL_ANNEE + " DESC, nom_appellation, " + COL_PRODUCTEUR + ", v." + COL_NOM;
+		
 		if (bdd==null) super.openForRead();		
+		
 		return bdd.rawQuery(sql, null);
 	}
 	
@@ -177,7 +214,7 @@ public class VinDao extends AbstractDao<Vin> {
 		return bdd.rawQuery(sql, null);
 	}
 	
-	public Cursor getMatchingsNoms(String nom) {
+	public Cursor getMatchingNoms(String nom) {
 		String sql = " SELECT DISTINCT 1 _id, "+ COL_NOM + 
 					" FROM " + TABLE +
 					" WHERE UPPER("+ COL_NOM + ") LIKE '%"+nom.toUpperCase()+"%' " +
@@ -186,7 +223,7 @@ public class VinDao extends AbstractDao<Vin> {
 		return bdd.rawQuery(sql, null);
 	}
 	
-	public Cursor getMatchingsProducteurs(String producteur) {
+	public Cursor getMatchingProducteurs(String producteur) {
 		String sql = " SELECT DISTINCT 1 _id, "+ COL_PRODUCTEUR + 
 					" FROM " + TABLE +
 					" WHERE UPPER("+ COL_PRODUCTEUR + ") LIKE '%"+producteur.toUpperCase()+"%' " +

@@ -19,22 +19,28 @@
         <FrameLayout
             android:id="@android:id/tabcontent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <ListView
                 android:id="@+id/listeVinsRougeTab"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:divider="@drawable/listDivider"
+    			android:dividerHeight="2dp"/>
 
             <ListView
                 android:id="@+id/listeVinsBlancTab"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:divider="@drawable/listDivider"
+    			android:dividerHeight="2dp" />
 
             <ListView
                 android:id="@+id/listeVinsRoseTab"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:divider="@drawable/listDivider"
+    			android:dividerHeight="2dp" />
         </FrameLayout>
     </LinearLayout>
 

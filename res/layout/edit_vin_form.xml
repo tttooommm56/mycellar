@@ -10,6 +10,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         >       
      	<Button
             android:id="@+id/editVinFormSave"
@@ -36,7 +38,7 @@
         >     
 		<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		    android:layout_width="fill_parent"
-		    android:layout_height="fill_parent"
+		    android:layout_height="wrap_content"
 		    android:orientation="vertical"
 		    android:shrinkColumns="*"  
 		    android:stretchColumns="*" >
@@ -75,20 +77,58 @@
 		        android:padding="3dp">
 		        
 		        <TextView
+		            android:id="@+id/editVinFormPaysTitle"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="@string/pays" />
+		        
+		        <Spinner
+			        android:id="@+id/editVinFormPays"
+			        android:layout_width="match_parent"
+			        android:layout_height="wrap_content"
+			        android:prompt="@string/choix_pays"/>
+		    </TableRow>
+		    
+		    <TableRow
+		        android:id="@+id/editVinFormRegionRow"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:padding="3dp">
+		        
+		        <TextView
 		            android:id="@+id/editVinFormRegionTitle"
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:text="@string/region" />
 		        
-		        <TextView
-		            android:id="@+id/editVinFormRegion"
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:layout_span="3" 
-		            android:textSize="18dp"/>
+		        <Spinner
+			        android:id="@+id/editVinFormRegion"
+			        android:layout_width="match_parent"
+			        android:layout_height="wrap_content"
+			        android:prompt="@string/choix_region"/>
 		    </TableRow>
 		    
 		    <TableRow
+		        android:id="@+id/editVinFormTerritoireRow"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:padding="3dp">
+		        
+		        <TextView
+		            android:id="@+id/editVinFormTerritoireTitle"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="@string/territoire" />
+		        
+		        <Spinner
+			        android:id="@+id/editVinFormTerritoire"
+			        android:layout_width="match_parent"
+			        android:layout_height="wrap_content"
+			        android:prompt="@string/choix_territoire"/>
+		    </TableRow>
+		    
+		    <TableRow
+		        android:id="@+id/editVinFormAppellationRow"
 		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
 		        android:padding="3dp">
@@ -99,12 +139,11 @@
 		            android:layout_height="wrap_content"
 		            android:text="@string/appellation" />
 		        
-		        <TextView
-		            android:id="@+id/editVinFormAppellation"
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:layout_span="3"
-		            android:textSize="18dp" />
+		        <Spinner
+			        android:id="@+id/editVinFormAppellation"
+			        android:layout_width="match_parent"
+			        android:layout_height="wrap_content"
+			        android:prompt="@string/choix_appellation"/>
 		    </TableRow>
 		    
 		    <TableRow
@@ -164,7 +203,6 @@
 		            android:id="@+id/editVinFormAnnee"
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
-		            defaultValue="2012"
 		            maxValue="2050"
 		            minValue="1900"
 		            plusminus_width="80dp"
@@ -224,6 +262,39 @@
 				        android:stepSize="1.0"/>
 			    </LinearLayout>
 		    </TableRow>
+		    
+		    <TableRow
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:padding="3dp">
+		
+		        <TextView
+		            android:id="@+id/editVinFormEtiquetteText"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical"
+		            android:text="@string/etiquette"/>
+				
+		         <Button
+		            android:id="@+id/editVinFormPhoto"
+		            android:text="@string/photographier"
+		            android:drawableLeft="@android:drawable/ic_menu_camera"
+		            android:layout_width="fill_parent" 
+					android:layout_height="wrap_content"/>
+		         
+		    </TableRow>
+		   
+		    <TableRow
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:padding="3dp">
+	
+	         <ImageView
+	            android:id="@+id/editVinResultPhoto"
+	            android:layout_width="340dp" 
+				android:layout_height="256dp"
+				android:layout_span="2"/>         
+	    </TableRow>
 		</TableLayout>
 	</ScrollView>
 </RelativeLayout>

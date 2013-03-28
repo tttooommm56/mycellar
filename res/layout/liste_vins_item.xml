@@ -9,18 +9,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20dp"
-        android:text="Appellation"
+        android:text="@string/appellation"
         /> 
         
     <TextView android:id="@+id/listeVinsItemAnnee"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20dp"    
-        android:layout_toRightOf="@+id/listeVinsItemNom"
+        android:layout_toRightOf="@+id/listeVinsItemAppellation"
         android:layout_alignParentRight="true"
         android:gravity="right"
-        android:text="Année"
-        /> 
+        android:text="@string/annee"/> 
         
     <TextView android:id="@+id/listeVinsItemProducteur"
         android:layout_width="wrap_content"
@@ -28,9 +27,8 @@
         android:textSize="14dp"
         android:layout_below="@+id/listeVinsItemAppellation"
         android:layout_marginTop="2dp"
-        android:text="Producteur"
-        /> 
-        
+        android:text="@string/producteur"/>
+    
     <ImageView
         android:id="@+id/listeVinsItemBouteilleImg"
         android:layout_width="20dp"

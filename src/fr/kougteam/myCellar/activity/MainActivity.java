@@ -15,9 +15,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-
-import com.pushlink.android.PushLink;
-
 import fr.kougteam.myCellar.R;
 import fr.kougteam.myCellar.dao.VinDao;
 import fr.kougteam.myCellar.enums.Couleur;
@@ -32,9 +29,6 @@ public class MainActivity extends Activity {
 	    public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.main);
-	 
-	        // Vérification d'une nouvelle version disponible
-	        PushLink.start(this, R.drawable.ic_launcher, "nc5l426cfb1uv083");
 	        
 	        vinDao = new VinDao(this);
 	        
@@ -62,6 +56,13 @@ public class MainActivity extends Activity {
 	        map.put("titre", getString(R.string.main_send_list));
 	        map.put("img", String.valueOf(R.drawable.ic_mail_send_yellow));
 	        listItem.add(map);
+	        
+	        // Item "Historique"
+	        map = new HashMap<String, String>();
+	        map.put("action", "HISTO");
+	        map.put("titre", getString(R.string.main_histo_vin));
+	        map.put("img", String.valueOf(R.drawable.ic_retirer_red));
+	        listItem.add(map);     
 	 
 	        SimpleAdapter menuAdapter = new SimpleAdapter (this.getBaseContext(), listItem, R.layout.main_item,
 	               new String[] {"img", "titre", "action"}, new int[] {R.id.mainItemImg, R.id.mainItemTitre, R.id.mainItemAction});
@@ -77,16 +78,22 @@ public class MainActivity extends Activity {
 	        		Intent intent = new Intent();
 	        		
 	        		if ("ADD".equals(action)) {
-        				intent.setClass(MainActivity.this.getBaseContext(), AddVinActivity.class);
+        				intent.setClass(MainActivity.this.getBaseContext(), EditVinFormActivity.class);
         				startActivity(intent);
         				
 	        		} else if ("LIST".equals(action)) {
         				intent.setClass(MainActivity.this.getBaseContext(), ListeVinsActivity.class);
+        				intent.putExtra("emptyBottlesOnly", false);
         				startActivity(intent);
         				
 	        		} else if ("MAIL".equals(action)) {
 	        			sendListeVinsByMail();
 	        			
+	        		} else if ("HISTO".equals(action)) {
+        				intent.setClass(MainActivity.this.getBaseContext(), ListeVinsActivity.class);
+        				intent.putExtra("emptyBottlesOnly", true);
+        				startActivity(intent);
+	
 	        		} else {
         				//on créer une boite de dialogue
     	        		AlertDialog.Builder adb = new AlertDialog.Builder(MainActivity.this);
@@ -144,7 +151,8 @@ public class MainActivity extends Activity {
 //	    				sb.append(", "+regionDao.getById(regionId).getNom());
 //	    			}
 	    			sb.append(", "+c.getString(c.getColumnIndex(VinDao.COL_ANNEE))+" : ");
-	    			sb.append(c.getString(c.getColumnIndex(VinDao.COL_NB_BOUTEILLES)) + " bouteilles\r\n");
+	    			int nbBouteilles = c.getInt(c.getColumnIndex(VinDao.COL_NB_BOUTEILLES));
+	    			sb.append(nbBouteilles + " bouteille" + (nbBouteilles>1 ? "s" : "") + "\r\n");
 	    		}
 	    		sb.append("\r\n");
 	    	}
@@ -153,9 +161,9 @@ public class MainActivity extends Activity {
 	    
 	    private void sendListeVinsByMail() {	
 	    	StringBuilder sb = new StringBuilder();
-	    	fillFromCursor(vinDao.getListVinsDisposByCouleur(Couleur.ROUGE), sb, "LISTE DES VINS ROUGES");
-	    	fillFromCursor(vinDao.getListVinsDisposByCouleur(Couleur.ROSE), sb, "LISTE DES VINS ROSÉS");
-	    	fillFromCursor(vinDao.getListVinsDisposByCouleur(Couleur.BLANC), sb, "LISTE DES VINS BLANCS");
+	    	fillFromCursor(vinDao.getListVinsDisposByCouleur(Couleur.ROUGE, false), sb, "LISTE DES VINS ROUGES");
+	    	fillFromCursor(vinDao.getListVinsDisposByCouleur(Couleur.ROSE, false), sb, "LISTE DES VINS ROSÉS");
+	    	fillFromCursor(vinDao.getListVinsDisposByCouleur(Couleur.BLANC, false), sb, "LISTE DES VINS BLANCS");
 	    	
 	    	final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 

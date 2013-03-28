@@ -19,12 +19,12 @@ import fr.kougteam.myCellar.dao.VinDao;
  */
 public class SqlOpenHelper extends SQLiteOpenHelper {
 	
-	public static final String 	DBNAME 	= "myCellar.db";
-	public static final int 	VERSION = 1;
+	public static final String 	DBNAME 		= "myCellar.db";
+	public static final int 	DBVERSION 	= 3;
 	private Context myContext;
 	
 	public SqlOpenHelper(Context context) {
-		super(context, DBNAME, null, VERSION);  
+		super(context, DBNAME, null, DBVERSION);  
 		myContext = context;
 	}
 	
@@ -46,8 +46,6 @@ public class SqlOpenHelper extends SQLiteOpenHelper {
 		RegionDao.onUpgrade(db, oldVersion, newVersion);
 		AppellationDao.onUpgrade(db, oldVersion, newVersion);
 		VinDao.onUpgrade(db, oldVersion, newVersion);
-		
-		insertDefaultData(db);
 	}
 	
 	private void insertDefaultData(SQLiteDatabase db) {

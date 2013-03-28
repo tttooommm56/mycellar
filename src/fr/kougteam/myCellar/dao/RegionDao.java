@@ -41,9 +41,11 @@ public class RegionDao extends AbstractDao<Region> {
 	public static void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
 		Log.w(RegionDao.class.getName(), "Upgrading database from version "
 				+ oldVersion + " to " + newVersion
-				+ ", which will destroy all old data");
-		database.execSQL("DROP TABLE IF EXISTS " + TABLE);
-		onCreate(database);
+				+ "...");
+		if (oldVersion==1 && newVersion==2) {
+			// Ajout d'une région vide
+			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_PAYS+","+COL_NOM+","+COL_REGION_PARENT+") VALUES (-1,1,'',0)"); 
+		}
 	}
 	
 	/**
@@ -98,7 +100,7 @@ public class RegionDao extends AbstractDao<Region> {
 	public Cursor getSousRegionsByRegion(int idRegion) {
 		String sql = " SELECT " + COL_ID + ", " + COL_PAYS + ", " + COL_NOM + ", " + COL_REGION_PARENT +
 					 " FROM " + TABLE + 
-					 " WHERE " + COL_REGION_PARENT + " = " + idRegion +
+					 " WHERE " + COL_REGION_PARENT + " = " + idRegion  + " OR " + COL_ID + "=-1" +
 					 " ORDER BY " + COL_NOM ;
 		if (bdd==null) super.openForRead();		
 		return bdd.rawQuery(sql, null);

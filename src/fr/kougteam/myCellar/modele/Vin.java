@@ -24,6 +24,7 @@ public class Vin implements Serializable {
 	private String commentaire;
 	private int nbBouteilles;	
 	private double note;
+	private byte[] image;
 	
 	public int getId() {
 		return id;
@@ -90,5 +91,11 @@ public class Vin implements Serializable {
 	}
 	public void setNote(double note) {
 		this.note = note;
+	}
+	public byte[] getImage() {
+		return image;
+	}
+	public void setImage(byte[] image) {
+		this.image = image;
 	}	
 }

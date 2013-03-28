@@ -37,9 +37,19 @@ public class PaysDao extends AbstractDao<Pays> {
 	public static void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
 		Log.w(PaysDao.class.getName(), "Upgrading database from version "
 				+ oldVersion + " to " + newVersion
-				+ ", which will destroy all old data");
-		database.execSQL("DROP TABLE IF EXISTS " + TABLE);
-		onCreate(database);
+				+ "...");
+		if (oldVersion==1 && newVersion==2) {
+			// Ajout d'un pays vide
+			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_NOM+") VALUES (-1,'')");
+		
+			// Ajout de pays supplémentaires
+			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_NOM+") VALUES (5,'USA')");
+			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_NOM+") VALUES (6,'Australie')");
+			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_NOM+") VALUES (7,'Argentine')");
+			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_NOM+") VALUES (8,'Portugal')");
+			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_NOM+") VALUES (9,'Chili')");
+			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_NOM+") VALUES (10,'Afrique du Sud')");
+		}
 	}
 	
 	/**
@@ -74,7 +84,8 @@ public class PaysDao extends AbstractDao<Pays> {
 	
 	public Cursor getAll() {
 		String sql = " SELECT " + COL_ID + ", " + COL_NOM + 
-					 " FROM " + TABLE ;
+					 " FROM " + TABLE +
+					 " ORDER BY " + COL_NOM;
 		if (bdd==null) super.openForRead();	
 		return bdd.rawQuery(sql, null);
 	}
