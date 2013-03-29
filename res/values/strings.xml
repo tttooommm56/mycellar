@@ -37,15 +37,20 @@
     <string name="nom">Nom</string>
     <string name="producteur">Producteur</string>
     <string name="annee">Année</string>
+    <string name="bouteille">Bouteille</string>
     <string name="bouteilles">Bouteilles</string>
     <string name="note">Note</string>
     <string name="etiquette">Etiquette</string>
     <string name="photographier">Prendre une photo</string>
     <string name="retirer">Retirer une bouteille</string>
+    <string name="retirer_impossible">Impossible de retirer une bouteille car le stock est épuisé !</string>
+    <string name="stock_maj_ok">Le stock a été mis à jour.</string>
+    <string name="stock_maj_ko">Le stock n\'a pas pu être mis à jour.</string>
     <string name="detail">Détail</string>
     <string name="editer">Editer</string>
     <string name="supprimer">Supprimer</string>
     <string name="action">Action</string>
     <string name="delete_item_msg">Etes-vous sûr de vouloir supprimer cet item ?</string>
+    <string name="item_deleted">L\'item a été supprimé.</string>
     <string name="send">Envoyer</string>
 </resources>

@@ -153,7 +153,7 @@ public class MainActivity extends Activity {
 //	    			}
 	    			sb.append(", "+c.getString(c.getColumnIndex(VinDao.COL_ANNEE))+" : ");
 	    			int nbBouteilles = c.getInt(c.getColumnIndex(VinDao.COL_NB_BOUTEILLES));
-	    			sb.append(nbBouteilles + " bouteille" + (nbBouteilles>1 ? "s" : "") + "\r\n");
+	    			sb.append(nbBouteilles +" "+getResources().getString(nbBouteilles>1?R.string.bouteilles:R.string.bouteille).toLowerCase() + "\r\n");
 	    		}
 	    		sb.append("\r\n");
 	    	}

@@ -1,5 +1,8 @@
 package fr.kougteam.myCellar.enums;
 
+import android.content.Context;
+import fr.kougteam.myCellar.R;
+
 /**
  * Enum pour les couleurs de vin
  * 
@@ -7,15 +10,15 @@ package fr.kougteam.myCellar.enums;
  *
  */
 public enum Couleur {
-	BLANC("BLANC", "Blanc", 1),
-	ROSE("ROSE", "Rosé", 2),
-	ROUGE("ROUGE", "Rouge", 0);
+	BLANC("BLANC", R.string.couleur_blanc, 1),
+	ROSE("ROSE", R.string.couleur_rose, 2),
+	ROUGE("ROUGE", R.string.couleur_rouge, 0);
 	
 	private String code;
-	private String label;
+	private int label;
 	private int tabIndex;
 	
-	private Couleur(String code, String label, int tabIndex) {
+	private Couleur(String code, int label, int tabIndex) {
 		this.code = code;
 		this.label = label;
 		this.tabIndex = tabIndex;
@@ -23,8 +26,8 @@ public enum Couleur {
 	public String getCode() {
 		return code;
 	}
-	public String getLabel() {
-		return label;
+	public String getLabel(Context ctx) {
+		return ctx.getResources().getString(label);
 	}
 	public int getTabIndex() {
 		return tabIndex;

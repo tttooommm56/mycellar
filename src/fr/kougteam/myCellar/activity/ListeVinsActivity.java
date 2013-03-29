@@ -81,7 +81,7 @@ public class ListeVinsActivity extends TabActivity {
 	    
 	    TabSpec tspecRouge = tabs.newTabSpec(TAB_ROUGE); 
 	    int nbRouge = vinDao.getTotalBouteillesByCouleur(Couleur.ROUGE, emptyBottlesOnly);
-	    tspecRouge.setIndicator(Couleur.ROUGE.getLabel().toUpperCase()+"\r\n\r\n"+nbRouge+" bouteille"+(nbRouge>1?"s":""));    
+	    tspecRouge.setIndicator(Couleur.ROUGE.getLabel(getApplicationContext()).toUpperCase()+"\r\n\r\n"+nbRouge+" "+getResources().getString(nbRouge>1?R.string.bouteilles:R.string.bouteille).toLowerCase());    
 	    tspecRouge.setContent(R.id.listeVinsRougeTab);
         tabs.addTab(tspecRouge); 
         TextView title = (TextView) tabs.getTabWidget().getChildAt(0).findViewById(android.R.id.title); 
@@ -89,7 +89,7 @@ public class ListeVinsActivity extends TabActivity {
 	    
         TabSpec tspecBlanc = tabs.newTabSpec(TAB_BLANC);
         int nbBlanc = vinDao.getTotalBouteillesByCouleur(Couleur.BLANC, emptyBottlesOnly);
-        tspecBlanc.setIndicator(Couleur.BLANC.getLabel().toUpperCase()+"\r\n\r\n"+nbBlanc+" bouteille"+(nbBlanc>1?"s":""));  
+        tspecBlanc.setIndicator(Couleur.BLANC.getLabel(getApplicationContext()).toUpperCase()+"\r\n\r\n"+nbBlanc+" "+getResources().getString(nbBlanc>1?R.string.bouteilles:R.string.bouteille).toLowerCase()); 
         tspecBlanc.setContent(R.id.listeVinsBlancTab);
         tabs.addTab(tspecBlanc);
         title = (TextView) tabs.getTabWidget().getChildAt(1).findViewById(android.R.id.title); 
@@ -97,7 +97,7 @@ public class ListeVinsActivity extends TabActivity {
 	    
         TabSpec tspecRose = tabs.newTabSpec(TAB_ROSE);
         int nbRose = vinDao.getTotalBouteillesByCouleur(Couleur.ROSE, emptyBottlesOnly);
-        tspecRose.setIndicator(Couleur.ROSE.getLabel().toUpperCase()+"\r\n\r\n"+nbRose+" bouteille"+(nbRose>1?"s":""));  
+        tspecRose.setIndicator(Couleur.ROSE.getLabel(getApplicationContext()).toUpperCase()+"\r\n\r\n"+nbRose+" "+getResources().getString(nbRose>1?R.string.bouteilles:R.string.bouteille).toLowerCase()); 
         tspecRose.setContent(R.id.listeVinsRoseTab);       
 	    tabs.addTab(tspecRose);
 	    title = (TextView) tabs.getTabWidget().getChildAt(2).findViewById(android.R.id.title); 
@@ -237,9 +237,9 @@ public class ListeVinsActivity extends TabActivity {
 						int currentStock = selectedItem.getInt(selectedItem.getColumnIndex(VinDao.COL_NB_BOUTEILLES));
 						if (vinDao.retire1Bouteille(idVin, currentStock) > 0) {
 							loadTabList(currentTab);
-							Toast.makeText(getApplicationContext(), "Le stock a été mis à jour.", Toast.LENGTH_LONG).show();
+							Toast.makeText(getApplicationContext(), R.string.stock_maj_ok, Toast.LENGTH_LONG).show();
 						} else {
-							Toast.makeText(getApplicationContext(), "Le stock n'a pas pu être mis à jour.", Toast.LENGTH_LONG).show();
+							Toast.makeText(getApplicationContext(), R.string.stock_maj_ko, Toast.LENGTH_LONG).show();
 						}					
 						break;
 						
@@ -264,7 +264,7 @@ public class ListeVinsActivity extends TabActivity {
 			    				int idVin = selectedItem.getInt(selectedItem.getColumnIndex(VinDao.COL_ID));
 			    				vinDao.delete(idVin);
 			    				loadTabList(currentTab);
-			    				Toast.makeText(getApplicationContext(), "L'item a été supprimé.", Toast.LENGTH_LONG).show();
+			    				Toast.makeText(getApplicationContext(), R.string.item_deleted, Toast.LENGTH_LONG).show();
 			    			}
 			    		})
 			    		.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {

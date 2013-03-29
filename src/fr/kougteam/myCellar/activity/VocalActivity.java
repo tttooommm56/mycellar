@@ -63,17 +63,17 @@ public class VocalActivity extends TabActivity {
 	    tabs.setup();
 	    
 	    TabSpec tspecRouge = tabs.newTabSpec(TAB_ROUGE);       
-	    tspecRouge.setIndicator(Couleur.ROUGE.getLabel());
+	    tspecRouge.setIndicator(Couleur.ROUGE.getLabel(getApplicationContext()));
 	    tspecRouge.setContent(R.id.listeVinsRougeTab);
         tabs.addTab(tspecRouge); 
 
         TabSpec tspecBlanc = tabs.newTabSpec(TAB_BLANC);
-        tspecBlanc.setIndicator(Couleur.BLANC.getLabel());
+        tspecBlanc.setIndicator(Couleur.BLANC.getLabel(getApplicationContext()));
         tspecBlanc.setContent(R.id.listeVinsBlancTab);
         tabs.addTab(tspecBlanc);
 
         TabSpec tspecRose = tabs.newTabSpec(TAB_ROSE);
-        tspecRose.setIndicator(Couleur.ROSE.getLabel());
+        tspecRose.setIndicator(Couleur.ROSE.getLabel(getApplicationContext()));
         tspecRose.setContent(R.id.listeVinsRoseTab); 
         
 	    tabs.addTab(tspecRose);

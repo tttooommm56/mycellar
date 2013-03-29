@@ -104,14 +104,14 @@ public class DetailVinActivity extends Activity {
             case R.id.detailVinRetirer:
             	int currentStock = vin.getNbBouteilles();
             	if (currentStock == 0) {
-            		Toast.makeText(getApplicationContext(), "Impossible de retirer une bouteille car le stock est épuisé !", Toast.LENGTH_LONG).show();
+            		Toast.makeText(getApplicationContext(), R.string.retirer_impossible, Toast.LENGTH_LONG).show();
             		
             	} else if (vinDao.retire1Bouteille(vin.getId(), currentStock) > 0) {
 					vin = vinDao.getById(vin.getId()); // MAJ de l'objet
 					((TextView)findViewById(R.id.detailVinBouteilles)).setText(Integer.toString(vin.getNbBouteilles()));
-					Toast.makeText(getApplicationContext(), "Le stock a été mis à jour.", Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplicationContext(), R.string.stock_maj_ok, Toast.LENGTH_LONG).show();
 				} else {
-					Toast.makeText(getApplicationContext(), "Le stock n'a pas pu être mis à jour.", Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplicationContext(), R.string.stock_maj_ko, Toast.LENGTH_LONG).show();
 				}	
                return true;
                
@@ -129,7 +129,7 @@ public class DetailVinActivity extends Activity {
 	    		.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 	    			public void onClick(DialogInterface dialog, int id) {
 	    				vinDao.delete(vin.getId());    				
-	    				Toast.makeText(getApplicationContext(), "L'item a été supprimé.", Toast.LENGTH_LONG).show();
+	    				Toast.makeText(getApplicationContext(), R.string.item_deleted, Toast.LENGTH_LONG).show();
 	    				finish();
 	    			}
 	    		})
@@ -154,7 +154,7 @@ public class DetailVinActivity extends Activity {
 		regionText.setText(region);
 
 		((TextView)findViewById(R.id.detailVinAppellation)).setText(appellationDao.getById(vin.getIdAppellation()).getNom());
-		((TextView)findViewById(R.id.detailVinCouleur)).setText(vin.getCouleur().getLabel());
+		((TextView)findViewById(R.id.detailVinCouleur)).setText(vin.getCouleur().getLabel(getApplicationContext()));
 		((TextView)findViewById(R.id.detailVinNom)).setText(vin.getNom());
 		((TextView)findViewById(R.id.detailVinProducteur)).setText(vin.getProducteur());
 		((TextView)findViewById(R.id.detailVinAnnee)).setText(Integer.toString(vin.getAnnee()));
