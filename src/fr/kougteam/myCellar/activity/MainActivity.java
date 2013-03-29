@@ -113,28 +113,29 @@ public class MainActivity extends Activity {
 	    
 	    @Override
 		public boolean onKeyDown(int keyCode, KeyEvent event) {
-	    	if (keyCode == KeyEvent.KEYCODE_BACK) {
-	    		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-	    		builder.setTitle(R.string.app_quit_title)
-	    		.setIcon(android.R.drawable.ic_dialog_alert)
-	    		.setMessage(R.string.app_quit_msg)
-	    		.setCancelable(false)
-	    		.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-	    			public void onClick(DialogInterface dialog, int id) {
-	    				MainActivity.this.finish();
-	    			}
-	    		})
-	    		.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-	    			public void onClick(DialogInterface dialog, int id) {
-	    			}
-	    		});
-	    		AlertDialog alert = builder.create();
-	    		alert.show();
-	    		return true;
-	    		
-	    	} else {
+	    	// Message de confirmation (TCO : plus nécessaire...)
+//	    	if (keyCode == KeyEvent.KEYCODE_BACK) {
+//	    		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//	    		builder.setTitle(R.string.app_quit_title)
+//	    		.setIcon(android.R.drawable.ic_dialog_alert)
+//	    		.setMessage(R.string.app_quit_msg)
+//	    		.setCancelable(false)
+//	    		.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+//	    			public void onClick(DialogInterface dialog, int id) {
+//	    				MainActivity.this.finish();
+//	    			}
+//	    		})
+//	    		.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+//	    			public void onClick(DialogInterface dialog, int id) {
+//	    			}
+//	    		});
+//	    		AlertDialog alert = builder.create();
+//	    		alert.show();
+//	    		return true;
+//	    		
+//	    	} else {
 	    		return super.onKeyDown(keyCode, event);
-	    	}
+//	    	}
 	    }
 	    
 	    private void fillFromCursor(Cursor c, StringBuilder sb, String titreListe) {
