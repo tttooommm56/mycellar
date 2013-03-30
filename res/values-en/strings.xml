@@ -10,7 +10,7 @@
     <string name="main_add_vin">Add bottles</string>
     <string name="main_list_vin">See the cellar</string>
     <string name="main_send_list">Send wines list</string>
-    <string name="main_histo_vin">Out of wines</string>
+    <string name="main_histo_vin">Out of stock</string>
     <string name="title_activity_main">My Cellar</string>
     <string name="title_activity_add_vin">Add wine</string>
     <string name="title_activity_add_vin_region_choix">Adding a wine : choose a region</string>
