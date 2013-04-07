@@ -49,6 +49,13 @@ public class MainActivity extends Activity {
 	        map.put("titre", getString(R.string.main_add_vin));
 	        map.put("img", String.valueOf(R.drawable.ic_plus_green));
 	        listItem.add(map);
+	        
+	        // Item "Accords mets/vins"
+	        map = new HashMap<String, String>();
+	        map.put("action", "ACCORDS");
+	        map.put("titre", getString(R.string.main_accords));
+	        map.put("img", String.valueOf(R.drawable.ic_accord_red));
+	        listItem.add(map);
 	         
 	        // Item "Envoi liste par mail"
 	        map = new HashMap<String, String>();
@@ -84,6 +91,10 @@ public class MainActivity extends Activity {
 	        		} else if ("LIST".equals(action)) {
         				intent.setClass(MainActivity.this.getBaseContext(), ListeVinsActivity.class);
         				intent.putExtra("emptyBottlesOnly", false);
+        				startActivity(intent);
+        			
+	        		} else if ("ACCORDS".equals(action)) {
+        				intent.setClass(MainActivity.this.getBaseContext(), ListeMetsActivity.class);
         				startActivity(intent);
         				
 	        		} else if ("MAIL".equals(action)) {

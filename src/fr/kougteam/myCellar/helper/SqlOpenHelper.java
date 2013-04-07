@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import fr.kougteam.myCellar.dao.AppellationDao;
+import fr.kougteam.myCellar.dao.MetDao;
+import fr.kougteam.myCellar.dao.MetVinDao;
 import fr.kougteam.myCellar.dao.PaysDao;
 import fr.kougteam.myCellar.dao.RegionDao;
 import fr.kougteam.myCellar.dao.VinDao;
@@ -20,7 +22,7 @@ import fr.kougteam.myCellar.dao.VinDao;
 public class SqlOpenHelper extends SQLiteOpenHelper {
 	
 	public static final String 	DBNAME 		= "myCellar.db";
-	public static final int 	DBVERSION 	= 3;
+	public static final int 	DBVERSION 	= 4;
 	private Context myContext;
 	
 	public SqlOpenHelper(Context context) {
@@ -35,6 +37,8 @@ public class SqlOpenHelper extends SQLiteOpenHelper {
 		RegionDao.onCreate(db);
 		AppellationDao.onCreate(db);
 		VinDao.onCreate(db);
+		MetDao.onCreate(db);
+		MetVinDao.onCreate(db);
 		
 		insertDefaultData(db);
     }
@@ -46,6 +50,8 @@ public class SqlOpenHelper extends SQLiteOpenHelper {
 		RegionDao.onUpgrade(db, oldVersion, newVersion);
 		AppellationDao.onUpgrade(db, oldVersion, newVersion);
 		VinDao.onUpgrade(db, oldVersion, newVersion);
+		MetDao.onUpgrade(myContext, db, oldVersion, newVersion);
+		MetVinDao.onUpgrade(myContext, db, oldVersion, newVersion);
 	}
 	
 	private void insertDefaultData(SQLiteDatabase db) {
@@ -56,6 +62,21 @@ public class SqlOpenHelper extends SQLiteOpenHelper {
 	         for (String statement : statements) {
 	        	 db.execSQL(statement);
 	         }
+	         is.close();
+	         
+	         is = myContext.getResources().getAssets().open("insert_mets.sql");        
+	         statements = FileHelper.parseSqlFile(is);      
+	         for (String statement : statements) {
+	        	 db.execSQL(statement);
+	         }
+	         is.close();
+	         
+	         is = myContext.getResources().getAssets().open("insert_mets_vins.sql");        
+	         statements = FileHelper.parseSqlFile(is);      
+	         for (String statement : statements) {
+	        	 db.execSQL(statement);
+	         }
+	         is.close();
 	         
 	     } catch (Exception ex) {
 	    	 Log.e("onCreate error !", ex.getMessage());

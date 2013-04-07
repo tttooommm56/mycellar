@@ -11,6 +11,7 @@
     <string name="main_list_vin">See the cellar</string>
     <string name="main_send_list">Send wines list</string>
     <string name="main_histo_vin">Out of stock</string>
+    <string name="main_accords">Find wine for a dish</string>
     <string name="title_activity_main">My Cellar</string>
     <string name="title_activity_add_vin">Add wine</string>
     <string name="title_activity_add_vin_region_choix">Adding a wine : choose a region</string>
@@ -53,4 +54,8 @@
     <string name="delete_item_msg">Are you sure you want to delete this item ?</string>
     <string name="item_deleted">Item deleted.</string>
     <string name="send">Send</string>
+    <string name="search_met">Search a dish...</string>
+    <string name="selected_met">Selected dish:</string>
+    <string name="accord_met_vin">Wines :</string>
+    <string name="accord_met_vin_available">Available bottles in cellar :</string>
 </resources>

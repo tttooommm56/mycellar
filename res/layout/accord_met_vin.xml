@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+    
+	<TableLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:shrinkColumns="1">
+	
+	    <TableRow
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:padding="5dp">
+	        
+	        <TextView
+	            android:singleLine="true"
+	            android:text="@string/selected_met" />
+	        
+	        <TextView
+	            android:id="@+id/accordMetVinSelectectedMet"
+	            android:singleLine="false" 
+	            android:textSize="20dp"
+	            android:textColor="#eeeeee"
+	            android:layout_marginLeft="10dp" />
+	    </TableRow>
+	    
+	</TableLayout>
+	<LinearLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:orientation="vertical">
+	<TextView
+				android:singleLine="true"
+				android:layout_width="match_parent"
+	    		android:layout_height="wrap_content"
+	    		android:paddingLeft="5dp"
+	            android:text="@string/accord_met_vin" />
+	<WebView 
+	            android:id="@+id/accordMetVinListeVinHtml"
+	            android:textSize="20dp"
+	            android:layout_width="match_parent"
+	    		android:layout_height="wrap_content"	            
+	            />
+	<TextView
+		android:singleLine="true"     
+		android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:paddingLeft="5dp"
+        android:text="@string/accord_met_vin_available" />
+	</LinearLayout>
+</LinearLayout>
