@@ -220,10 +220,10 @@ public class ListeVinsActivity extends TabActivity {
 		iconContextMenu = new IconContextMenu(this, CONTEXT_MENU_ID);
 		if (!emptyBottlesOnly) {
 			// On ne peut pas retirer de bouteille si on est dans la liste des bouteilles vides !
-			iconContextMenu.addItem(res, R.string.retirer, R.drawable.ic_retirer_green, MENU_RETIRER_ACTION);
+			iconContextMenu.addItem(res, R.string.retirer, R.drawable.ic_retirer_red, MENU_RETIRER_ACTION);
 		}
-        iconContextMenu.addItem(res, R.string.detail, R.drawable.ic_loupe_blue, MENU_DETAIL_ACTION);
-        iconContextMenu.addItem(res, R.string.editer, R.drawable.ic_edit_yellow, MENU_EDITER_ACTION);
+        iconContextMenu.addItem(res, R.string.detail, R.drawable.ic_loupe_red, MENU_DETAIL_ACTION);
+        iconContextMenu.addItem(res, R.string.editer, R.drawable.ic_edit_red, MENU_EDITER_ACTION);
         iconContextMenu.addItem(res, R.string.supprimer, R.drawable.ic_delete_red, MENU_SUPPRIMER_ACTION);
         
         //set onclick listener for context menu

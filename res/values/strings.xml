@@ -57,6 +57,7 @@
     <string name="send">Envoyer</string>
     <string name="search_met">Rechercher un met...</string>
     <string name="selected_met">Plat choisi :</string>
-    <string name="accord_met_vin">Vins en accords :</string>
-    <string name="accord_met_vin_available">Bouteilles disponibles dans le cellier :</string>
+    <string name="accord_met_vin">Types de vin en accord :</string>
+    <string name="accord_met_vin_available">Bouteilles du cellier en accord :</string>
+    <string name="accord_met_vin_no_bottle">Aucune bouteille trouvée :(</string>
 </resources>

@@ -40,14 +40,14 @@ public class MainActivity extends Activity {
 	        HashMap<String, String> map = new HashMap<String, String>();
 	        map.put("action", "LIST");
 	        map.put("titre", getString(R.string.main_list_vin));
-	        map.put("img", String.valueOf(R.drawable.ic_loupe_blue));
+	        map.put("img", String.valueOf(R.drawable.ic_loupe_red));
 	        listItem.add(map);       
 	        
 	        // Item "Ajouter bouteilles"
 	        map = new HashMap<String, String>();
 	        map.put("action", "ADD");
 	        map.put("titre", getString(R.string.main_add_vin));
-	        map.put("img", String.valueOf(R.drawable.ic_plus_green));
+	        map.put("img", String.valueOf(R.drawable.ic_plus_red));
 	        listItem.add(map);
 	        
 	        // Item "Accords mets/vins"
@@ -61,7 +61,7 @@ public class MainActivity extends Activity {
 	        map = new HashMap<String, String>();
 	        map.put("action", "MAIL");
 	        map.put("titre", getString(R.string.main_send_list));
-	        map.put("img", String.valueOf(R.drawable.ic_mail_send_yellow));
+	        map.put("img", String.valueOf(R.drawable.ic_mail_send_red));
 	        listItem.add(map);
 	        
 	        // Item "Historique"
