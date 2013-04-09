@@ -19,6 +19,7 @@
     <string name="title_activity_add_vin_appellation_choix">Adding a wine : choose an appellation</string>
     <string name="title_activity_edit_vin">Edit wine</string>
     <string name="title_activity_detail_vin">Detail</string>
+    <string name="title_activity_liste_mets">Dish/wines agreement</string>
     <string name="save">Save</string>
     <string name="save_ok">Successfully saved.</string>
     <string name="save_error">Error occurs during saving !</string>
