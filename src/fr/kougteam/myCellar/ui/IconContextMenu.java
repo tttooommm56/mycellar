@@ -18,6 +18,8 @@ package fr.kougteam.myCellar.ui;
 
 import java.util.ArrayList;
 
+import fr.kougteam.myCellar.tools.FontTools;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -188,7 +190,7 @@ public class IconContextMenu implements DialogInterface.OnCancelListener,
 			textView.setTag(item);
 			textView.setText(item.text);
 			textView.setCompoundDrawablesWithIntrinsicBounds(item.image, null, null, null);
-        	
+			textView.setTypeface(FontTools.getDefautTypeFace(parentActivity.getAssets()));
 	        return textView;
 		}
 		

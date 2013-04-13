@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
@@ -15,6 +16,7 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import fr.kougteam.myCellar.R;
 import fr.kougteam.myCellar.dao.MetDao;
+import fr.kougteam.myCellar.tools.FontTools;
 
 public class ListeMetsActivity extends Activity {
 		
@@ -40,7 +42,14 @@ public class ListeMetsActivity extends Activity {
 		Cursor metCursor = metDao.getAll();
 		String[] from = new String[] { MetDao.COL_NOM};
 		int[] to = new int[] { R.id.listeMetsItemText};
-		metAdapter = new SimpleCursorAdapter(this, R.layout.liste_mets_item, metCursor, from, to);
+		metAdapter = new SimpleCursorAdapter(this, R.layout.liste_mets_item, metCursor, from, to) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent){
+            	ViewGroup view = (ViewGroup) super.getView(position, convertView, parent);
+                if(convertView == null) FontTools.setDefaultAppFont(view, getAssets());
+                return view;
+            }
+        };
 	    metsListView = (ListView)findViewById(R.id.listeMetsListView);	 
 	    
 	    metsListView.setAdapter(metAdapter);

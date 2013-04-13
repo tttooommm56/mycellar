@@ -1,14 +1,17 @@
 package fr.kougteam.myCellar.activity;
 
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -19,9 +22,9 @@ import fr.kougteam.myCellar.R;
 import fr.kougteam.myCellar.dao.MetDao;
 import fr.kougteam.myCellar.dao.MetVinDao;
 import fr.kougteam.myCellar.dao.VinDao;
-import fr.kougteam.myCellar.enums.Couleur;
 import fr.kougteam.myCellar.modele.Met;
 import fr.kougteam.myCellar.modele.MetVin;
+import fr.kougteam.myCellar.tools.FontTools;
 import fr.kougteam.myCellar.tools.StringTools;
 
 public class AccordMetVinActivity extends Activity {
@@ -51,11 +54,20 @@ public class AccordMetVinActivity extends Activity {
 		
 		intent2DetailVin = new Intent(this, DetailVinActivity.class);
 		
+		
+		Context context = getBaseContext();
+		copyFile(context, FontTools.DEFAULT_FONT_NAME);
+		
 		Bundle extra = this.getIntent().getExtras(); 
 		if (extra!=null) {
 			met = metDao.getById(extra.getInt("idMet"));
-			fillFields();
+			fillFields(context);
 		} 
+		
+		final ViewGroup mContainer = (ViewGroup) findViewById(android.R.id.content);
+        FontTools.setDefaultAppFont(mContainer, getAssets());
+        
+        
 	}
 	
 	@Override
@@ -72,16 +84,54 @@ public class AccordMetVinActivity extends Activity {
 		// Rafraichissement des données
 		if (met!=null && met.getId()>0) {
 			met = metDao.getById(met.getId());
-			fillFields();
+			fillFields(getBaseContext());
 		}
 	}
 	
-    private void fillFields() {
+	private boolean copyFile(Context context,String fileName) {
+        boolean status = false;
+        try { 
+            FileOutputStream out = context.openFileOutput(fileName, Context.MODE_PRIVATE);
+            InputStream in = context.getAssets().open(fileName);
+            // Transfer bytes from the input file to the output file
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+            // Close the streams
+            out.close();
+            in.close();
+            status = true;
+        } catch (Exception e) {
+            System.out.println("Exception in copyFile:: "+e.getMessage());
+            status = false;
+        }
+        System.out.println("copyFile Status:: "+status);
+        return status;
+    }
+	
+    private void fillFields(Context context) {
 		((TextView)findViewById(R.id.accordMetVinSelectectedMet)).setText(met.getNom());
 		
 		Cursor c = metVinDao.getListByIdMet(met.getId());
     
-		StringBuilder html = new StringBuilder("<ul style='color:#eee;'>");
+		StringBuilder html = new StringBuilder();
+		html.append("<html>"+
+						"<head>"+
+							"<style type='text/css'>"+
+							"@font-face {"+
+							"    font-family: MyFont;"+
+							"    src: url('file://"+context.getFilesDir().getAbsolutePath()+"/"+FontTools.DEFAULT_FONT_NAME+"')"+
+							"}"+
+							"body {"+
+							"    font-family: MyFont;"+
+							"    color:#eee;"+
+							"}"+
+							"</style>"+
+						"</head>"+
+					"<body>");
+		html.append("<ul>");
 		List<String> propositions = new ArrayList<String>();
 		for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
 			MetVin mv = new MetVin(met.getId(), c.getString(c.getColumnIndex(MetVinDao.COL_NOM_VIN)), c.getString(c.getColumnIndex(MetVinDao.COL_TYPE)));
@@ -93,15 +143,22 @@ public class AccordMetVinActivity extends Activity {
 			}
 			html.append("</li>");
 		}
-		html.append("</ul>");
+		html.append("</ul></body></html>");
 		WebView web = ((WebView)findViewById(R.id.accordMetVinListeVinHtml));
-		web.loadData(html.toString(), "text/html", "utf-8");
+		web.loadDataWithBaseURL(null, html.toString(), "text/html", "utf-8", "");
 		web.setBackgroundColor(getResources().getColor(android.R.color.black));
 		
 		Cursor vinCursor = vinDao.getListVinsByPropositions(propositions);
 		String[] from = new String[] { VinDao.COL_PRODUCTEUR, VinDao.COL_ANNEE, VinDao.COL_NB_BOUTEILLES, "nom_appellation" };
 		int[] to = new int[] { R.id.listeVinsItemProducteur, R.id.listeVinsItemAnnee, R.id.listeVinsItemBouteilles, R.id.listeVinsItemAppellation };
-		SimpleCursorAdapter vinAdapter = new SimpleCursorAdapter(this, R.layout.liste_vins_item, vinCursor, from, to);
+		SimpleCursorAdapter vinAdapter = new SimpleCursorAdapter(this, R.layout.liste_vins_item, vinCursor, from, to) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent){
+            	ViewGroup view = (ViewGroup) super.getView(position, convertView, parent);
+                if(convertView == null) FontTools.setDefaultAppFont(view, getAssets());
+                return view;
+            }
+        };
 		vinsCellierListView.setAdapter(vinAdapter);
 
 		vinsCellierListView.setOnItemClickListener(new OnItemClickListener() {		 

@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.RatingBar;
@@ -24,6 +25,7 @@ import fr.kougteam.myCellar.dao.RegionDao;
 import fr.kougteam.myCellar.dao.VinDao;
 import fr.kougteam.myCellar.modele.Region;
 import fr.kougteam.myCellar.modele.Vin;
+import fr.kougteam.myCellar.tools.FontTools;
 
 public class DetailVinActivity extends Activity {
 	private PaysDao paysDao;
@@ -60,6 +62,9 @@ public class DetailVinActivity extends Activity {
 		} 
 		
 		intent2Edit = new Intent(this, EditVinFormActivity.class);
+		
+		final ViewGroup mContainer = (ViewGroup) findViewById(android.R.id.content);
+        FontTools.setDefaultAppFont(mContainer, getAssets());
 	}
 	
 	@Override

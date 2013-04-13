@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -34,6 +35,7 @@ import fr.kougteam.myCellar.enums.Couleur;
 import fr.kougteam.myCellar.modele.Appellation;
 import fr.kougteam.myCellar.modele.Region;
 import fr.kougteam.myCellar.modele.Vin;
+import fr.kougteam.myCellar.tools.FontTools;
 import fr.kougteam.myCellar.ui.NumberPicker;
 
 public class EditVinFormActivity extends Activity {
@@ -128,6 +130,9 @@ public class EditVinFormActivity extends Activity {
 		initCancelButton();
 		initSaveButton();	
 		initPhotoButton();
+		
+		final ViewGroup mContainer = (ViewGroup) findViewById(android.R.id.content);
+        FontTools.setDefaultAppFont(mContainer, getAssets());
 	}
 	
 	@Override

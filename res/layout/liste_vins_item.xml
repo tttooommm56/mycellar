@@ -9,6 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20dp"
+        android:textColor="#ffffff"
         android:text="@string/appellation"
         /> 
         
@@ -16,6 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20dp"    
+        android:textColor="#ffffff"
         android:layout_toRightOf="@+id/listeVinsItemAppellation"
         android:layout_alignParentRight="true"
         android:gravity="right"

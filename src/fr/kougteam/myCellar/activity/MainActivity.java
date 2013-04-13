@@ -5,12 +5,12 @@ import java.util.HashMap;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -18,12 +18,13 @@ import android.widget.SimpleAdapter;
 import fr.kougteam.myCellar.R;
 import fr.kougteam.myCellar.dao.VinDao;
 import fr.kougteam.myCellar.enums.Couleur;
+import fr.kougteam.myCellar.tools.FontTools;
 
 public class MainActivity extends Activity {
 	 
 		private ListView menuListView;	
 		private VinDao vinDao;
-		
+			
 	    /** Called when the activity is first created. */
 	    @Override
 	    public void onCreate(Bundle savedInstanceState) {
@@ -69,12 +70,20 @@ public class MainActivity extends Activity {
 	        map.put("action", "HISTO");
 	        map.put("titre", getString(R.string.main_histo_vin));
 	        map.put("img", String.valueOf(R.drawable.ic_retirer_red));
-	        listItem.add(map);     
-	 
+	        listItem.add(map); 
+	        
+	        
 	        SimpleAdapter menuAdapter = new SimpleAdapter (this.getBaseContext(), listItem, R.layout.main_item,
-	               new String[] {"img", "titre", "action"}, new int[] {R.id.mainItemImg, R.id.mainItemTitre, R.id.mainItemAction});
-
+	               new String[] {"img", "titre", "action"}, new int[] {R.id.mainItemImg, R.id.mainItemTitre, R.id.mainItemAction}) {
+	            @Override
+	            public View getView(int position, View convertView, ViewGroup parent){
+	            	ViewGroup view = (ViewGroup) super.getView(position, convertView, parent);
+	                if(convertView == null) FontTools.setDefaultAppFont(view, getAssets());
+	                return view;
+	            }
+	        };
 	        menuListView.setAdapter(menuAdapter);
+
 	        menuListView.setOnItemClickListener(new OnItemClickListener() {
 				
 	        	@SuppressWarnings("unchecked")
@@ -119,7 +128,9 @@ public class MainActivity extends Activity {
 	        		}
 	        	}
 	         });
-	 
+	        
+	        final ViewGroup mContainer = (ViewGroup) findViewById(android.R.id.content);
+	        FontTools.setDefaultAppFont(mContainer, getAssets());
 	    }
 	    
 	    @Override

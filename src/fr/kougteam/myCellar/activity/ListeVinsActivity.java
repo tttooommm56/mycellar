@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 import fr.kougteam.myCellar.R;
 import fr.kougteam.myCellar.dao.VinDao;
 import fr.kougteam.myCellar.enums.Couleur;
+import fr.kougteam.myCellar.tools.FontTools;
 import fr.kougteam.myCellar.ui.IconContextMenu;
 
 public class ListeVinsActivity extends TabActivity {
@@ -81,7 +83,7 @@ public class ListeVinsActivity extends TabActivity {
 	    
 	    TabSpec tspecRouge = tabs.newTabSpec(TAB_ROUGE); 
 	    int nbRouge = vinDao.getTotalBouteillesByCouleur(Couleur.ROUGE, emptyBottlesOnly);
-	    tspecRouge.setIndicator(Couleur.ROUGE.getLabel(getApplicationContext()).toUpperCase()+"\r\n\r\n"+nbRouge+" "+getResources().getString(nbRouge>1?R.string.bouteilles:R.string.bouteille).toLowerCase());    
+	    tspecRouge.setIndicator(Couleur.ROUGE.getLabel(getApplicationContext()).toUpperCase()+(!emptyBottlesOnly?"\r\n"+nbRouge+" "+getResources().getString(nbRouge>1?R.string.bouteilles:R.string.bouteille).toLowerCase():""));    
 	    tspecRouge.setContent(R.id.listeVinsRougeTab);
         tabs.addTab(tspecRouge); 
         TextView title = (TextView) tabs.getTabWidget().getChildAt(0).findViewById(android.R.id.title); 
@@ -89,7 +91,7 @@ public class ListeVinsActivity extends TabActivity {
 	    
         TabSpec tspecBlanc = tabs.newTabSpec(TAB_BLANC);
         int nbBlanc = vinDao.getTotalBouteillesByCouleur(Couleur.BLANC, emptyBottlesOnly);
-        tspecBlanc.setIndicator(Couleur.BLANC.getLabel(getApplicationContext()).toUpperCase()+"\r\n\r\n"+nbBlanc+" "+getResources().getString(nbBlanc>1?R.string.bouteilles:R.string.bouteille).toLowerCase()); 
+        tspecBlanc.setIndicator(Couleur.BLANC.getLabel(getApplicationContext()).toUpperCase()+(!emptyBottlesOnly?"\r\n"+nbBlanc+" "+getResources().getString(nbBlanc>1?R.string.bouteilles:R.string.bouteille).toLowerCase():"")); 
         tspecBlanc.setContent(R.id.listeVinsBlancTab);
         tabs.addTab(tspecBlanc);
         title = (TextView) tabs.getTabWidget().getChildAt(1).findViewById(android.R.id.title); 
@@ -97,7 +99,7 @@ public class ListeVinsActivity extends TabActivity {
 	    
         TabSpec tspecRose = tabs.newTabSpec(TAB_ROSE);
         int nbRose = vinDao.getTotalBouteillesByCouleur(Couleur.ROSE, emptyBottlesOnly);
-        tspecRose.setIndicator(Couleur.ROSE.getLabel(getApplicationContext()).toUpperCase()+"\r\n\r\n"+nbRose+" "+getResources().getString(nbRose>1?R.string.bouteilles:R.string.bouteille).toLowerCase()); 
+        tspecRose.setIndicator(Couleur.ROSE.getLabel(getApplicationContext()).toUpperCase()+(!emptyBottlesOnly?"\r\n"+nbRose+" "+getResources().getString(nbRose>1?R.string.bouteilles:R.string.bouteille).toLowerCase():"")); 
         tspecRose.setContent(R.id.listeVinsRoseTab);       
 	    tabs.addTab(tspecRose);
 	    title = (TextView) tabs.getTabWidget().getChildAt(2).findViewById(android.R.id.title); 
@@ -129,7 +131,8 @@ public class ListeVinsActivity extends TabActivity {
 	    intent2Edit = new Intent(this, EditVinFormActivity.class);
 	    intent2Add = new Intent(this, EditVinFormActivity.class);
 	    
-	    
+	    final ViewGroup mContainer = (ViewGroup) findViewById(android.R.id.content);
+        FontTools.setDefaultAppFont(mContainer, getAssets());
 	}
 	
 	@Override
@@ -175,7 +178,14 @@ public class ListeVinsActivity extends TabActivity {
 		Cursor vinCursor = vinDao.getListVinsDisposByCouleur(Couleur.ROUGE, emptyBottlesOnly);
 		String[] from = new String[] { VinDao.COL_PRODUCTEUR, VinDao.COL_ANNEE, VinDao.COL_NB_BOUTEILLES, "nom_appellation" };
 		int[] to = new int[] { R.id.listeVinsItemProducteur, R.id.listeVinsItemAnnee, R.id.listeVinsItemBouteilles, R.id.listeVinsItemAppellation };
-		vinAdapter = new SimpleCursorAdapter(this, R.layout.liste_vins_item, vinCursor, from, to);
+		vinAdapter = new SimpleCursorAdapter(this, R.layout.liste_vins_item, vinCursor, from, to) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent){
+            	ViewGroup view = (ViewGroup) super.getView(position, convertView, parent);
+                if(convertView == null) FontTools.setDefaultAppFont(view, getAssets());
+                return view;
+            }
+        };
 		vinsRougeListView.setAdapter(vinAdapter);
 
 		vinsRougeListView.setOnItemClickListener(new OnItemClickListener() {		 
@@ -190,7 +200,14 @@ public class ListeVinsActivity extends TabActivity {
 		Cursor vinCursor = vinDao.getListVinsDisposByCouleur(Couleur.BLANC, emptyBottlesOnly);
 		String[] from = new String[] { VinDao.COL_PRODUCTEUR, VinDao.COL_ANNEE, VinDao.COL_NB_BOUTEILLES, "nom_appellation" };
 		int[] to = new int[] { R.id.listeVinsItemProducteur, R.id.listeVinsItemAnnee, R.id.listeVinsItemBouteilles, R.id.listeVinsItemAppellation };
-		vinAdapter = new SimpleCursorAdapter(this, R.layout.liste_vins_item, vinCursor, from, to);
+		vinAdapter = new SimpleCursorAdapter(this, R.layout.liste_vins_item, vinCursor, from, to) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent){
+            	ViewGroup view = (ViewGroup) super.getView(position, convertView, parent);
+                if(convertView == null) FontTools.setDefaultAppFont(view, getAssets());
+                return view;
+            }
+        };
 		vinsBlancListView.setAdapter(vinAdapter);
 
 		vinsBlancListView.setOnItemClickListener(new OnItemClickListener() {		 
@@ -205,7 +222,14 @@ public class ListeVinsActivity extends TabActivity {
 		Cursor vinCursor = vinDao.getListVinsDisposByCouleur(Couleur.ROSE, emptyBottlesOnly);
 		String[] from = new String[] { VinDao.COL_PRODUCTEUR, VinDao.COL_ANNEE, VinDao.COL_NB_BOUTEILLES, "nom_appellation" };
 		int[] to = new int[] { R.id.listeVinsItemProducteur, R.id.listeVinsItemAnnee, R.id.listeVinsItemBouteilles, R.id.listeVinsItemAppellation };
-		vinAdapter = new SimpleCursorAdapter(this, R.layout.liste_vins_item, vinCursor, from, to);
+		vinAdapter = new SimpleCursorAdapter(this, R.layout.liste_vins_item, vinCursor, from, to) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent){
+            	ViewGroup view = (ViewGroup) super.getView(position, convertView, parent);
+                if(convertView == null) FontTools.setDefaultAppFont(view, getAssets());
+                return view;
+            }
+        };
 		vinsRoseListView.setAdapter(vinAdapter);
 
 		vinsRoseListView.setOnItemClickListener(new OnItemClickListener() {		 

@@ -22,6 +22,7 @@
 	            android:id="@+id/detailVinRegion"
 	            android:singleLine="false" 
 	            android:textSize="20dp"
+	            android:textColor="#ffffff"
 	            android:layout_marginLeft="10dp" />
 	    </TableRow>
 	    
@@ -39,6 +40,7 @@
 	            android:id="@+id/detailVinAppellation"
 	            android:singleLine="false" 
 	            android:textSize="20dp"
+	            android:textColor="#ffffff"
 	            android:layout_marginLeft="10dp"/>
 	    </TableRow>
 	    
@@ -55,6 +57,7 @@
 	        <TextView
 	            android:id="@+id/detailVinCouleur"
 	            android:textSize="20dp"
+	            android:textColor="#ffffff"
 	            android:layout_marginLeft="10dp"/>
 	        
 	    </TableRow>
@@ -73,6 +76,7 @@
 	            android:id="@+id/detailVinNom"
 	            android:singleLine="false" 
 	            android:textSize="20dp"
+	            android:textColor="#ffffff"
 	            android:layout_marginLeft="10dp"/>
 	    </TableRow>
 	
@@ -90,6 +94,7 @@
 	            android:id="@+id/detailVinProducteur"
 	            android:singleLine="false" 
 	            android:textSize="20dp"
+	            android:textColor="#ffffff"
 	            android:layout_marginLeft="10dp"/>
 	    </TableRow>
 	
@@ -106,6 +111,7 @@
 	        <TextView
 	            android:id="@+id/detailVinAnnee"
 	            android:textSize="20dp"
+	            android:textColor="#ffffff"
 	            android:layout_marginLeft="10dp"/>
 	    </TableRow>
 	
@@ -122,6 +128,7 @@
 	        <TextView
 	            android:id="@+id/detailVinBouteilles"
 	            android:textSize="20dp"
+	            android:textColor="#ffffff"
 	            android:layout_marginLeft="10dp"/>
 	    </TableRow>
 	    
@@ -136,7 +143,7 @@
 	            android:text="@string/note" 
 	            android:layout_gravity="center_vertical"/>
 			
-	        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	        <LinearLayout
 			            android:orientation="vertical" android:layout_width="wrap_content"
 			            android:layout_height="wrap_content"
 			            android:layout_marginLeft="10dp">

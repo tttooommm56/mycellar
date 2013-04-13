@@ -36,7 +36,7 @@
         android:layout_height="fill_parent"
         android:layout_above="@id/footer"
         >     
-		<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		<TableLayout
 		    android:layout_width="fill_parent"
 		    android:layout_height="wrap_content"
 		    android:orientation="vertical"
@@ -53,13 +53,15 @@
 		           android:id="@+id/editVinFormRouge"
 		           android:layout_width="wrap_content"
 		           android:layout_height="wrap_content"
-		           android:text="@string/couleur_rouge"/>
+		           android:text="@string/couleur_rouge"
+		           android:textColor="#ffffff"/>
 		
 		       <RadioButton
 		           android:id="@+id/editVinFormBlanc"
 		           android:layout_width="wrap_content"
 		           android:layout_height="wrap_content"
 		           android:text="@string/couleur_blanc"
+		           android:textColor="#ffffff"
 		           android:layout_marginLeft="30dp"  />
 		
 		       <RadioButton
@@ -67,6 +69,7 @@
 		           android:layout_width="wrap_content"
 		           android:layout_height="wrap_content"
 		           android:text="@string/couleur_rose"
+		           android:textColor="#ffffff"
 		           android:layout_marginLeft="30dp"/>
 		       
 		   </RadioGroup>
@@ -251,7 +254,7 @@
 		            android:layout_gravity="center_vertical"
 		            android:text="@string/note"/>
 				
-		        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		        <LinearLayout
 		            android:orientation="vertical" android:layout_width="wrap_content"
 		            android:layout_height="wrap_content">
 			        <RatingBar
