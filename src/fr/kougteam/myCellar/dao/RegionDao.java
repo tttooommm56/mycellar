@@ -1,10 +1,15 @@
 package fr.kougteam.myCellar.dao;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import fr.kougteam.myCellar.helper.FileHelper;
+import fr.kougteam.myCellar.helper.SqlOpenHelper;
 import fr.kougteam.myCellar.modele.Region;
 
 /**
@@ -38,14 +43,21 @@ public class RegionDao extends AbstractDao<Region> {
 		database.execSQL(DATABASE_CREATE);
 	}
 
-	public static void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
+	public static void onUpgrade(Context ctxt, SQLiteDatabase database, int oldVersion, int newVersion) {
 		Log.w(RegionDao.class.getName(), "Upgrading database from version "
 				+ oldVersion + " to " + newVersion
 				+ "...");
-		if (oldVersion==1 && newVersion==2) {
+		if (oldVersion<=1 && newVersion>=2) {
 			// Ajout d'une région vide
 			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_PAYS+","+COL_NOM+","+COL_REGION_PARENT+") VALUES (-1,1,'',0)"); 
 		}
+		
+		if (oldVersion<=4 && newVersion>=5) {
+			database.execSQL("INSERT INTO REGIONS VALUES(36,1,'La région nantaise',34)");
+			database.execSQL("INSERT INTO REGIONS VALUES(37,1,'Anjou-Saumur',34)");
+			database.execSQL("INSERT INTO REGIONS VALUES(38,1,'La Touraine',34)");
+			database.execSQL("INSERT INTO REGIONS VALUES(39,1,'Les vignobles du Centre',34)");
+		}  
 	}
 	
 	/**

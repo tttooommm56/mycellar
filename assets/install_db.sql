@@ -46,6 +46,10 @@ INSERT INTO REGIONS VALUES(32,1,'Bergeracois et Duras',29);
 INSERT INTO REGIONS VALUES(33,1,'Piémont pyrénéen',29);
 INSERT INTO REGIONS VALUES(34,1,'Vallée de la Loire et Centre',0);
 INSERT INTO REGIONS VALUES(35,1,'Appellations régionales de la Loire',34);
+INSERT INTO REGIONS VALUES(36,1,'La région nantaise',34);
+INSERT INTO REGIONS VALUES(37,1,'Anjou-Saumur',34);
+INSERT INTO REGIONS VALUES(38,1,'La Touraine',34);
+INSERT INTO REGIONS VALUES(39,1,'Les vignobles du Centre',34);
 
 INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(-1,'',-1);
 INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(1,'Alsace chasselas ou gutedel',1);
@@ -360,7 +364,7 @@ INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(309,'Savennières-roche-a
 INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(310,'Bourgueil',38);
 INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(311,'Cheverny',38);
 INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(312,'Chinon',38);
-INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(313,'Coteaux-du-loir',38);
+INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(313,'Coteaux-du-loire',38);
 INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(314,'Coteaux-du-vendômois',38);
 INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(315,'Cour-cheverny',38);
 INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(316,'Jasnières',38);

@@ -22,7 +22,7 @@ import fr.kougteam.myCellar.dao.VinDao;
 public class SqlOpenHelper extends SQLiteOpenHelper {
 	
 	public static final String 	DBNAME 		= "myCellar.db";
-	public static final int 	DBVERSION 	= 4;
+	public static final int 	DBVERSION 	= 5;
 	private Context myContext;
 	
 	public SqlOpenHelper(Context context) {
@@ -47,11 +47,16 @@ public class SqlOpenHelper extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		Log.i(SqlOpenHelper.class.getName(), "onUpgrade");
 		PaysDao.onUpgrade(db, oldVersion, newVersion);
-		RegionDao.onUpgrade(db, oldVersion, newVersion);
-		AppellationDao.onUpgrade(db, oldVersion, newVersion);
+		RegionDao.onUpgrade(myContext, db, oldVersion, newVersion);
+		AppellationDao.onUpgrade(myContext, db, oldVersion, newVersion);
 		VinDao.onUpgrade(db, oldVersion, newVersion);
 		MetDao.onUpgrade(myContext, db, oldVersion, newVersion);
 		MetVinDao.onUpgrade(myContext, db, oldVersion, newVersion);
+	}
+	
+	@Override
+	public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		Log.i(SqlOpenHelper.class.getName(), "onDowngrade");
 	}
 	
 	private void insertDefaultData(SQLiteDatabase db) {

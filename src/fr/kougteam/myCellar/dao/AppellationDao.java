@@ -1,10 +1,14 @@
 package fr.kougteam.myCellar.dao;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import fr.kougteam.myCellar.helper.FileHelper;
 import fr.kougteam.myCellar.modele.Appellation;
 
 /**
@@ -37,11 +41,11 @@ public class AppellationDao extends AbstractDao<Appellation> {
 		database.execSQL(DATABASE_CREATE);
 	}
 
-	public static void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
+	public static void onUpgrade(Context ctxt, SQLiteDatabase database, int oldVersion, int newVersion) {
 		Log.w(AppellationDao.class.getName(), "Upgrading database from version "
 				+ oldVersion + " to " + newVersion
 				+ "...");
-		if (oldVersion==1 && newVersion==2) {
+		if (oldVersion<=1 && newVersion>=2) {
 			// Ajout d'une appellation vide
 			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_REGION+","+COL_NOM+") VALUES (-1,-1,'')"); 
 		}

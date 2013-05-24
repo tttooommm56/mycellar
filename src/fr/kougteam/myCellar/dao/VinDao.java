@@ -222,7 +222,7 @@ public class VinDao extends AbstractDao<Vin> {
 					" LEFT JOIN " + AppellationDao.TABLE + " a ON a."+AppellationDao.COL_ID+"=v."+COL_APPELLATION +
 					" WHERE " + COL_NB_BOUTEILLES + " > 0 AND (0=1 ";
 		for (String p : propositions) {
-			sql += " OR UPPER(REPLACE(a."+AppellationDao.COL_NOM+",'-',' ')) LIKE '%"+p.replaceAll("-", " ").toUpperCase()+"%' ";
+			sql += " OR UPPER(REPLACE(a."+AppellationDao.COL_NOM+",'-',' ')) LIKE '%"+p.replaceAll("-", " ").replaceAll("'", "''").toUpperCase()+"%' ";
 		}
 		sql += ") ";
 		sql +=	" ORDER BY " + COL_ANNEE + " DESC, nom_appellation, " + COL_PRODUCTEUR + ", v." + COL_NOM;
