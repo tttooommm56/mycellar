@@ -364,7 +364,7 @@ INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(309,'Savennières-roche-a
 INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(310,'Bourgueil',38);
 INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(311,'Cheverny',38);
 INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(312,'Chinon',38);
-INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(313,'Coteaux-du-loire',38);
+INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(313,'Coteaux-du-loir',38);
 INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(314,'Coteaux-du-vendômois',38);
 INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(315,'Cour-cheverny',38);
 INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(316,'Jasnières',38);
