@@ -138,6 +138,91 @@
 	        android:padding="5dp">
 	
 	        <TextView
+	            android:id="@+id/detailVinPrixText"
+	            android:singleLine="true"
+	            android:text="@string/prix" />
+	
+	        <TextView
+	            android:id="@+id/detailVinPrix"
+	            android:textSize="20dp"
+	            android:textColor="#ffffff"
+	            android:layout_marginLeft="10dp"/>
+	    </TableRow>
+	    
+	    <TableRow
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:padding="5dp">
+	
+	        <TextView
+	            android:id="@+id/detailVinEtagereText"
+	            android:singleLine="true"
+	            android:text="@string/etagere" />
+	
+	        <TextView
+	            android:id="@+id/detailVinEtagere"
+	            android:textSize="20dp"
+	            android:textColor="#ffffff"
+	            android:layout_marginLeft="10dp"/>
+	    </TableRow>
+	    
+	    <TableRow
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:padding="5dp">
+	
+	        <TextView
+	            android:id="@+id/detailVinAnneeMaturiteText"
+	            android:singleLine="true"
+	            android:text="@string/annee_maturite" />
+	
+	        <TextView
+	            android:id="@+id/detailVinAnneeMaturite"
+	            android:textSize="20dp"
+	            android:textColor="#ffffff"
+	            android:layout_marginLeft="10dp"/>
+	    </TableRow>
+	    
+	    <TableRow
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:padding="5dp">
+	
+	        <TextView
+	            android:id="@+id/detailVinCommentaireText"
+	            android:singleLine="true"
+	            android:text="@string/commentaire" />
+	
+	        <TextView
+	            android:id="@+id/detailVinCommentaire"
+	            android:textSize="20dp"
+	            android:textColor="#ffffff"
+	            android:layout_marginLeft="10dp"/>
+	    </TableRow>
+	    
+	    <TableRow
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:padding="5dp">
+	
+	        <TextView
+	            android:id="@+id/detailVinDateAjoutText"
+	            android:singleLine="true"
+	            android:text="@string/date_ajout" />
+	
+	        <TextView
+	            android:id="@+id/detailVinDateAjout"
+	            android:textSize="20dp"
+	            android:textColor="#ffffff"
+	            android:layout_marginLeft="10dp"/>
+	    </TableRow>
+	    
+	    <TableRow
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:padding="5dp">
+	
+	        <TextView
 	            android:id="@+id/detailVinNoteText"
 	            android:singleLine="true"
 	            android:text="@string/note" 

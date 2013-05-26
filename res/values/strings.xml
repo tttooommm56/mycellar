@@ -43,6 +43,11 @@
     <string name="bouteilles">Bouteilles</string>
     <string name="note">Note</string>
     <string name="etiquette">Etiquette</string>
+    <string name="prix">Prix</string>
+    <string name="etagere">Etagère</string>
+    <string name="commentaire">Commentaire</string>
+    <string name="date_ajout">Date d\'ajout</string>
+    <string name="annee_maturite">Année maturité</string>
     <string name="photographier">Prendre une photo</string>
     <string name="retirer">Retirer une bouteille</string>
     <string name="retirer_impossible">Impossible de retirer une bouteille car le stock est épuisé !</string>

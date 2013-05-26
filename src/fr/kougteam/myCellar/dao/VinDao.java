@@ -1,11 +1,15 @@
 package fr.kougteam.myCellar.dao;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.text.format.DateFormat;
 import android.util.Log;
 import fr.kougteam.myCellar.enums.Couleur;
 import fr.kougteam.myCellar.modele.Vin;
@@ -31,6 +35,10 @@ public class VinDao extends AbstractDao<Vin> {
 	public static final String COL_NB_BOUTEILLES = "nb_bouteilles";
 	public static final String COL_NOTE 		= "note";
 	public static final String COL_IMAGE 		= "image";
+	public static final String COL_ANNEE_MATURITE		= "annee_maturite";
+	public static final String COL_PRIX			= "prix";
+	public static final String COL_ETAGERE		= "etagere";
+	public static final String COL_DATE_AJOUT	= "date_ajout";
 	
 	// Database creation SQL statement
 	private static final String DATABASE_CREATE = 
@@ -46,7 +54,11 @@ public class VinDao extends AbstractDao<Vin> {
 				COL_COMMENTAIRES + " text, " +
 				COL_NB_BOUTEILLES + " integer, " +
 				COL_NOTE + " real, " +
-				COL_IMAGE + " blob"+
+				COL_IMAGE + " blob, "+
+				COL_ANNEE_MATURITE + " integer, " +
+				COL_PRIX + " real, " +
+				COL_ETAGERE + " text, " +
+				COL_DATE_AJOUT + " text " +
 			");";
 
 	public VinDao(Context context) {
@@ -61,13 +73,19 @@ public class VinDao extends AbstractDao<Vin> {
 		Log.w(VinDao.class.getName(), "Upgrading database from version "
 				+ oldVersion + " to " + newVersion
 				+ "...");
-		if (oldVersion<3 && newVersion==3) {
+		if (oldVersion<3 && newVersion>=3) {
 			database.execSQL("ALTER TABLE " + TABLE + " ADD "+COL_IMAGE+" BLOB");
+		}
+		if (oldVersion<5 && newVersion>=5) {
+			database.execSQL("ALTER TABLE " + TABLE + " ADD "+COL_ANNEE_MATURITE+" integer");
+			database.execSQL("ALTER TABLE " + TABLE + " ADD "+COL_PRIX+" real");
+			database.execSQL("ALTER TABLE " + TABLE + " ADD "+COL_ETAGERE+" text");
+			database.execSQL("ALTER TABLE " + TABLE + " ADD "+COL_DATE_AJOUT+" text");
 		}
 	}
 	
 	/**
-	 * Retourn les données contenu dans l'objet sous forme de ContentValues
+	 * Retourne les données contenu dans l'objet sous forme de ContentValues
 	 * 
 	 * @param p l'objet contenant les donnée
 	 * 
@@ -87,6 +105,12 @@ public class VinDao extends AbstractDao<Vin> {
 		cv.put(COL_NB_BOUTEILLES, v.getNbBouteilles());
 		cv.put(COL_NOTE, v.getNote());
 		cv.put(COL_IMAGE, v.getImage());
+		cv.put(COL_PRIX, v.getPrix());
+		cv.put(COL_ANNEE_MATURITE, v.getAnneeMaturite());
+		cv.put(COL_ETAGERE, v.getEtagere());
+		if (v.getDateAjout()!=null) {
+			cv.put(COL_DATE_AJOUT, DateFormat.format("yyyy-MM-dd", v.getDateAjout()).toString());
+		}
 		return cv;
 	}
 	
@@ -121,7 +145,11 @@ public class VinDao extends AbstractDao<Vin> {
 								COL_COMMENTAIRES + ", " +
 								COL_NB_BOUTEILLES + ", " +
 								COL_NOTE + ", " + 
-								COL_IMAGE + " " + 
+								COL_IMAGE + ", " + 
+								COL_ANNEE_MATURITE + ", " + 
+								COL_PRIX + ", " + 
+								COL_ETAGERE + ", " + 
+								COL_DATE_AJOUT+ " " +
 					 " FROM " + TABLE + 
 					 " WHERE " + COL_ID + "=" + id;
 		if (bdd==null) super.openForRead();
@@ -141,6 +169,20 @@ public class VinDao extends AbstractDao<Vin> {
 			v.setNbBouteilles(c.getInt(i++));
 			v.setNote(c.getDouble(i++));
 			v.setImage(c.getBlob(i++));
+			v.setAnneeMaturite(c.getInt(i++));
+			v.setPrix(c.getFloat(i++));
+			v.setEtagere(c.getString(i++));
+			try {
+				String dateStr = c.getString(i++);
+				if (dateStr!=null && !"".equals(dateStr)) {
+					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				    Date convertedDate = null;
+				    convertedDate = dateFormat.parse(dateStr);
+					v.setDateAjout(convertedDate);
+				}
+			} catch (ParseException e) {
+				Log.e("Parse error for 'dateAjout' !", e.getMessage());
+			}
 		}
 		return v;
 	}
@@ -179,6 +221,10 @@ public class VinDao extends AbstractDao<Vin> {
 							COL_COMMENTAIRES + ", " +
 							COL_NB_BOUTEILLES + ", " +
 							COL_NOTE + ", " + 
+							COL_ANNEE_MATURITE + ", " + 
+							COL_PRIX + ", " + 
+							COL_ETAGERE + ", " + 
+							COL_DATE_AJOUT+ ", " +
 							" CASE WHEN "+COL_APPELLATION+"<0 THEN v." + COL_NOM + " ELSE a." + AppellationDao.COL_NOM + " END as nom_appellation " +
 					" FROM " + TABLE + " v " +
 					" LEFT JOIN " + AppellationDao.TABLE + " a ON a."+AppellationDao.COL_ID+"=v."+COL_APPELLATION +
@@ -217,6 +263,10 @@ public class VinDao extends AbstractDao<Vin> {
 							COL_COMMENTAIRES + ", " +
 							COL_NB_BOUTEILLES + ", " +
 							COL_NOTE + ", " + 
+							COL_ANNEE_MATURITE + ", " + 
+							COL_PRIX + ", " + 
+							COL_ETAGERE + ", " + 
+							COL_DATE_AJOUT+ ", " +
 							" CASE WHEN "+COL_APPELLATION+"<0 THEN v." + COL_NOM + " ELSE a." + AppellationDao.COL_NOM + " END as nom_appellation " +
 					" FROM " + TABLE + " v " +
 					" LEFT JOIN " + AppellationDao.TABLE + " a ON a."+AppellationDao.COL_ID+"=v."+COL_APPELLATION +
@@ -243,7 +293,11 @@ public class VinDao extends AbstractDao<Vin> {
 								COL_PRODUCTEUR + ", " +
 								COL_COMMENTAIRES + ", " +
 								COL_NB_BOUTEILLES + ", " +
-								COL_NOTE + " " + 
+								COL_NOTE + ", " + 
+								COL_ANNEE_MATURITE + ", " + 
+								COL_PRIX + ", " + 
+								COL_ETAGERE + ", " + 
+								COL_DATE_AJOUT+ " " +
 					" FROM " + TABLE +
 					" ORDER BY " + COL_ANNEE + " DESC, " + COL_APPELLATION + "," + COL_PRODUCTEUR + ", " + COL_NOM;
 		if (bdd==null) super.openForRead();		

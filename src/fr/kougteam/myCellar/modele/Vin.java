@@ -1,6 +1,8 @@
 package fr.kougteam.myCellar.modele;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.util.Date;
 
 import fr.kougteam.myCellar.enums.Couleur;
 
@@ -25,6 +27,10 @@ public class Vin implements Serializable {
 	private int nbBouteilles;	
 	private double note;
 	private byte[] image;
+	private int anneeMaturite = 0;
+	private String etagere;
+	private float prix;
+	private Date dateAjout;
 	
 	public int getId() {
 		return id;
@@ -97,5 +103,29 @@ public class Vin implements Serializable {
 	}
 	public void setImage(byte[] image) {
 		this.image = image;
+	}
+	public int getAnneeMaturite() {
+		return anneeMaturite;
+	}
+	public void setAnneeMaturite(int anneeMaturite) {
+		this.anneeMaturite = anneeMaturite;
+	}
+	public String getEtagere() {
+		return etagere;
+	}
+	public void setEtagere(String etagere) {
+		this.etagere = etagere;
+	}
+	public float getPrix() {
+		return prix;
+	}
+	public void setPrix(float prix) {
+		this.prix = prix;
+	}
+	public Date getDateAjout() {
+		return dateAjout;
+	}
+	public void setDateAjout(Date dateAjout) {
+		this.dateAjout = dateAjout;
 	}	
 }

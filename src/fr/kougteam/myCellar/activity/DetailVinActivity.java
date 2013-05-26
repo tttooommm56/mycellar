@@ -1,19 +1,22 @@
 package fr.kougteam.myCellar.activity;
 
+import java.text.DecimalFormat;
+import java.util.Currency;
+import java.util.Locale;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.opengl.Visibility;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 import android.widget.RatingBar;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -164,6 +167,17 @@ public class DetailVinActivity extends Activity {
 		((TextView)findViewById(R.id.detailVinProducteur)).setText(vin.getProducteur());
 		((TextView)findViewById(R.id.detailVinAnnee)).setText(Integer.toString(vin.getAnnee()));
 		((TextView)findViewById(R.id.detailVinBouteilles)).setText(Integer.toString(vin.getNbBouteilles()));
+		if (vin.getAnneeMaturite()>0) {
+			((TextView)findViewById(R.id.detailVinAnneeMaturite)).setText(Integer.toString(vin.getAnneeMaturite()));
+		}
+		((TextView)findViewById(R.id.detailVinEtagere)).setText(vin.getEtagere());
+		((TextView)findViewById(R.id.detailVinCommentaire)).setText(vin.getCommentaire());
+		if (vin.getPrix()>0) {
+			((TextView)findViewById(R.id.detailVinPrix)).setText(String.format("%.2f", vin.getPrix()) + " " + Currency.getInstance(Locale.getDefault()).getSymbol());
+		}
+		if (vin.getDateAjout()!=null) {
+			((TextView)findViewById(R.id.detailVinDateAjout)).setText(DateFormat.format("dd/MM/yyyy", vin.getDateAjout()));
+		}
 		((RatingBar)findViewById(R.id.detailVinNote)).setRating((float)vin.getNote());
 		
 		ImageView imageView = (ImageView) findViewById(R.id.detailVinPhoto);

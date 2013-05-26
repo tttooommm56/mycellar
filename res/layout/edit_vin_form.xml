@@ -206,7 +206,7 @@
 		            android:id="@+id/editVinFormAnnee"
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
-		            maxValue="2050"
+		            maxValue="2100"
 		            minValue="1900"
 		            plusminus_width="80dp"
 		            repeatAcceleration="10"
@@ -248,6 +248,99 @@
 		        android:padding="3dp">
 		
 		        <TextView
+		            android:id="@+id/editVinFormPrixText"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="@string/prix" />
+		
+		        <EditText
+		            android:id="@+id/editVinFormPrix"
+		            android:inputType="numberDecimal" 
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:ems="10"
+		            
+		            android:layout_marginRight="10dp"/>
+		        <TextView
+		            android:id="@+id/editVinFormPrixMonnaieText"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_span="2"/>
+		    </TableRow>
+		    
+		    <TableRow
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:padding="3dp">
+		
+		        <TextView
+		            android:id="@+id/editVinFormEtagereText"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="@string/etagere" />
+		
+		        <EditText
+		            android:id="@+id/editVinFormEtagere"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:ems="10"
+		            android:layout_span="3"
+		            android:layout_marginRight="10dp"/>
+		    </TableRow>
+		      
+		    <TableRow
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:padding="3dp">
+		
+		        <TextView
+		            android:id="@+id/editVinFormAnneeMaturiteText"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical"
+		            android:text="@string/annee_maturite" />
+		
+		        <fr.kougteam.myCellar.ui.NumberPicker
+		            android:id="@+id/editVinFormAnneeMaturite"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            maxValue="2050"
+		            minValue="1900"
+		            plusminus_width="80dp"
+		            repeatAcceleration="10"
+		            textSize="20dp"
+		            textarea_width="150dp"
+		            vertical="false"
+		            android:layout_span="3" />
+		    </TableRow>
+		    		  
+		    <TableRow
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:padding="3dp">
+		
+		        <TextView
+		            android:id="@+id/editVinFormCommentaireText"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="@string/commentaire" />
+		
+		        <EditText
+		            android:id="@+id/editVinFormCommentaire"
+		            android:inputType="textMultiLine"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:ems="10"
+		            android:layout_span="3"
+		            android:layout_marginRight="10dp"/>
+		    </TableRow>
+		    
+		    <TableRow
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:padding="3dp">
+		
+		        <TextView
 		            android:id="@+id/editVinFormNoteText"
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
@@ -255,7 +348,8 @@
 		            android:text="@string/note"/>
 				
 		        <LinearLayout
-		            android:orientation="vertical" android:layout_width="wrap_content"
+		            android:orientation="vertical" 
+		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content">
 			        <RatingBar
 				        android:id="@+id/editVinFormNote"

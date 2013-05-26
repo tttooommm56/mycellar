@@ -2,7 +2,9 @@ package fr.kougteam.myCellar.activity;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
+import java.util.Currency;
 import java.util.Date;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,13 +12,15 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -25,6 +29,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.SimpleCursorAdapter.CursorToStringConverter;
 import android.widget.Spinner;
 import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 import fr.kougteam.myCellar.R;
 import fr.kougteam.myCellar.dao.AppellationDao;
@@ -58,12 +63,16 @@ public class EditVinFormActivity extends Activity {
 	private AutoCompleteTextView nomInput;
 	private AutoCompleteTextView producteurInput;
 	private NumberPicker anneePicker;
+	private NumberPicker anneeMaturitePicker;
 	private NumberPicker nbBouteillesPicker;
 	private RatingBar noteRatingBar;
 	private TableRow regionTableRow;
 	private TableRow territoireTableRow;
 	private TableRow appellationTableRow;
 	private ImageView etiquetteView;
+	private TextView commentaireInput;
+	private TextView etagereInput;
+	private TextView prixInput;
 	
 	private int mPaysSpinnerId = -1;
     private int mRegionSpinnerId = -1;
@@ -91,6 +100,7 @@ public class EditVinFormActivity extends Activity {
 		initAutotcompleteProducteur();
 
 		anneePicker = (NumberPicker)findViewById(R.id.editVinFormAnnee);
+		anneeMaturitePicker = (NumberPicker)findViewById(R.id.editVinFormAnneeMaturite);
 		nbBouteillesPicker = (NumberPicker)findViewById(R.id.editVinFormBouteilles);
 		
 		noteRatingBar = (RatingBar)findViewById(R.id.editVinFormNote);
@@ -100,6 +110,10 @@ public class EditVinFormActivity extends Activity {
 		appellationTableRow = (TableRow)findViewById(R.id.editVinFormAppellationRow);
 		
 		etiquetteView = (ImageView) findViewById(R.id.editVinResultPhoto); 
+		
+		etagereInput = (EditText) findViewById(R.id.editVinFormEtagere);
+		commentaireInput = (EditText) findViewById(R.id.editVinFormCommentaire);
+		prixInput = (EditText) findViewById(R.id.editVinFormPrix);
 		
 		paysDao = new PaysDao(this);	
 		regionDao = new RegionDao(this);
@@ -112,6 +126,11 @@ public class EditVinFormActivity extends Activity {
 			mVinId =  extra.getInt("idVin");
 			vin = vinDao.getById(mVinId);
 			
+			// Si l'année de maturité n'est pas renseigné, on met l'année de la bouteille par défaut
+			if (vin.getAnneeMaturite()<=0) {
+				vin.setAnneeMaturite(vin.getAnnee());
+			}
+			
 		} else {
 			setTitle(R.string.title_activity_add_vin);
 			vin = new Vin();
@@ -120,6 +139,7 @@ public class EditVinFormActivity extends Activity {
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(new Date());		
 			vin.setAnnee(cal.get(Calendar.YEAR)-1); // Année précédente par défaut
+			vin.setAnneeMaturite(cal.get(Calendar.YEAR)-1); // Année précédente par défaut
 			vin.setNbBouteilles(1);
 		}
 		
@@ -152,6 +172,9 @@ public class EditVinFormActivity extends Activity {
 	}
 
 	private void fillFields() {
+		// Symbole de la monnaie 
+		((TextView)findViewById(R.id.editVinFormPrixMonnaieText)).setText(Currency.getInstance(Locale.getDefault()).getSymbol());
+		
 		// Region
 //		String region = paysDao.getById(vin.getIdPays()).getNom();
 //		region += " / " + regionDao.getById(vin.getIdRegion()).getNom();
@@ -178,11 +201,23 @@ public class EditVinFormActivity extends Activity {
 		// Année
 		anneePicker.setValue(vin.getAnnee());
 		
+		// Année de maturité
+		anneeMaturitePicker.setValue(vin.getAnneeMaturite());
+		
 		// Nb bouteilles
 		nbBouteillesPicker.setValue(vin.getNbBouteilles());
 		
 		// Note
 		noteRatingBar.setRating((float)vin.getNote());
+		
+		// Prix
+		prixInput.setText(Float.toString(vin.getPrix()));
+		
+		// Etagere
+		etagereInput.setText(vin.getEtagere());
+		
+		// Commentaire
+		commentaireInput.setText(vin.getCommentaire());
 	}
 
 	private void initAutocompleteNom() {
@@ -374,6 +409,7 @@ public class EditVinFormActivity extends Activity {
 				vin.setNom(nomInput.getText().toString());
 				vin.setProducteur(producteurInput.getText().toString());
 				vin.setAnnee(anneePicker.getValue());
+				vin.setAnneeMaturite(anneeMaturitePicker.getValue());
 				vin.setNbBouteilles(nbBouteillesPicker.getValue());
 				vin.setNote(noteRatingBar.getRating());
 				Couleur couleur = null;
@@ -385,6 +421,16 @@ public class EditVinFormActivity extends Activity {
 					couleur = Couleur.ROSE;
 				}
 				vin.setCouleur(couleur);
+				String prixStr = prixInput.getText().toString();
+				if (prixStr!=null && !"".equals(prixStr)) {
+					try {
+						vin.setPrix(Float.parseFloat(prixStr));
+					} catch (Exception e) {
+						Log.e("Error during parse 'prix' !", e.getMessage());
+					}
+				}
+				vin.setEtagere(etagereInput.getText().toString());
+				vin.setCommentaire(commentaireInput.getText().toString());
 
 				boolean isOk = false;
 				if (vin.getId()>0) {
@@ -395,6 +441,7 @@ public class EditVinFormActivity extends Activity {
 					}
 					
 				} else {
+					vin.setDateAjout(new Date()); // date du jour par défaut
 					if (vinDao.insert(vin) != -1) {
 						isOk = true;
 					} else {
