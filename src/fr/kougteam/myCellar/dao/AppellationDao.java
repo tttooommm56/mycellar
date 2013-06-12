@@ -49,6 +49,7 @@ public class AppellationDao extends AbstractDao<Appellation> {
 			// Ajout d'une appellation vide
 			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_REGION+","+COL_NOM+") VALUES (-1,-1,'')"); 
 		}
+		
 	}
 	
 	/**

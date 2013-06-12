@@ -2,6 +2,7 @@ package fr.kougteam.myCellar.dao;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -184,10 +185,11 @@ public class VinDao extends AbstractDao<Vin> {
 				Log.e("Parse error for 'dateAjout' !", e.getMessage());
 			}
 		}
+		c.close();
 		return v;
 	}
 	
-	public int getTotalBouteillesByCouleur(final Couleur couleur, final boolean emptyBottlesOnly) {
+	public int getTotalBouteillesByCouleur(final Couleur couleur, final boolean emptyBottlesOnly, final int filterPaysId, final int filterRegionId, final int filterAppellationId, final int filterAnneeMaturite) {
 		int total = 0;
 		String sql = " SELECT SUM( "+ COL_NB_BOUTEILLES + ")" +
 					 " FROM " + TABLE +
@@ -200,16 +202,27 @@ public class VinDao extends AbstractDao<Vin> {
 			sql += " AND " + COL_NB_BOUTEILLES + " > 0 ";
 		}
 		
+		if (filterAnneeMaturite != -1) {
+			sql += " AND " + COL_ANNEE_MATURITE + " = " +filterAnneeMaturite;
+		} else if (filterAppellationId != -1) {
+			sql += " AND " + COL_APPELLATION + " = " +filterAppellationId;
+		} else if (filterRegionId != -1) {
+			sql += " AND " + COL_REGION + " = " +filterRegionId;
+		} else if (filterPaysId != -1) {
+			sql += " AND " + COL_PAYS + " = " +filterPaysId;
+		} 
+		
 		if (bdd==null) super.openForRead();
 		Cursor c = bdd.rawQuery(sql, null);
 		if (c.getCount()==1) {
 			c.moveToFirst();
 			total = c.getInt(0);
 		}
+		c.close();
 		return total;
 	}
 	
-	public Cursor getListVinsDisposByCouleur(final Couleur couleur, final boolean emptyBottlesOnly) {
+	public Cursor getListVinsDisposByCouleur(final Couleur couleur, final boolean emptyBottlesOnly, final int filterPaysId, final int filterRegionId, final int filterAppellationId, final int filterAnneeMaturite) {
 		String sql = " SELECT v."+COL_ID + ", " + 
 							COL_COULEUR + ", " + 
 							COL_PAYS + " , " +
@@ -236,6 +249,16 @@ public class VinDao extends AbstractDao<Vin> {
 		} else {
 			sql += " AND " + COL_NB_BOUTEILLES + " > 0 ";
 		}
+		
+		if (filterAnneeMaturite != -1) {
+			sql += " AND " + COL_ANNEE_MATURITE + " = " +filterAnneeMaturite;
+		} else if (filterAppellationId != -1) {
+			sql += " AND " + COL_APPELLATION + " = " +filterAppellationId;
+		} else if (filterRegionId != -1) {
+			sql += " AND " + COL_REGION + " = " +filterRegionId;
+		} else if (filterPaysId != -1) {
+			sql += " AND " + COL_PAYS + " = " +filterPaysId;
+		} 
 
 		sql +=	" ORDER BY " + COL_ANNEE + " DESC, nom_appellation, " + COL_PRODUCTEUR + ", v." + COL_NOM;
 		
@@ -320,5 +343,88 @@ public class VinDao extends AbstractDao<Vin> {
 					" ORDER BY " + COL_PRODUCTEUR;
 		if (bdd==null) super.openForRead();		
 		return bdd.rawQuery(sql, null);
+	}
+	
+	public Cursor getRegionsWithNbBouteillesByPays(int idPays) {
+		String sql = " SELECT DISTINCT r." + RegionDao.COL_ID + " AS "+RegionDao.COL_ID + ", r." + RegionDao.COL_NOM + " AS " + RegionDao.COL_NOM + ", SUM(v." + COL_NB_BOUTEILLES + ") AS " + COL_NB_BOUTEILLES + 
+					 " FROM " + TABLE + " v "+
+					 " JOIN " + RegionDao.TABLE + " r ON r."+RegionDao.COL_ID+"="+"v."+COL_REGION + 
+					 " WHERE r." + RegionDao.COL_ID + "!=-1 AND v."+COL_NB_BOUTEILLES+">0 AND r." + RegionDao.COL_REGION_PARENT + "=0 AND r." + RegionDao.COL_PAYS + " = " + idPays +
+					 " GROUP BY r." + RegionDao.COL_ID + ", r." + RegionDao.COL_NOM +
+					 " UNION " +
+					 " SELECT DISTINCT r1." + RegionDao.COL_ID + " AS "+RegionDao.COL_ID + ", r1." + RegionDao.COL_NOM + " AS " + RegionDao.COL_NOM + ", SUM(v." + COL_NB_BOUTEILLES + ") AS " + COL_NB_BOUTEILLES + 
+					 " FROM " + TABLE + " v "+
+					 " JOIN " + RegionDao.TABLE + " r2 ON r2."+RegionDao.COL_ID+"="+"v."+COL_REGION + 
+					 " JOIN " + RegionDao.TABLE + " r1 ON r1."+RegionDao.COL_ID+"="+"r2."+RegionDao.COL_REGION_PARENT + 
+					 " WHERE r1." + RegionDao.COL_ID+ "!=-1 AND v."+COL_NB_BOUTEILLES+">0 AND r2." + RegionDao.COL_REGION_PARENT + "!=0 AND r2." + RegionDao.COL_PAYS + " = " + idPays +
+					 " GROUP BY r1." + RegionDao.COL_ID + ", r1." + RegionDao.COL_NOM +
+					 " ORDER BY " + RegionDao.COL_NOM;
+		if (bdd==null) super.openForRead();		
+		return bdd.rawQuery(sql, null);
+	}
+	
+	public Cursor getSousRegionsWithNbBouteillesByRegion(int idRegion) {
+		String sql = " SELECT DISTINCT r." + RegionDao.COL_ID + ", r." + RegionDao.COL_NOM + ", SUM(v." + COL_NB_BOUTEILLES + ") AS " + COL_NB_BOUTEILLES + 
+				 	 " FROM " + TABLE + " v "+
+				 	 " JOIN " + RegionDao.TABLE + " r ON r."+RegionDao.COL_ID+"="+"v."+COL_REGION+
+					 " WHERE r." + RegionDao.COL_ID + "!=-1 AND v."+COL_NB_BOUTEILLES+">0 AND r." + RegionDao.COL_REGION_PARENT + " = " + idRegion  +
+					 " GROUP BY r." + RegionDao.COL_ID + ", r." + RegionDao.COL_NOM +
+					 " ORDER BY r." + RegionDao.COL_NOM ;
+		if (bdd==null) super.openForRead();		
+		return bdd.rawQuery(sql, null);
+	}
+	
+	public Cursor getAppellationsWithNbBouteillesByRegion(int idRegion) {
+		String sql = " SELECT DISTINCT a." + AppellationDao.COL_ID + ", a." + AppellationDao.COL_NOM + ", SUM(v." + COL_NB_BOUTEILLES + ") AS " + COL_NB_BOUTEILLES + 
+					 " FROM " + TABLE + " v "+
+					 " JOIN " + AppellationDao.TABLE + " a ON a."+AppellationDao.COL_ID+"="+"v."+COL_APPELLATION+
+					 " WHERE v."+COL_APPELLATION + "!=-1 AND v."+COL_NB_BOUTEILLES+">0 AND a." + AppellationDao.COL_REGION + " = " + idRegion  +
+					 " GROUP BY a." + AppellationDao.COL_ID + ", a." + AppellationDao.COL_NOM +
+					 " ORDER BY a." + AppellationDao.COL_NOM ;
+		if (bdd==null) super.openForRead();		
+		return bdd.rawQuery(sql, null);
+	}
+	
+	public Cursor getAnneeMaturiteWithNbBouteilles() {
+		String sql = " SELECT DISTINCT " + VinDao.COL_ANNEE_MATURITE+ " as _id, SUM(" + COL_NB_BOUTEILLES + ") AS " + COL_NB_BOUTEILLES + 
+					 " FROM " + TABLE + 
+					 " WHERE "+COL_NB_BOUTEILLES+">0 AND " + VinDao.COL_ANNEE_MATURITE + " IS NOT NULL " +
+					 " GROUP BY 1" +
+					 " ORDER BY 1";
+		if (bdd==null) super.openForRead();		
+		return bdd.rawQuery(sql, null);
+	}
+	
+	public Cursor getPaysWithNbBouteilles() {
+		String sql = " SELECT DISTINCT a." + PaysDao.COL_ID + ", a." + PaysDao.COL_NOM + ", SUM(v." + COL_NB_BOUTEILLES + ") AS " + COL_NB_BOUTEILLES + 
+					 " FROM " + TABLE + " v "+
+					 " JOIN " + PaysDao.TABLE + " a ON a."+PaysDao.COL_ID+"="+"v."+COL_PAYS+
+					 " WHERE v."+COL_PAYS+"!=-1 AND v."+COL_NB_BOUTEILLES+">0 " +
+					 " GROUP BY a." + PaysDao.COL_ID + ", a." + PaysDao.COL_NOM +
+					 " ORDER BY a." + PaysDao.COL_NOM ;
+		if (bdd==null) super.openForRead();		
+		return bdd.rawQuery(sql, null);
+	}
+	
+	
+	public List<Integer> getDistinctPays(final boolean emptyBottlesOnly) {
+		List<Integer> list = new ArrayList<Integer>();
+		String sql = " SELECT DISTINCT " +COL_PAYS+ 
+					 " FROM " + TABLE +
+					 " WHERE "+COL_PAYS+"!=-1 ";
+		if (emptyBottlesOnly) {
+			sql += " AND " + COL_NB_BOUTEILLES + " = 0 ";
+			
+		} else {
+			sql += " AND " + COL_NB_BOUTEILLES + " > 0 ";
+		}
+		
+		if (bdd==null) super.openForRead();
+		Cursor c = bdd.rawQuery(sql, null);
+		while (c.moveToNext()) {
+			list.add(c.getInt(0));
+		}
+		c.close();
+		return list;
 	}
 }

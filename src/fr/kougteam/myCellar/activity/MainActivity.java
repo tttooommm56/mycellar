@@ -37,12 +37,26 @@ public class MainActivity extends Activity {
 	        menuListView = (ListView) findViewById(R.id.mainListView);
 	        ArrayList<HashMap<String, String>> listItem = new ArrayList<HashMap<String, String>>();
 	 
-	        // Item "Voir la cave"
+	        // Item "Voir toute la cave"
 	        HashMap<String, String> map = new HashMap<String, String>();
 	        map.put("action", "LIST");
 	        map.put("titre", getString(R.string.main_list_vin));
 	        map.put("img", String.valueOf(R.drawable.ic_loupe_red));
-	        listItem.add(map);       
+	        listItem.add(map);     
+	        
+	        // Item "Voir les vins par région"
+	        map = new HashMap<String, String>();
+	        map.put("action", "LIST_PAR_REGION");
+	        map.put("titre", getString(R.string.main_list_vin_par_region));
+	        map.put("img", String.valueOf(R.drawable.ic_loupe_red));
+	        listItem.add(map);  
+	        
+	        // Item "Voir les vins par année de maturite"
+	        map = new HashMap<String, String>();
+	        map.put("action", "LIST_PAR_MATURITE");
+	        map.put("titre", getString(R.string.main_list_vin_par_annee_maturite));
+	        map.put("img", String.valueOf(R.drawable.ic_loupe_red));
+	        listItem.add(map);  
 	        
 	        // Item "Ajouter bouteilles"
 	        map = new HashMap<String, String>();
@@ -99,6 +113,16 @@ public class MainActivity extends Activity {
         				
 	        		} else if ("LIST".equals(action)) {
         				intent.setClass(MainActivity.this.getBaseContext(), ListeVinsActivity.class);
+        				intent.putExtra("emptyBottlesOnly", false);
+        				startActivity(intent);
+        			
+	        		} else if ("LIST_PAR_REGION".equals(action)) {
+        				intent.setClass(MainActivity.this.getBaseContext(), ListeVinsParRegionActivity.class);
+        				intent.putExtra("emptyBottlesOnly", false);
+        				startActivity(intent);
+        			
+	        		} else if ("LIST_PAR_MATURITE".equals(action)) {
+        				intent.setClass(MainActivity.this.getBaseContext(), ListeVinsParMaturiteActivity.class);
         				intent.putExtra("emptyBottlesOnly", false);
         				startActivity(intent);
         			
@@ -184,9 +208,9 @@ public class MainActivity extends Activity {
 	    
 	    private void sendListeVinsByMail() {	
 	    	StringBuilder sb = new StringBuilder();
-	    	fillFromCursor(vinDao.getListVinsDisposByCouleur(Couleur.ROUGE, false), sb, "LISTE DES VINS ROUGES");
-	    	fillFromCursor(vinDao.getListVinsDisposByCouleur(Couleur.ROSE, false), sb, "LISTE DES VINS ROSÉS");
-	    	fillFromCursor(vinDao.getListVinsDisposByCouleur(Couleur.BLANC, false), sb, "LISTE DES VINS BLANCS");
+	    	fillFromCursor(vinDao.getListVinsDisposByCouleur(Couleur.ROUGE, false, -1, -1, -1, -1), sb, "LISTE DES VINS ROUGES");
+	    	fillFromCursor(vinDao.getListVinsDisposByCouleur(Couleur.ROSE, false, -1, -1, -1, -1), sb, "LISTE DES VINS ROSÉS");
+	    	fillFromCursor(vinDao.getListVinsDisposByCouleur(Couleur.BLANC, false, -1, -1, -1, -1), sb, "LISTE DES VINS BLANCS");
 	    	
 	    	final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 

@@ -40,6 +40,7 @@ public class ListeVinsActivity extends TabActivity {
 	private static final String TAB_ROUGE = "TAB_ROUGE";
 	private static final String TAB_BLANC = "TAB_BLANC";
 	private static final String TAB_ROSE = "TAB_ROSE";
+	private TabHost tabs;
 	
 	private VinDao vinDao;
 	private SimpleCursorAdapter vinAdapter;
@@ -55,6 +56,10 @@ public class ListeVinsActivity extends TabActivity {
 	private Intent intent2Add;
 	
 	private boolean emptyBottlesOnly = false;
+	private int filterAnneeMaturite = -1;
+	private int filterAppellationId = -1;
+	private int filterRegionId = -1;
+	private int filterPaysId = -1;
 	
 	/**
 	 * @see android.app.Activity#onCreate(Bundle)
@@ -71,18 +76,37 @@ public class ListeVinsActivity extends TabActivity {
 		int tabIndex = 0;
 		Bundle bundle = this.getIntent().getExtras();
 		if (bundle!=null) {
-			emptyBottlesOnly = (Boolean)bundle.get("emptyBottlesOnly");
+			if (bundle.get("emptyBottlesOnly")!=null) {
+				emptyBottlesOnly = (Boolean)bundle.get("emptyBottlesOnly");
+			}
 			if (bundle.get("tabIndex")!=null) {
 				tabIndex = (Integer)bundle.get("tabIndex");
+			}
+			// Filtrage par année de maturite
+			if (bundle.get("anneeMaturite")!=null) {
+				filterAnneeMaturite = (Integer)bundle.get("anneeMaturite");		
+			}
+			// Filtrage par région
+			if (bundle.get("appellationId")!=null) {
+				filterAppellationId = (Integer)bundle.get("appellationId");		
+			}
+			if (bundle.get("sousRegionId")!=null) {
+				filterRegionId = (Integer)bundle.get("sousRegionId");			
+			}
+			if (bundle.get("regionId")!=null && filterRegionId==-1) {
+				filterRegionId = (Integer)bundle.get("regionId");		
+			}
+			if (bundle.get("paysId")!=null) {
+				filterPaysId = (Integer)bundle.get("paysId");
 			}
 		}
 		
 		// initialisation des onglets
-		TabHost tabs = getTabHost();
+		tabs = getTabHost();
 	    tabs.setup();
 	    
 	    TabSpec tspecRouge = tabs.newTabSpec(TAB_ROUGE); 
-	    int nbRouge = vinDao.getTotalBouteillesByCouleur(Couleur.ROUGE, emptyBottlesOnly);
+	    int nbRouge = vinDao.getTotalBouteillesByCouleur(Couleur.ROUGE, emptyBottlesOnly, filterPaysId, filterRegionId, filterAppellationId, filterAnneeMaturite);
 	    tspecRouge.setIndicator(Couleur.ROUGE.getLabel(getApplicationContext()).toUpperCase()+(!emptyBottlesOnly?"\r\n"+nbRouge+" "+getResources().getString(nbRouge>1?R.string.bouteilles:R.string.bouteille).toLowerCase():""));    
 	    tspecRouge.setContent(R.id.listeVinsRougeTab);
         tabs.addTab(tspecRouge); 
@@ -90,7 +114,7 @@ public class ListeVinsActivity extends TabActivity {
 	    title.setSingleLine(false);
 	    
         TabSpec tspecBlanc = tabs.newTabSpec(TAB_BLANC);
-        int nbBlanc = vinDao.getTotalBouteillesByCouleur(Couleur.BLANC, emptyBottlesOnly);
+        int nbBlanc = vinDao.getTotalBouteillesByCouleur(Couleur.BLANC, emptyBottlesOnly, filterPaysId, filterRegionId, filterAppellationId, filterAnneeMaturite);
         tspecBlanc.setIndicator(Couleur.BLANC.getLabel(getApplicationContext()).toUpperCase()+(!emptyBottlesOnly?"\r\n"+nbBlanc+" "+getResources().getString(nbBlanc>1?R.string.bouteilles:R.string.bouteille).toLowerCase():"")); 
         tspecBlanc.setContent(R.id.listeVinsBlancTab);
         tabs.addTab(tspecBlanc);
@@ -98,13 +122,22 @@ public class ListeVinsActivity extends TabActivity {
 	    title.setSingleLine(false);
 	    
         TabSpec tspecRose = tabs.newTabSpec(TAB_ROSE);
-        int nbRose = vinDao.getTotalBouteillesByCouleur(Couleur.ROSE, emptyBottlesOnly);
+        int nbRose = vinDao.getTotalBouteillesByCouleur(Couleur.ROSE, emptyBottlesOnly, filterPaysId, filterRegionId, filterAppellationId, filterAnneeMaturite);
         tspecRose.setIndicator(Couleur.ROSE.getLabel(getApplicationContext()).toUpperCase()+(!emptyBottlesOnly?"\r\n"+nbRose+" "+getResources().getString(nbRose>1?R.string.bouteilles:R.string.bouteille).toLowerCase():"")); 
         tspecRose.setContent(R.id.listeVinsRoseTab);       
 	    tabs.addTab(tspecRose);
 	    title = (TextView) tabs.getTabWidget().getChildAt(2).findViewById(android.R.id.title); 
 	    title.setSingleLine(false);
 	       
+	    // Affichage de l'onglet ayant des données par défaut
+	    if (nbRouge>0) {
+	    	tabIndex = 0;
+	    } else if (nbBlanc>0) {
+	    	tabIndex = 1;
+	    } else if (nbRose>0) {
+	    	tabIndex = 2;
+	    }
+
 	    tabs.setOnTabChangedListener(new OnTabChangeListener(){
 	    	public void onTabChanged(String tabId) {
 	    	    loadTabList(tabId);
@@ -175,7 +208,7 @@ public class ListeVinsActivity extends TabActivity {
     }
 	
 	private void loadVinsRougeList(boolean emptyBottlesOnly) {
-		Cursor vinCursor = vinDao.getListVinsDisposByCouleur(Couleur.ROUGE, emptyBottlesOnly);
+		Cursor vinCursor = vinDao.getListVinsDisposByCouleur(Couleur.ROUGE, emptyBottlesOnly, filterPaysId, filterRegionId, filterAppellationId, filterAnneeMaturite);
 		String[] from = new String[] { VinDao.COL_PRODUCTEUR, VinDao.COL_ANNEE, VinDao.COL_NB_BOUTEILLES, "nom_appellation" };
 		int[] to = new int[] { R.id.listeVinsItemProducteur, R.id.listeVinsItemAnnee, R.id.listeVinsItemBouteilles, R.id.listeVinsItemAppellation };
 		vinAdapter = new SimpleCursorAdapter(this, R.layout.liste_vins_item, vinCursor, from, to) {
@@ -197,7 +230,7 @@ public class ListeVinsActivity extends TabActivity {
 	}
 	
 	private void loadVinsBlancList(boolean emptyBottlesOnly) {
-		Cursor vinCursor = vinDao.getListVinsDisposByCouleur(Couleur.BLANC, emptyBottlesOnly);
+		Cursor vinCursor = vinDao.getListVinsDisposByCouleur(Couleur.BLANC, emptyBottlesOnly, filterPaysId, filterRegionId, filterAppellationId, filterAnneeMaturite);
 		String[] from = new String[] { VinDao.COL_PRODUCTEUR, VinDao.COL_ANNEE, VinDao.COL_NB_BOUTEILLES, "nom_appellation" };
 		int[] to = new int[] { R.id.listeVinsItemProducteur, R.id.listeVinsItemAnnee, R.id.listeVinsItemBouteilles, R.id.listeVinsItemAppellation };
 		vinAdapter = new SimpleCursorAdapter(this, R.layout.liste_vins_item, vinCursor, from, to) {
@@ -219,7 +252,7 @@ public class ListeVinsActivity extends TabActivity {
 	}
 	
 	private void loadVinsRoseList(boolean emptyBottlesOnly) {
-		Cursor vinCursor = vinDao.getListVinsDisposByCouleur(Couleur.ROSE, emptyBottlesOnly);
+		Cursor vinCursor = vinDao.getListVinsDisposByCouleur(Couleur.ROSE, emptyBottlesOnly, filterPaysId, filterRegionId, filterAppellationId, filterAnneeMaturite);
 		String[] from = new String[] { VinDao.COL_PRODUCTEUR, VinDao.COL_ANNEE, VinDao.COL_NB_BOUTEILLES, "nom_appellation" };
 		int[] to = new int[] { R.id.listeVinsItemProducteur, R.id.listeVinsItemAnnee, R.id.listeVinsItemBouteilles, R.id.listeVinsItemAppellation };
 		vinAdapter = new SimpleCursorAdapter(this, R.layout.liste_vins_item, vinCursor, from, to) {
@@ -261,6 +294,7 @@ public class ListeVinsActivity extends TabActivity {
 						int currentStock = selectedItem.getInt(selectedItem.getColumnIndex(VinDao.COL_NB_BOUTEILLES));
 						if (vinDao.retire1Bouteille(idVin, currentStock) > 0) {
 							loadTabList(currentTab);
+							refreshTabTitle();
 							Toast.makeText(getApplicationContext(), R.string.stock_maj_ok, Toast.LENGTH_LONG).show();
 						} else {
 							Toast.makeText(getApplicationContext(), R.string.stock_maj_ko, Toast.LENGTH_LONG).show();
@@ -288,6 +322,7 @@ public class ListeVinsActivity extends TabActivity {
 			    				int idVin = selectedItem.getInt(selectedItem.getColumnIndex(VinDao.COL_ID));
 			    				vinDao.delete(idVin);
 			    				loadTabList(currentTab);
+			    				refreshTabTitle();
 			    				Toast.makeText(getApplicationContext(), R.string.item_deleted, Toast.LENGTH_LONG).show();
 			    			}
 			    		})
@@ -333,5 +368,24 @@ public class ListeVinsActivity extends TabActivity {
 	    	currentTab = TAB_ROSE;
 	    	loadVinsRoseList(emptyBottlesOnly);
 	    }
+	}
+	
+	private void refreshTabTitle() {
+		String newTitle = "";
+		switch (tabs.getCurrentTab()) {
+		case 0 : 
+			int nbRouge = vinDao.getTotalBouteillesByCouleur(Couleur.ROUGE, emptyBottlesOnly, filterPaysId, filterRegionId, filterAppellationId, filterAnneeMaturite);
+			newTitle = Couleur.ROUGE.getLabel(getApplicationContext()).toUpperCase()+(!emptyBottlesOnly?"\r\n"+nbRouge+" "+getResources().getString(nbRouge>1?R.string.bouteilles:R.string.bouteille).toLowerCase():"");  
+			break;
+		case 1 : 
+			int nbBlanc = vinDao.getTotalBouteillesByCouleur(Couleur.BLANC, emptyBottlesOnly, filterPaysId, filterRegionId, filterAppellationId, filterAnneeMaturite);
+			newTitle = Couleur.BLANC.getLabel(getApplicationContext()).toUpperCase()+(!emptyBottlesOnly?"\r\n"+nbBlanc+" "+getResources().getString(nbBlanc>1?R.string.bouteilles:R.string.bouteille).toLowerCase():""); 
+	        break;
+		case 2 : 
+			 int nbRose = vinDao.getTotalBouteillesByCouleur(Couleur.ROSE, emptyBottlesOnly, filterPaysId, filterRegionId, filterAppellationId, filterAnneeMaturite);
+			 newTitle = Couleur.ROSE.getLabel(getApplicationContext()).toUpperCase()+(!emptyBottlesOnly?"\r\n"+nbRose+" "+getResources().getString(nbRose>1?R.string.bouteilles:R.string.bouteille).toLowerCase():""); 
+		     break;
+		}
+		((TextView)tabs.getTabWidget().getChildAt(tabs.getCurrentTab()).findViewById(android.R.id.title)).setText(newTitle);
 	}
 }

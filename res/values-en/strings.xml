@@ -9,6 +9,8 @@
     <string name="menu_settings">Settings</string>
     <string name="main_add_vin">Add bottles</string>
     <string name="main_list_vin">See the cellar</string>
+    <string name="main_list_vin_par_region">See by region</string>
+    <string name="main_list_vin_par_annee_maturite">See by maturity year</string>
     <string name="main_send_list">Send wines list</string>
     <string name="main_histo_vin">Out of stock</string>
     <string name="main_accords">Find wine for a dish</string>
@@ -20,6 +22,8 @@
     <string name="title_activity_edit_vin">Edit wine</string>
     <string name="title_activity_detail_vin">Detail</string>
     <string name="title_activity_liste_mets">Dish/wines agreement</string>
+    <string name="title_activity_liste_vins_par_region">Search by region</string>
+    <string name="title_activity_liste_vins_par_annee_maturite">Search by maturity year</string>
     <string name="save">Save</string>
     <string name="save_ok">Successfully saved.</string>
     <string name="save_error">Error occurs during saving !</string>
@@ -47,7 +51,7 @@
     <string name="etagere">Place</string>
     <string name="commentaire">Comment</string>
     <string name="date_ajout">Date added</string>
-    <string name="annee_maturite">Year maturity</string>
+    <string name="annee_maturite">Maturity year</string>
     <string name="photographier">Take a picture</string>
     <string name="retirer">Remove a bottle</string>
     <string name="retirer_impossible">Unable to remove a bottle because this wine is out of stock !</string>
