@@ -14,6 +14,8 @@
     <string name="main_send_list">Envoyer la liste des vins</string>
     <string name="main_histo_vin">Vins épuisés</string>
     <string name="main_accords">Accords mets/vins</string>
+    <string name="main_export_db">Sauvegarde des données</string>
+    <string name="main_import_db">Restauration des données</string>
     <string name="title_activity_main">Mon Cellier</string>
     <string name="title_activity_add_vin">Ajout d\'un vin</string>
     <string name="title_activity_add_vin_region_choix">Ajout d\'un vin : choisissez la région</string>
@@ -27,6 +29,12 @@
     <string name="save">Enregistrer</string>
     <string name="save_ok">Enregistré avec succès.</string>
     <string name="save_error">Erreur lors de l\'enregistrement !</string>
+    <string name="export_db_ok">Vos données ont bien été sauvegardées sur la carte SD.</string>
+    <string name="export_db_error">Echec : une erreur est survenue pendant l\'export des données !</string>
+    <string name="import_db_ok">Vos données ont bien été restaurées.</string>
+    <string name="import_db_error">Echec : impossible d\'importer les données ! Vérifier que le fichier de sauvegarde est bien présent dans le répertoire "MonCellier" de votre carte SD</string>
+    <string name="import_db_confirm">Etes-vous sûr de vouloir restaurer les données depuis votre carte SD ?</string>
+    <string name="confirm">Confirmation</string>
     <string name="cancel">Annuler</string>
     <string name="pays">Pays</string>
     <string name="region">Région</string>

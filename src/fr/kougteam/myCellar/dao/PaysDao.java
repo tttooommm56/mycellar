@@ -38,7 +38,7 @@ public class PaysDao extends AbstractDao<Pays> {
 		Log.w(PaysDao.class.getName(), "Upgrading database from version "
 				+ oldVersion + " to " + newVersion
 				+ "...");
-		if (oldVersion==1 && newVersion==2) {
+		if (oldVersion<2 && newVersion>=2) {
 			// Ajout d'un pays vide
 			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_NOM+") VALUES (-1,'')");
 		

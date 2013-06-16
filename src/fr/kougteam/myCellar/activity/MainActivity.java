@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -15,9 +16,11 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 import fr.kougteam.myCellar.R;
 import fr.kougteam.myCellar.dao.VinDao;
 import fr.kougteam.myCellar.enums.Couleur;
+import fr.kougteam.myCellar.helper.DbBackupHelper;
 import fr.kougteam.myCellar.tools.FontTools;
 
 public class MainActivity extends Activity {
@@ -86,6 +89,20 @@ public class MainActivity extends Activity {
 	        map.put("img", String.valueOf(R.drawable.ic_retirer_red));
 	        listItem.add(map); 
 	        
+	        // Item "Export DB"
+	        map = new HashMap<String, String>();
+	        map.put("action", "EXPORT_DB");
+	        map.put("titre", getString(R.string.main_export_db));
+	        map.put("img", String.valueOf(R.drawable.ic_save_red));
+	        listItem.add(map); 
+	        
+	        // Item "Import DB"
+	        map = new HashMap<String, String>();
+	        map.put("action", "IMPORT_DB");
+	        map.put("titre", getString(R.string.main_import_db));
+	        map.put("img", String.valueOf(R.drawable.ic_import_red));
+	        listItem.add(map); 
+	        
 	        
 	        SimpleAdapter menuAdapter = new SimpleAdapter (this.getBaseContext(), listItem, R.layout.main_item,
 	               new String[] {"img", "titre", "action"}, new int[] {R.id.mainItemImg, R.id.mainItemTitre, R.id.mainItemAction}) {
@@ -138,6 +155,12 @@ public class MainActivity extends Activity {
         				intent.putExtra("emptyBottlesOnly", true);
         				startActivity(intent);
 	
+	        		} else if ("EXPORT_DB".equals(action)) {
+	        			exportDb();
+        			
+	        		} else if ("IMPORT_DB".equals(action)) {
+	        			restoreDb();
+	        			
 	        		} else {
         				//on créer une boite de dialogue
     	        		AlertDialog.Builder adb = new AlertDialog.Builder(MainActivity.this);
@@ -219,5 +242,36 @@ public class MainActivity extends Activity {
 	    	emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, sb.toString());
 	    	
 	    	this.startActivity(Intent.createChooser(emailIntent, getString(R.string.send)));
+	    }
+	    
+	    private void exportDb() {
+	    	if (DbBackupHelper.exportDb()) {
+				Toast.makeText(getApplicationContext(), R.string.export_db_ok, Toast.LENGTH_SHORT).show();		
+			} else {
+				Toast.makeText(getApplicationContext(), R.string.export_db_error, Toast.LENGTH_SHORT).show();		
+			}
+	    }
+	    
+	    private void restoreDb() {
+	    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    		builder.setTitle(R.string.confirm)
+    		.setIcon(android.R.drawable.ic_dialog_alert)
+    		.setMessage(R.string.import_db_confirm)
+    		.setCancelable(false)
+    		.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+    			public void onClick(DialogInterface dialog, int id) {
+    				if (DbBackupHelper.restoreDb()) {
+    					Toast.makeText(getApplicationContext(), R.string.import_db_ok, Toast.LENGTH_SHORT).show();		
+    				} else {
+    					Toast.makeText(getApplicationContext(), R.string.import_db_error, Toast.LENGTH_SHORT).show();		
+    				}
+    			}
+    		})
+    		.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+    			public void onClick(DialogInterface dialog, int id) {
+    			}
+    		});
+    		AlertDialog alert = builder.create();
+    		alert.show();		
 	    }
 	}

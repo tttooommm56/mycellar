@@ -1,0 +1,18 @@
+VERSION 2.4
+- Ajout d'une fonction de sauvegarde / restauration de la base de données sur la carte SD du téléphone.
+VERSION 2.3
+- Possibilité de classer les vins disponibles par région/appellation ou par année de maturité
+- Corrections bugs mineurs
+VERSION 2.2
+- Ajout de champs supplémentaires pour les vins (prix, date d'ajout, emplacement, commentaires, année de maturité)
+- Ajout de territoires et appellations manquants pour la région Vallée de la Loire et Centre
+- Corrections mineures
+VERSION 2.1
+- Améliorations esthétiques et corrections mineures
+VERSION 2.0
+- Nouvelle fonction de recherche des accords entre mets et vins du cellier
+VERSION 1.1
+- Corrections et optimisations mineures
+- Ajout de la traduction anglaise
+VERSION 1.0
+- Version initiale

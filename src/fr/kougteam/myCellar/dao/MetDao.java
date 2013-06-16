@@ -42,7 +42,7 @@ public class MetDao extends AbstractDao<Met> {
 		Log.w(MetDao.class.getName(), "Upgrading database from version "
 				+ oldVersion + " to " + newVersion
 				+ "...");
-		if (oldVersion<4 && newVersion==4) {
+		if (oldVersion<4 && newVersion>=4) {
 			//database.execSQL("DROP TABLE " +TABLE+";");
 			database.execSQL(DATABASE_CREATE);
 			

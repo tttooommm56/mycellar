@@ -45,7 +45,7 @@ public class MetVinDao extends AbstractDao<MetVin> {
 		Log.w(MetVinDao.class.getName(), "Upgrading database from version "
 				+ oldVersion + " to " + newVersion
 				+ "...");
-		if (oldVersion<4 && newVersion==4) {
+		if (oldVersion<4 && newVersion>=4) {
 			//database.execSQL("DROP TABLE " +TABLE+";");
 			database.execSQL(DATABASE_CREATE);
 			

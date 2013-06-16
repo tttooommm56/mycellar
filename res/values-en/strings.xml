@@ -14,6 +14,8 @@
     <string name="main_send_list">Send wines list</string>
     <string name="main_histo_vin">Out of stock</string>
     <string name="main_accords">Find wine for a dish</string>
+    <string name="main_export_db">Backup data</string>
+    <string name="main_import_db">Restore data</string>
     <string name="title_activity_main">My Cellar</string>
     <string name="title_activity_add_vin">Add wine</string>
     <string name="title_activity_add_vin_region_choix">Adding a wine : choose a region</string>
@@ -27,6 +29,12 @@
     <string name="save">Save</string>
     <string name="save_ok">Successfully saved.</string>
     <string name="save_error">Error occurs during saving !</string>
+    <string name="export_db_ok">Data successfully backup on your SD card.</string>
+    <string name="export_db_error">Fail : an error occurred during data backup !</string>
+    <string name="import_db_ok">Data successfully restored.</string>
+    <string name="import_db_error">Fail : unable to import data ! Please check if the backup file exists in the folder "MonCellier" on your SD card.</string>
+    <string name="import_db_confirm">Are-you sure you want to restore data from SD card ?</string>
+    <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
     <string name="pays">Country</string>
     <string name="region">Region</string>
