@@ -74,13 +74,6 @@ public class MainActivity extends Activity {
 	        map.put("titre", getString(R.string.main_accords));
 	        map.put("img", String.valueOf(R.drawable.ic_accord_red));
 	        listItem.add(map);
-	         
-	        // Item "Envoi liste par mail"
-	        map = new HashMap<String, String>();
-	        map.put("action", "MAIL");
-	        map.put("titre", getString(R.string.main_send_list));
-	        map.put("img", String.valueOf(R.drawable.ic_mail_send_red));
-	        listItem.add(map);
 	        
 	        // Item "Historique"
 	        map = new HashMap<String, String>();
@@ -89,19 +82,30 @@ public class MainActivity extends Activity {
 	        map.put("img", String.valueOf(R.drawable.ic_retirer_red));
 	        listItem.add(map); 
 	        
-	        // Item "Export DB"
+	        // Item "Envoi liste par mail"
 	        map = new HashMap<String, String>();
-	        map.put("action", "EXPORT_DB");
-	        map.put("titre", getString(R.string.main_export_db));
-	        map.put("img", String.valueOf(R.drawable.ic_save_red));
-	        listItem.add(map); 
+	        map.put("action", "MAIL");
+	        map.put("titre", getString(R.string.main_send_list));
+	        map.put("img", String.valueOf(R.drawable.ic_mail_send_red));
+	        listItem.add(map);
 	        
-	        // Item "Import DB"
-	        map = new HashMap<String, String>();
-	        map.put("action", "IMPORT_DB");
-	        map.put("titre", getString(R.string.main_import_db));
-	        map.put("img", String.valueOf(R.drawable.ic_import_red));
-	        listItem.add(map); 
+	        // Item "Export DB"
+	        if (DbBackupHelper.isSDPresent()) {
+	        	if (DbBackupHelper.canWriteOnSD()) {
+			        map = new HashMap<String, String>();
+			        map.put("action", "EXPORT_DB");
+			        map.put("titre", getString(R.string.main_export_db));
+			        map.put("img", String.valueOf(R.drawable.ic_save_red));
+			        listItem.add(map); 
+	        	}
+	        	
+		        // Item "Import DB"
+		        map = new HashMap<String, String>();
+		        map.put("action", "IMPORT_DB");
+		        map.put("titre", getString(R.string.main_import_db));
+		        map.put("img", String.valueOf(R.drawable.ic_import_red));
+		        listItem.add(map); 
+	        }
 	        
 	        
 	        SimpleAdapter menuAdapter = new SimpleAdapter (this.getBaseContext(), listItem, R.layout.main_item,

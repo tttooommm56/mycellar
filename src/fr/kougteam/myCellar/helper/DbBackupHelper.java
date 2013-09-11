@@ -38,7 +38,9 @@ public class DbBackupHelper {
 	/** Saves the application database to the
 	 * export directory under MyDb.db **/
 	public static  boolean exportDb(){
-		if( ! isSDPresent() ) return false;
+		if (!isSDPresent()) return false;
+		
+		if (!canWriteOnSD()) return false;
 
 		File dbFile = DATA_DIRECTORY_DATABASE;
 
@@ -99,7 +101,10 @@ public class DbBackupHelper {
 
 	/** Returns whether an SD card is present and writable **/
 	public static boolean isSDPresent() {
-		return Environment.getExternalStorageState().equals(
-				Environment.MEDIA_MOUNTED);
+		return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
+	}
+	
+	public static boolean canWriteOnSD() {
+		return !Environment.MEDIA_MOUNTED_READ_ONLY.equals(Environment.getExternalStorageState());
 	}
 }

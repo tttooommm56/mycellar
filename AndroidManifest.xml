@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<manifest android:versionCode="8" android:versionName="2.4"
+<manifest android:versionCode="9" android:versionName="2.5"
     package="fr.kougteam.myCellar" xmlns:android="http://schemas.android.com/apk/res/android">
-    <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="17"/>
+    <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="18"/>
 	<uses-permission android:name="android.permission.CAMERA" />
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	<uses-feature android:name="android.hardware.camera" />
-	<uses-feature android:name="android.hardware.camera.autofocus" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+	<uses-feature android:name="android.hardware.camera" android:required="false"/>
+	<uses-feature android:name="android.hardware.camera.autofocus" android:required="false"/>
     <application android:icon="@drawable/ic_launcher" android:allowBackup="true"
         android:label="@string/app_name" android:theme="@style/AppTheme">
         <activity android:label="@string/title_activity_main" android:name=".activity.MainActivity">
@@ -19,8 +19,7 @@
         <activity android:label="@string/title_activity_liste_vins_par_annee_maturite" android:name=".activity.ListeVinsParMaturiteActivity"/>
         <activity android:label="@string/title_activity_liste_mets" android:name=".activity.ListeMetsActivity"/>
         <activity android:label="@string/title_activity_liste_mets" android:name=".activity.AccordMetVinActivity"/>
-        <activity android:label="@string/title_activity_edit_vin"
-            android:name="fr.kougteam.myCellar.activity.EditVinFormActivity" android:screenOrientation="portrait"/>
+        <activity android:label="@string/title_activity_edit_vin" android:name="fr.kougteam.myCellar.activity.EditVinFormActivity"/>
         <activity android:label="@string/title_activity_detail_vin" android:name=".activity.DetailVinActivity"/>
     </application>
 </manifest>
