@@ -125,8 +125,8 @@ public class AccordMetVinActivity extends Activity {
 		web.setBackgroundColor(getResources().getColor(android.R.color.black));
 		
 		Cursor vinCursor = vinDao.getListVinsByPropositions(propositions);
-		String[] from = new String[] { VinDao.COL_PRODUCTEUR, VinDao.COL_ANNEE, VinDao.COL_NB_BOUTEILLES, "nom_appellation" };
-		int[] to = new int[] { R.id.listeVinsItemProducteur, R.id.listeVinsItemAnnee, R.id.listeVinsItemBouteilles, R.id.listeVinsItemAppellation };
+		String[] from = new String[] { VinDao.COL_PRODUCTEUR, VinDao.COL_NOM, VinDao.COL_ANNEE, VinDao.COL_NB_BOUTEILLES, "nom_appellation" };
+		int[] to = new int[] { R.id.listeVinsItemProducteur, R.id.listeVinsItemNom, R.id.listeVinsItemAnnee, R.id.listeVinsItemBouteilles, R.id.listeVinsItemAppellation };
 		SimpleCursorAdapter vinAdapter = new SimpleCursorAdapter(this, R.layout.liste_vins_item, vinCursor, from, to) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent){
