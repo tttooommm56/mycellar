@@ -86,9 +86,9 @@ public class VinDao extends AbstractDao<Vin> {
 	}
 	
 	/**
-	 * Retourne les données contenu dans l'objet sous forme de ContentValues
+	 * Retourne les donnï¿½es contenu dans l'objet sous forme de ContentValues
 	 * 
-	 * @param p l'objet contenant les donnée
+	 * @param p l'objet contenant les donnï¿½e
 	 * 
 	 * @return
 	 */
@@ -229,7 +229,7 @@ public class VinDao extends AbstractDao<Vin> {
 							COL_REGION + ", " +
 							COL_APPELLATION + ", " +
 							COL_ANNEE + ", " +
-							"v."+COL_NOM + ", " +
+							"v."+COL_NOM + " "+COL_NOM + ", " +
 							COL_PRODUCTEUR + ", " +
 							COL_COMMENTAIRES + ", " +
 							COL_NB_BOUTEILLES + ", " +

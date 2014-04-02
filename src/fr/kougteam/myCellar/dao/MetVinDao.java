@@ -64,9 +64,9 @@ public class MetVinDao extends AbstractDao<MetVin> {
 	}
 	
 	/**
-	 * Retourne les données contenu dans l'objet sous forme de ContentValues
+	 * Retourne les donnï¿½es contenu dans l'objet sous forme de ContentValues
 	 * 
-	 * @param p l'objet contenant les données
+	 * @param p l'objet contenant les donnï¿½es
 	 * 
 	 * @return
 	 */
@@ -82,11 +82,21 @@ public class MetVinDao extends AbstractDao<MetVin> {
 		return null;
 	}
 	
-	public Cursor getListByIdMet(int idMet) {
-		String sql = " SELECT " + COL_ID_MET + ", " + COL_NOM_VIN + ", " + COL_TYPE + 
+	public Cursor getVinsByIdMet(int idMet) {
+		String sql = " SELECT " + COL_ID_MET + ", " + COL_NOM_VIN + ", " + COL_TYPE + 				
 					 " FROM " + TABLE +
 					 " WHERE " + COL_ID_MET + "=" + idMet +
 					 " ORDER BY " + COL_NOM_VIN;
+		if (bdd==null) super.openForRead();	
+		return bdd.rawQuery(sql, null);
+	}
+	
+	public Cursor getMetsByNomVin(String nom) {
+		String sql = " SELECT DISTINCT m." + COL_ID + ", m." + MetDao.COL_NOM + 
+					 " FROM " + TABLE + " mv " +
+					 " LEFT JOIN " + MetDao.TABLE + " m ON m."+MetDao.COL_ID+"=mv."+COL_ID_MET +
+					 " WHERE UPPER(REPLACE(mv."+COL_NOM_VIN+",'-',' ')) LIKE '%"+nom.replaceAll("-", " ").replaceAll("'", "''").toUpperCase()+"%' " +
+					 " ORDER BY m." + MetDao.COL_NOM;
 		if (bdd==null) super.openForRead();	
 		return bdd.rawQuery(sql, null);
 	}

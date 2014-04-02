@@ -42,7 +42,7 @@ public class PaysDao extends AbstractDao<Pays> {
 			// Ajout d'un pays vide
 			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_NOM+") VALUES (-1,'')");
 		
-			// Ajout de pays supplémentaires
+			// Ajout de pays supplï¿½mentaires
 			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_NOM+") VALUES (5,'USA')");
 			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_NOM+") VALUES (6,'Australie')");
 			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_NOM+") VALUES (7,'Argentine')");
@@ -50,12 +50,18 @@ public class PaysDao extends AbstractDao<Pays> {
 			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_NOM+") VALUES (9,'Chili')");
 			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_NOM+") VALUES (10,'Afrique du Sud')");
 		}
+		
+		if (oldVersion<6 && newVersion>=6) {
+			// Ajout de la Suisse
+			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_NOM+") VALUES (11,'Suisse')");
+			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_NOM+") VALUES (12,'Luxembourg')");
+		}
 	}
 	
 	/**
-	 * Retourne les données contenu dans l'objet sous forme de ContentValues
+	 * Retourne les donnï¿½es contenu dans l'objet sous forme de ContentValues
 	 * 
-	 * @param p l'objet contenant les données
+	 * @param p l'objet contenant les donnï¿½es
 	 * 
 	 * @return
 	 */

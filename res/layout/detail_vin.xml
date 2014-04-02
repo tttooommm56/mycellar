@@ -270,5 +270,31 @@
 				android:layout_height="256dp"
 				android:layout_span="2"/>         
 	    </TableRow>
+	    
+		<TableRow
+		    android:id="@+id/detailVinAccordVinMetTextRow"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:padding="5dp">
+	
+	        <TextView
+	            android:id="@+id/detailVinAccordVinMetText"
+	            android:singleLine="true"
+	            android:text="@string/accord_vin_met" 
+	            android:layout_span="2"/>
+	    </TableRow>
+		<TableRow
+		    android:id="@+id/detailVinAccordVinMetRow"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content">
+	        <WebView
+	            android:id="@+id/accordVinMetListeVinHtml"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:textSize="20dp" 
+	            android:layout_span="2"/>
+	    </TableRow>
+
+        
 	</TableLayout>
 </ScrollView>

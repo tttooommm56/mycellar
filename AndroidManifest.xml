@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<manifest android:versionCode="9" android:versionName="2.5"
+<manifest android:versionCode="10" android:versionName="2.6"
     package="fr.kougteam.myCellar" xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="18"/>
 	<uses-permission android:name="android.permission.CAMERA" />
@@ -19,7 +19,7 @@
         <activity android:label="@string/title_activity_liste_vins_par_annee_maturite" android:name=".activity.ListeVinsParMaturiteActivity"/>
         <activity android:label="@string/title_activity_liste_mets" android:name=".activity.ListeMetsActivity"/>
         <activity android:label="@string/title_activity_liste_mets" android:name=".activity.AccordMetVinActivity"/>
-        <activity android:label="@string/title_activity_edit_vin" android:name="fr.kougteam.myCellar.activity.EditVinFormActivity"/>
+        <activity android:label="@string/title_activity_edit_vin" android:name="fr.kougteam.myCellar.activity.EditVinFormActivity" android:configChanges="orientation"/>
         <activity android:label="@string/title_activity_detail_vin" android:name=".activity.DetailVinActivity"/>
     </application>
 </manifest>

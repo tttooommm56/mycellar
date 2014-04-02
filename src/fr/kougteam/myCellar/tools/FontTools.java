@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 public class FontTools {
 
-	public static final String DEFAULT_FONT_NAME = "Delicious-Italic.otf";
+	public static final String DEFAULT_FONT_NAME = "Delicious-Roman.otf";
 	
 	public static final Typeface getDefautTypeFace(AssetManager assets) {
 		return Typeface.createFromAsset(assets, DEFAULT_FONT_NAME);

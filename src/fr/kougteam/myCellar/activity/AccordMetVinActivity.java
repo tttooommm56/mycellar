@@ -1,7 +1,5 @@
 package fr.kougteam.myCellar.activity;
 
-import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +22,7 @@ import fr.kougteam.myCellar.dao.MetVinDao;
 import fr.kougteam.myCellar.dao.VinDao;
 import fr.kougteam.myCellar.modele.Met;
 import fr.kougteam.myCellar.modele.MetVin;
+import fr.kougteam.myCellar.tools.FileTools;
 import fr.kougteam.myCellar.tools.FontTools;
 import fr.kougteam.myCellar.tools.StringTools;
 
@@ -56,7 +55,7 @@ public class AccordMetVinActivity extends Activity {
 		
 		
 		Context context = getBaseContext();
-		copyFile(context, FontTools.DEFAULT_FONT_NAME);
+		FileTools.copyFile(context, FontTools.DEFAULT_FONT_NAME);
 		
 		Bundle extra = this.getIntent().getExtras(); 
 		if (extra!=null) {
@@ -81,40 +80,17 @@ public class AccordMetVinActivity extends Activity {
 	public void onResume() {
 		super.onResume();
 		
-		// Rafraichissement des données
+		// Rafraichissement des donnï¿½es
 		if (met!=null && met.getId()>0) {
 			met = metDao.getById(met.getId());
 			fillFields(getBaseContext());
 		}
 	}
 	
-	private boolean copyFile(Context context,String fileName) {
-        boolean status = false;
-        try { 
-            FileOutputStream out = context.openFileOutput(fileName, Context.MODE_PRIVATE);
-            InputStream in = context.getAssets().open(fileName);
-            // Transfer bytes from the input file to the output file
-            byte[] buf = new byte[1024];
-            int len;
-            while ((len = in.read(buf)) > 0) {
-                out.write(buf, 0, len);
-            }
-            // Close the streams
-            out.close();
-            in.close();
-            status = true;
-        } catch (Exception e) {
-            System.out.println("Exception in copyFile:: "+e.getMessage());
-            status = false;
-        }
-        System.out.println("copyFile Status:: "+status);
-        return status;
-    }
-	
     private void fillFields(Context context) {
 		((TextView)findViewById(R.id.accordMetVinSelectectedMet)).setText(met.getNom());
 		
-		Cursor c = metVinDao.getListByIdMet(met.getId());
+		Cursor c = metVinDao.getVinsByIdMet(met.getId());
     
 		StringBuilder html = new StringBuilder();
 		html.append("<html>"+
@@ -142,7 +118,7 @@ public class AccordMetVinActivity extends Activity {
 				html.append(" ("+StringTools.escapeHTML(mv.getType())+")");
 			}
 			html.append("</li>");
-		}
+		}	
 		html.append("</ul></body></html>");
 		WebView web = ((WebView)findViewById(R.id.accordMetVinListeVinHtml));
 		web.loadDataWithBaseURL(null, html.toString(), "text/html", "utf-8", "");

@@ -2,41 +2,54 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="fill_parent"
-    android:layout_height="50dp"
+    android:layout_height="70dp"
     >
 
     <TextView android:id="@+id/listeVinsItemAppellation"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textSize="20dp"
         android:textColor="#ffffff"
         android:text="@string/appellation"
         /> 
         
-    <TextView android:id="@+id/listeVinsItemAnnee"
+    <TextView
+        android:id="@+id/listeVinsItemNom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dp"    
-        android:textColor="#ffffff"
-        android:layout_toRightOf="@+id/listeVinsItemAppellation"
-        android:layout_alignParentRight="true"
-        android:gravity="right"
-        android:text="@string/annee"/> 
-        
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/listeVinsItemAppellation"
+        android:layout_marginTop="2dp"
+        android:text="@string/nom"
+        android:textSize="16dp" />
+    
     <TextView android:id="@+id/listeVinsItemProducteur"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14dp"
-        android:layout_below="@+id/listeVinsItemAppellation"
+        android:textSize="16dp"
+        android:layout_below="@+id/listeVinsItemNom"
+        android:layout_alignParentLeft="true"
+        android:gravity="left"
         android:layout_marginTop="2dp"
         android:text="@string/producteur"/>
     
-    
+    <TextView
+        android:id="@+id/listeVinsItemAnnee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/listeVinsItemAppellation"
+        android:layout_toRightOf="@+id/listeVinsItemNom"
+        android:gravity="right"
+        android:text="@string/annee"
+        android:textColor="#ffffff"
+        android:layout_marginTop="2dp"
+        android:textSize="16dp" />
     
     <TextView android:id="@+id/listeVinsItemBouteilles"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14dp"   
+        android:textSize="16dp"   
         android:layout_toLeftOf="@+id/listeVinsItemBouteilleImg"  
         android:layout_below="@+id/listeVinsItemAnnee"
         android:gravity="right"   

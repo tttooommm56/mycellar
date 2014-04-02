@@ -1,13 +1,16 @@
 package fr.kougteam.myCellar.activity;
 
-import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Currency;
+import java.util.List;
 import java.util.Locale;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -16,6 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TableRow;
@@ -23,22 +27,30 @@ import android.widget.TextView;
 import android.widget.Toast;
 import fr.kougteam.myCellar.R;
 import fr.kougteam.myCellar.dao.AppellationDao;
+import fr.kougteam.myCellar.dao.MetDao;
+import fr.kougteam.myCellar.dao.MetVinDao;
 import fr.kougteam.myCellar.dao.PaysDao;
 import fr.kougteam.myCellar.dao.RegionDao;
 import fr.kougteam.myCellar.dao.VinDao;
+import fr.kougteam.myCellar.modele.Met;
 import fr.kougteam.myCellar.modele.Region;
 import fr.kougteam.myCellar.modele.Vin;
+import fr.kougteam.myCellar.tools.FileTools;
 import fr.kougteam.myCellar.tools.FontTools;
+import fr.kougteam.myCellar.tools.StringTools;
 
 public class DetailVinActivity extends Activity {
 	private PaysDao paysDao;
 	private RegionDao regionDao;
 	private AppellationDao appellationDao;
 	private VinDao vinDao;
+	private MetVinDao metVinDao;
 	private Vin vin;
 	
 	private TableRow photoTableRow;
 	private TableRow etiquetteTableRow;
+	private TableRow accordVinMetTextTableRow;
+	private TableRow accordVinMetTableRow;
 	
 	private Intent intent2Edit;
 	
@@ -52,16 +64,22 @@ public class DetailVinActivity extends Activity {
 		
 		photoTableRow = (TableRow)findViewById(R.id.detailVinPhotoRow);
 		etiquetteTableRow = (TableRow)findViewById(R.id.detailVinEtiquetteRow);
+		accordVinMetTextTableRow = (TableRow)findViewById(R.id.detailVinAccordVinMetTextRow);
+		accordVinMetTableRow = (TableRow)findViewById(R.id.detailVinAccordVinMetRow);
 		
 		paysDao = new PaysDao(this);	
 		regionDao = new RegionDao(this);
 		appellationDao = new AppellationDao(this);
 		vinDao = new VinDao(this);
+		metVinDao = new MetVinDao(this);
+		
+		Context context = getBaseContext();
+		FileTools.copyFile(context, FontTools.DEFAULT_FONT_NAME);
 		
 		Bundle extra = this.getIntent().getExtras(); 
 		if (extra!=null) {
 			vin = vinDao.getById(extra.getInt("idVin"));
-			fillFields();
+			fillFields(context);
 		} 
 		
 		intent2Edit = new Intent(this, EditVinFormActivity.class);
@@ -76,6 +94,7 @@ public class DetailVinActivity extends Activity {
 		regionDao.close();
 		appellationDao.close();
 		vinDao.close();
+		metVinDao.close();
 		super.onDestroy();	
 	}
 	
@@ -83,31 +102,33 @@ public class DetailVinActivity extends Activity {
 	public void onResume() {
 		super.onResume();
 		
-		// Rafraichissement des données
+		// Rafraichissement des donnï¿½es
 		if (vin!=null && vin.getId()>0) {
 			vin = vinDao.getById(vin.getId());
-			fillFields();
+			Context context = getBaseContext();
+			FileTools.copyFile(context, FontTools.DEFAULT_FONT_NAME);
+			fillFields(context);
 		}
 	}
 	
 	/**
-	 * Méthode qui se déclenchera lorsque vous appuierez sur le bouton menu du téléphone
+	 * Mï¿½thode qui se dï¿½clenchera lorsque vous appuierez sur le bouton menu du tï¿½lï¿½phone
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-      //Création d'un MenuInflater qui va permettre d'instancier un Menu XML en un objet Menu
+      //Crï¿½ation d'un MenuInflater qui va permettre d'instancier un Menu XML en un objet Menu
       MenuInflater inflater = getMenuInflater();
-      //Instanciation du menu XML spécifier en un objet Menu
+      //Instanciation du menu XML spï¿½cifier en un objet Menu
       inflater.inflate(R.layout.detail_vin_menu, menu); 
       return true;	
 	};
 	
     /**
-     * Méthode qui se déclenchera au clic sur un item du menu
+     * Mï¿½thode qui se dï¿½clenchera au clic sur un item du menu
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-         //On regarde quel item a été cliqué grâce à son id et on déclenche une action
+         //On regarde quel item a ï¿½tï¿½ cliquï¿½ grï¿½ce ï¿½ son id et on dï¿½clenche une action
          switch (item.getItemId()) {
             case R.id.detailVinRetirer:
             	int currentStock = vin.getNbBouteilles();
@@ -152,7 +173,7 @@ public class DetailVinActivity extends Activity {
          return false;
     }
     
-    private void fillFields() {
+    private void fillFields(Context context) {
     	String region = paysDao.getById(vin.getIdPays()).getNom();
 		Region r = regionDao.getById(vin.getIdRegion());
 		if (r!=null && r.getNom()!=null && r.getNom().trim()!="") {
@@ -186,6 +207,43 @@ public class DetailVinActivity extends Activity {
 		} else {
 			etiquetteTableRow.setVisibility(View.GONE);
 			photoTableRow.setVisibility(View.GONE);
+		}
+		
+		String nom = vin.getNom();
+		if (vin.getIdAppellation()>0) {
+			nom = appellationDao.getById(vin.getIdAppellation()).getNom();
+		}
+		Cursor c = metVinDao.getMetsByNomVin(nom);	
+		if (c.getCount()>0) {
+			StringBuilder html = new StringBuilder();
+			html.append("<html>"+
+							"<head>"+
+								"<style type='text/css'>"+
+								"@font-face {"+
+								"    font-family: MyFont;"+
+								"    src: url('file://"+context.getFilesDir().getAbsolutePath()+"/"+FontTools.DEFAULT_FONT_NAME+"')"+
+								"}"+
+								"body {"+
+								"    font-family: MyFont;"+
+								"    color:#eee;"+
+								"}"+
+								"</style>"+
+							"</head>"+
+						"<body>");
+			html.append("<ul>");
+			for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+				Met m = new Met(c.getInt(c.getColumnIndex(MetDao.COL_ID)), c.getString(c.getColumnIndex(MetDao.COL_NOM)));
+				html.append("<li>");
+				html.append(StringTools.escapeHTML(m.getNom()));
+				html.append("</li>");
+			}
+			html.append("</ul></body></html>");
+			WebView web = ((WebView)findViewById(R.id.accordVinMetListeVinHtml));
+			web.loadDataWithBaseURL(null, html.toString(), "text/html", "utf-8", "");
+			web.setBackgroundColor(getResources().getColor(android.R.color.black));
+		} else {
+			accordVinMetTextTableRow.setVisibility(View.GONE);
+			accordVinMetTableRow.setVisibility(View.GONE);
 		}
     }
 }

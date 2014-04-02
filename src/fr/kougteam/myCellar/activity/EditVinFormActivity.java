@@ -8,6 +8,7 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
@@ -126,7 +127,7 @@ public class EditVinFormActivity extends Activity {
 			mVinId =  extra.getInt("idVin");
 			vin = vinDao.getById(mVinId);
 			
-			// Si l'année de maturité n'est pas renseigné, on met l'année de la bouteille par défaut
+			// Si l'annï¿½e de maturitï¿½ n'est pas renseignï¿½, on met l'annï¿½e de la bouteille par dï¿½faut
 			if (vin.getAnneeMaturite()<=0) {
 				vin.setAnneeMaturite(vin.getAnnee());
 			}
@@ -134,12 +135,12 @@ public class EditVinFormActivity extends Activity {
 		} else {
 			setTitle(R.string.title_activity_add_vin);
 			vin = new Vin();
-			vin.setIdPays(1);   // France par défaut  
-			vin.setCouleur(Couleur.ROUGE); // Rouge par défaut
+			vin.setIdPays(1);   // France par dï¿½faut  
+			vin.setCouleur(Couleur.ROUGE); // Rouge par dï¿½faut
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(new Date());		
-			vin.setAnnee(cal.get(Calendar.YEAR)-1); // Année précédente par défaut
-			vin.setAnneeMaturite(cal.get(Calendar.YEAR)-1); // Année précédente par défaut
+			vin.setAnnee(cal.get(Calendar.YEAR)-1); // Annï¿½e prï¿½cï¿½dente par dï¿½faut
+			vin.setAnneeMaturite(cal.get(Calendar.YEAR)-1); // Annï¿½e prï¿½cï¿½dente par dï¿½faut
 			vin.setNbBouteilles(1);
 		}
 		
@@ -170,7 +171,7 @@ public class EditVinFormActivity extends Activity {
 		setResult(RESULT_CANCELED);
 		super.onDestroy();	
 	}
-
+	
 	private void fillFields() {
 		// Symbole de la monnaie 
 		((TextView)findViewById(R.id.editVinFormPrixMonnaieText)).setText(Currency.getInstance(Locale.getDefault()).getSymbol());
@@ -198,10 +199,10 @@ public class EditVinFormActivity extends Activity {
 		// Producteur
 		producteurInput.setText(vin.getProducteur());
 		
-		// Année
+		// Annï¿½e
 		anneePicker.setValue(vin.getAnnee());
 		
-		// Année de maturité
+		// Annï¿½e de maturitï¿½
 		anneeMaturitePicker.setValue(vin.getAnneeMaturite());
 		
 		// Nb bouteilles
@@ -280,7 +281,7 @@ public class EditVinFormActivity extends Activity {
                 Cursor c = (Cursor)parent.getItemAtPosition(pos);
                 mPaysSpinnerId = c.getInt(c.getColumnIndexOrThrow(PaysDao.COL_ID));
                 if (mPaysSpinnerId!=1) {
-                	// Si le pays est différent de "France", on masque les choix Region, Territoire, Appellation
+                	// Si le pays est diffï¿½rent de "France", on masque les choix Region, Territoire, Appellation
                 	regionTableRow.setVisibility(View.GONE);
                 	territoireTableRow.setVisibility(View.GONE);
                 	appellationTableRow.setVisibility(View.GONE);
@@ -441,7 +442,7 @@ public class EditVinFormActivity extends Activity {
 					}
 					
 				} else {
-					vin.setDateAjout(new Date()); // date du jour par défaut
+					vin.setDateAjout(new Date()); // date du jour par dï¿½faut
 					if (vinDao.insert(vin) != -1) {
 						isOk = true;
 					} else {
@@ -451,11 +452,6 @@ public class EditVinFormActivity extends Activity {
 				
 				if (isOk) {
 					Toast.makeText(getApplicationContext(), R.string.save_ok, Toast.LENGTH_SHORT).show();				
-					Intent intent = new Intent();
-					intent.setClass(EditVinFormActivity.this.getBaseContext(), ListeVinsActivity.class);
-    				intent.putExtra("emptyBottlesOnly", vin.getNbBouteilles()==0);
-    				intent.putExtra("tabIndex", vin.getCouleur().getTabIndex());
-    				startActivity(intent);
     				EditVinFormActivity.this.finish();
     				
 				} else {
