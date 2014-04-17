@@ -76,7 +76,7 @@ public class ListeVinsParRegionActivity extends Activity {
     
     @Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
-    	//Cette méthode est appelée 2 fois : sur le key-down et sur le key-up, donc on skip le 1er appel
+    	//Cette mï¿½thode est appelï¿½e 2 fois : sur le key-down et sur le key-up, donc on skip le 1er appel
         if (event.getAction()!=KeyEvent.ACTION_DOWN)
             return true;
         
@@ -125,7 +125,7 @@ public class ListeVinsParRegionActivity extends Activity {
 		        mPaysId = c.getInt(c.getColumnIndexOrThrow(PaysDao.COL_ID));
 
 		        if (mPaysId == 1) {
-		        	// Affichage des régions si Pays = France
+		        	// Affichage des rï¿½gions si Pays = France
 		    		setTitle(getResources().getString(R.string.pays) + " : " + c.getString(c.getColumnIndexOrThrow(PaysDao.COL_NOM)));
 		    		Cursor regionCursor = vinDao.getRegionsWithNbBouteillesByPays(mPaysId);	
 		    		if (regionCursor.getCount()==0) {

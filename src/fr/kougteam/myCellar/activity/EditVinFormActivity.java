@@ -1,6 +1,7 @@
 package fr.kougteam.myCellar.activity;
 
-import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Currency;
 import java.util.Date;
@@ -8,11 +9,14 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Configuration;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,22 +42,25 @@ import fr.kougteam.myCellar.dao.PaysDao;
 import fr.kougteam.myCellar.dao.RegionDao;
 import fr.kougteam.myCellar.dao.VinDao;
 import fr.kougteam.myCellar.enums.Couleur;
+import fr.kougteam.myCellar.helper.FileHelper;
 import fr.kougteam.myCellar.modele.Appellation;
 import fr.kougteam.myCellar.modele.Region;
 import fr.kougteam.myCellar.modele.Vin;
+import fr.kougteam.myCellar.provider.ImageContentProvider;
 import fr.kougteam.myCellar.tools.FontTools;
 import fr.kougteam.myCellar.ui.NumberPicker;
 
 public class EditVinFormActivity extends Activity {
 	
 	private static final int CAMERA_PIC_REQUEST = 1337;
+	private static final int GALLERY_PIC_REQUEST = 1338;
 
 	private PaysDao paysDao;
 	private RegionDao regionDao;
 	private AppellationDao appellationDao;
 	private VinDao vinDao;
 	private Vin vin;
-	private int mVinId;
+	private long mVinId;
 	private RadioButton rougeButton;
 	private RadioButton blancButton;
 	private RadioButton roseButton;
@@ -79,6 +86,9 @@ public class EditVinFormActivity extends Activity {
     private int mRegionSpinnerId = -1;
     private int mTerritoireSpinnerId = -1;
     private int mAppellationSpinnerId = -1;
+    
+    private File etiquetteFile = null;
+    private Uri mEtiquetteFileUri = null;
 
 	/**
 	 * @see android.app.Activity#onCreate(Bundle)
@@ -124,10 +134,10 @@ public class EditVinFormActivity extends Activity {
 		Bundle extra = this.getIntent().getExtras(); 
 		if (extra!=null) {
 			setTitle(R.string.title_activity_edit_vin);
-			mVinId =  extra.getInt("idVin");
+			mVinId =  extra.getLong("idVin");
 			vin = vinDao.getById(mVinId);
 			
-			// Si l'ann�e de maturit� n'est pas renseign�, on met l'ann�e de la bouteille par d�faut
+			// Si l'année de maturité n'est pas renseignée, on met l'année de la bouteille par défaut
 			if (vin.getAnneeMaturite()<=0) {
 				vin.setAnneeMaturite(vin.getAnnee());
 			}
@@ -135,12 +145,12 @@ public class EditVinFormActivity extends Activity {
 		} else {
 			setTitle(R.string.title_activity_add_vin);
 			vin = new Vin();
-			vin.setIdPays(1);   // France par d�faut  
-			vin.setCouleur(Couleur.ROUGE); // Rouge par d�faut
+			vin.setIdPays(1);   // France par défaut  
+			vin.setCouleur(Couleur.ROUGE); // Rouge par défaut
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(new Date());		
-			vin.setAnnee(cal.get(Calendar.YEAR)-1); // Ann�e pr�c�dente par d�faut
-			vin.setAnneeMaturite(cal.get(Calendar.YEAR)-1); // Ann�e pr�c�dente par d�faut
+			vin.setAnnee(cal.get(Calendar.YEAR)-1); // Année précédente par défaut
+			vin.setAnneeMaturite(cal.get(Calendar.YEAR)-1); // Année précédente par défaut
 			vin.setNbBouteilles(1);
 		}
 		
@@ -151,6 +161,7 @@ public class EditVinFormActivity extends Activity {
 		initCancelButton();
 		initSaveButton();	
 		initPhotoButton();
+		initImportGalleryButton();
 		
 		final ViewGroup mContainer = (ViewGroup) findViewById(android.R.id.content);
         FontTools.setDefaultAppFont(mContainer, getAssets());
@@ -199,10 +210,10 @@ public class EditVinFormActivity extends Activity {
 		// Producteur
 		producteurInput.setText(vin.getProducteur());
 		
-		// Ann�e
+		// Année
 		anneePicker.setValue(vin.getAnnee());
 		
-		// Ann�e de maturit�
+		// Année de maturité
 		anneeMaturitePicker.setValue(vin.getAnneeMaturite());
 		
 		// Nb bouteilles
@@ -219,6 +230,12 @@ public class EditVinFormActivity extends Activity {
 		
 		// Commentaire
 		commentaireInput.setText(vin.getCommentaire());
+		
+		// Etiquette
+		File etiquetteFile = new File(ImageContentProvider.IMAGE_DIRECTORY, "etq_"+vin.getId()+".jpg");
+		if (etiquetteFile.exists()) {
+			ImageContentProvider.fillImageViewWithFile(etiquetteView, etiquetteFile);	
+		}
 	}
 
 	private void initAutocompleteNom() {
@@ -281,7 +298,7 @@ public class EditVinFormActivity extends Activity {
                 Cursor c = (Cursor)parent.getItemAtPosition(pos);
                 mPaysSpinnerId = c.getInt(c.getColumnIndexOrThrow(PaysDao.COL_ID));
                 if (mPaysSpinnerId!=1) {
-                	// Si le pays est diff�rent de "France", on masque les choix Region, Territoire, Appellation
+                	// Si le pays est différent de "France", on masque les choix Region, Territoire, Appellation
                 	regionTableRow.setVisibility(View.GONE);
                 	territoireTableRow.setVisibility(View.GONE);
                 	appellationTableRow.setVisibility(View.GONE);
@@ -308,7 +325,7 @@ public class EditVinFormActivity extends Activity {
         
         if (vin.getIdRegion()>0) {
         	Region r = regionDao.getById(vin.getIdRegion());
-        	int idRegion = -1;
+        	long idRegion = -1;
         	if (r.isSousRegion()) {
         		idRegion = r.getIdRegionParent();
         	} else {
@@ -375,7 +392,7 @@ public class EditVinFormActivity extends Activity {
         });
 	}
 
-	private int getSpinnerPostition(Cursor c, String idColName, int searchId) {
+	private int getSpinnerPostition(Cursor c, String idColName, long searchId) {
 	    c.moveToFirst(); 
 	    for (int i=0; i<c.getCount()-1; i++) {  
 	    	c.moveToNext();  
@@ -442,11 +459,27 @@ public class EditVinFormActivity extends Activity {
 					}
 					
 				} else {
-					vin.setDateAjout(new Date()); // date du jour par d�faut
-					if (vinDao.insert(vin) != -1) {
+					vin.setDateAjout(new Date()); // date du jour par défaut
+					vin.setId(vinDao.insert(vin));
+					if (vin.getId() != -1) {
 						isOk = true;
 					} else {
 						isOk = false;
+					}
+				}
+				
+				// Sauvegarde de l'image sur la carte SD
+				if (FileHelper.isSDPresent() && FileHelper.canWriteOnSD() && etiquetteFile!=null && etiquetteFile.exists()) {
+					try {
+						File destDir= new File(ImageContentProvider.IMAGE_DIRECTORY);
+						if (!destDir.exists()) {
+							destDir.mkdirs();
+						}
+						FileHelper.copyFile(etiquetteFile, new File(destDir, "etq_"+vin.getId()+".jpg"));
+						etiquetteFile.delete();
+					} catch (IOException ioe) {
+						ioe.printStackTrace();
+						Toast.makeText(getApplicationContext(), "Erreur lors de l'enregistrement de la photo !", Toast.LENGTH_SHORT).show();
 					}
 				}
 				
@@ -465,32 +498,103 @@ public class EditVinFormActivity extends Activity {
 	private void initPhotoButton() {
 		Button photoBtn = (Button)findViewById(R.id.editVinFormPhoto);
 		photoBtn.setOnClickListener(new OnClickListener() {
-		      public void onClick(View v) {
-		    	  //cameraView.getCamera().takePicture(shutterCallback, rawCallback, jpegCallback);
-		    	  Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);  
-		    	  startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);  
-		      }
+			public void onClick(View v) {
+				PackageManager pm = getPackageManager();
+				if (pm.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
+					try {
+						etiquetteFile = new File(ImageContentProvider.IMAGE_DIRECTORY, "tmp.jpg");	
+						etiquetteFile.createNewFile();
+						Intent i = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+						i.putExtra(MediaStore.EXTRA_OUTPUT,	Uri.fromFile(etiquetteFile));
+						startActivityForResult(i, CAMERA_PIC_REQUEST);
+						
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+
+				} else {
+					Toast.makeText(getBaseContext(), "Camera is not available", Toast.LENGTH_LONG).show();
+				}
+			}
 		});
 	}
 	
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-	    if (requestCode == CAMERA_PIC_REQUEST) {
-	    	if (resultCode == RESULT_OK) {
-		    	Bitmap imageBmp = (Bitmap) data.getExtras().get("data");  
-//		    	int maxWidth = 340;
-//		    	if (imageBmp.getWidth() > maxWidth) {
-//		    		float percent = imageBmp.getWidth() / maxWidth;
-//		    		imageBmp = getResizedBitmap(imageBmp, (int)(imageBmp.getHeight()/percent), (int)(imageBmp.getWidth()/percent));
-//		    	}	
-		    	etiquetteView.setImageBitmap(imageBmp);  
-		    	
-		    	ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		    	imageBmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-		    	byte[] byteArray = stream.toByteArray();
-		    	vin.setImage(byteArray);
-	    	}
-	    }
+	private void initImportGalleryButton() {
+		etiquetteFile = null;
+		Button photoBtn = (Button)findViewById(R.id.editVinFormGallery);
+		photoBtn.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);                
+                startActivityForResult(i, GALLERY_PIC_REQUEST);
+			}
+		});
 	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		boolean showPicture = false;
+		super.onActivityResult(requestCode, resultCode, data);
+		Log.i(getClass().getName(), "Receive the camera result");
+			
+		if (resultCode == RESULT_OK) {
+			
+			switch (requestCode) {
+			
+				case CAMERA_PIC_REQUEST :					
+					showPicture = true;
+					break;
+					
+				case GALLERY_PIC_REQUEST :
+					if (data!=null) {
+						Uri selectedImage = data.getData();
+			            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+			            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+			            cursor.moveToFirst();
+			            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);	            
+			            etiquetteFile = new File(cursor.getString(columnIndex));
+			            cursor.close();
+			            showPicture = true;
+					}
+					break;
+			}
+			
+			if (etiquetteFile!=null) {
+				if (showPicture) {
+					ImageContentProvider.fillImageViewWithFileResized(etiquetteView, etiquetteFile, getWindowManager().getDefaultDisplay().getWidth(), getWindowManager().getDefaultDisplay().getHeight());	
+				}
+			}
+		}
+	}
+		 
+//	private void initPhotoButton() {
+//		Button photoBtn = (Button)findViewById(R.id.editVinFormPhoto);
+//		photoBtn.setOnClickListener(new OnClickListener() {
+//		      public void onClick(View v) {
+//		    	  //cameraView.getCamera().takePicture(shutterCallback, rawCallback, jpegCallback);
+//		    	  Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);  
+//		    	  startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);  
+//		      }
+//		});
+//	}
+//	
+//	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//	    if (requestCode == CAMERA_PIC_REQUEST) {
+//	    	if (resultCode == RESULT_OK) {
+//		    	Bitmap imageBmp = (Bitmap) data.getExtras().get("data");  
+////		    	int maxWidth = 340;
+////		    	if (imageBmp.getWidth() > maxWidth) {
+////		    		float percent = imageBmp.getWidth() / maxWidth;
+////		    		imageBmp = getResizedBitmap(imageBmp, (int)(imageBmp.getHeight()/percent), (int)(imageBmp.getWidth()/percent));
+////		    	}	
+//		    	etiquetteView.setImageBitmap(imageBmp);  
+//		    	
+//		    	ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//		    	imageBmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+//		    	byte[] byteArray = stream.toByteArray();
+//		    	vin.setImage(byteArray);
+//	    	}
+//	    }
+//	}
 	
 	private Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth) {
 	    int width = bm.getWidth();

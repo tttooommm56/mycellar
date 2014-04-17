@@ -61,6 +61,7 @@
     <string name="date_ajout">Date d\'ajout</string>
     <string name="annee_maturite">Année maturité</string>
     <string name="photographier">Prendre une photo</string>
+    <string name="import_gallerie">Importer depuis la gallerie</string>
     <string name="retirer">Retirer une bouteille</string>
     <string name="retirer_impossible">Impossible de retirer une bouteille car le stock est épuisé !</string>
     <string name="stock_maj_ok">Le stock a été mis à jour.</string>

@@ -3,7 +3,7 @@ package fr.kougteam.myCellar.modele;
 import java.io.Serializable;
 
 /**
- * Représente une appelation
+ * Reprï¿½sente une appelation
  * 
  * @author Thomas Cousin
  *
@@ -11,14 +11,14 @@ import java.io.Serializable;
 public class Appellation implements Serializable {
 	private static final long serialVersionUID = 3480816128232091740L;
 	
-	private int id;
+	private long id;
 	private int idRegion = -1;
 	private String nom;
 	
-	public int getId() {
+	public long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	public int getIdRegion() {

@@ -1,5 +1,6 @@
 package fr.kougteam.myCellar.activity;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
@@ -11,6 +12,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -35,6 +37,7 @@ import fr.kougteam.myCellar.dao.VinDao;
 import fr.kougteam.myCellar.modele.Met;
 import fr.kougteam.myCellar.modele.Region;
 import fr.kougteam.myCellar.modele.Vin;
+import fr.kougteam.myCellar.provider.ImageContentProvider;
 import fr.kougteam.myCellar.tools.FileTools;
 import fr.kougteam.myCellar.tools.FontTools;
 import fr.kougteam.myCellar.tools.StringTools;
@@ -78,7 +81,7 @@ public class DetailVinActivity extends Activity {
 		
 		Bundle extra = this.getIntent().getExtras(); 
 		if (extra!=null) {
-			vin = vinDao.getById(extra.getInt("idVin"));
+			vin = vinDao.getById(extra.getLong("idVin"));
 			fillFields(context);
 		} 
 		
@@ -176,7 +179,7 @@ public class DetailVinActivity extends Activity {
     private void fillFields(Context context) {
     	String region = paysDao.getById(vin.getIdPays()).getNom();
 		Region r = regionDao.getById(vin.getIdRegion());
-		if (r!=null && r.getNom()!=null && r.getNom().trim()!="") {
+		if (r!=null && r.getNom()!=null && !"".equals(r.getNom().trim())) {
 			region += " / " + r.getNom();
 		}
 		TextView regionText = (TextView)findViewById(R.id.detailVinRegion);
@@ -202,8 +205,9 @@ public class DetailVinActivity extends Activity {
 		((RatingBar)findViewById(R.id.detailVinNote)).setRating((float)vin.getNote());
 		
 		ImageView imageView = (ImageView) findViewById(R.id.detailVinPhoto);
-		if (vin.getImage()!=null && vin.getImage().length>0) {
-			imageView.setImageBitmap(BitmapFactory.decodeByteArray(vin.getImage() , 0, vin.getImage().length));
+		File etiquetteFile = new File(ImageContentProvider.IMAGE_DIRECTORY, "etq_"+vin.getId()+".jpg");
+		if (etiquetteFile.exists()) {	
+			ImageContentProvider.fillImageViewWithFileResized(imageView, etiquetteFile, getWindowManager().getDefaultDisplay().getWidth(), getWindowManager().getDefaultDisplay().getHeight());		
 		} else {
 			etiquetteTableRow.setVisibility(View.GONE);
 			photoTableRow.setVisibility(View.GONE);

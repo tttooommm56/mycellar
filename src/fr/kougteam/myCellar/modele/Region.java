@@ -3,7 +3,7 @@ package fr.kougteam.myCellar.modele;
 import java.io.Serializable;
 
 /**
- * Représente une région
+ * Reprï¿½sente une rï¿½gion
  * 
  * @author Thomas Cousin
  *
@@ -11,21 +11,21 @@ import java.io.Serializable;
 public class Region implements Serializable {
 	private static final long serialVersionUID = 8034923637426557685L;
 	
-	private int id;
-	private int idPays = 1; // France par défaut
-	private int idRegionParent;
+	private long id;
+	private long idPays = 1; // France par dï¿½faut
+	private long idRegionParent;
 	private String nom;
 	
-	public int getId() {
+	public long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
-	public int getIdPays() {
+	public long getIdPays() {
 		return idPays;
 	}
-	public void setIdPays(int idPays) {
+	public void setIdPays(long idPays) {
 		this.idPays = idPays;
 	}
 	public String getNom() {
@@ -34,10 +34,10 @@ public class Region implements Serializable {
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
-	public int getIdRegionParent() {
+	public long getIdRegionParent() {
 		return idRegionParent;
 	}
-	public void setIdRegionParent(int idRegionParent) {
+	public void setIdRegionParent(long idRegionParent) {
 		this.idRegionParent = idRegionParent;
 	}
 	public boolean isSousRegion() {

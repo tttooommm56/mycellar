@@ -1,5 +1,9 @@
 package fr.kougteam.myCellar.dao;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,7 +17,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.text.format.DateFormat;
 import android.util.Log;
 import fr.kougteam.myCellar.enums.Couleur;
+import fr.kougteam.myCellar.helper.FileHelper;
 import fr.kougteam.myCellar.modele.Vin;
+import fr.kougteam.myCellar.provider.ImageContentProvider;
 
 /**
  * Gestion de la table VINS
@@ -55,7 +61,6 @@ public class VinDao extends AbstractDao<Vin> {
 				COL_COMMENTAIRES + " text, " +
 				COL_NB_BOUTEILLES + " integer, " +
 				COL_NOTE + " real, " +
-				COL_IMAGE + " blob, "+
 				COL_ANNEE_MATURITE + " integer, " +
 				COL_PRIX + " real, " +
 				COL_ETAGERE + " text, " +
@@ -83,6 +88,31 @@ public class VinDao extends AbstractDao<Vin> {
 			database.execSQL("ALTER TABLE " + TABLE + " ADD "+COL_ETAGERE+" text");
 			database.execSQL("ALTER TABLE " + TABLE + " ADD "+COL_DATE_AJOUT+" text");
 		}
+		if (oldVersion<7 && newVersion>=7) {
+			// L'étiquette est maintenant stockée sur la carte SD		
+			File destDir= new File(ImageContentProvider.IMAGE_DIRECTORY);
+			if (!destDir.exists()) {
+				destDir.mkdirs();
+			}
+			
+			Cursor c = database.query(TABLE, new String[]{COL_ID, COL_IMAGE}, null, null, null, null, null);
+			for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+				long id = c.getLong(c.getColumnIndex(COL_ID));
+				byte[] image = c.getBlob(c.getColumnIndex(COL_IMAGE));
+				if (image!=null && image.length>0) {
+					try {
+						File imgFile = new File(ImageContentProvider.IMAGE_DIRECTORY, "etq_"+Long.toString(id)+".jpg");
+						BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(imgFile));
+						bos.write(image);
+						bos.flush();
+						bos.close();
+					} catch (IOException ioe) {
+						ioe.printStackTrace();
+					}
+				}
+			}
+			c.moveToFirst();
+		}
 	}
 	
 	/**
@@ -105,7 +135,6 @@ public class VinDao extends AbstractDao<Vin> {
 		cv.put(COL_COMMENTAIRES, v.getCommentaire());
 		cv.put(COL_NB_BOUTEILLES, v.getNbBouteilles());
 		cv.put(COL_NOTE, v.getNote());
-		cv.put(COL_IMAGE, v.getImage());
 		cv.put(COL_PRIX, v.getPrix());
 		cv.put(COL_ANNEE_MATURITE, v.getAnneeMaturite());
 		cv.put(COL_ETAGERE, v.getEtagere());
@@ -123,18 +152,25 @@ public class VinDao extends AbstractDao<Vin> {
 		return super.update(TABLE, getContentValues(v, false), v.getId());
 	}
 	
-	public void delete(int id) {
+	public void delete(long id) {
 		super.delete(TABLE, id);
+		// Suppression de l'image de l'étiquette qui est sur la carte SD
+		if (FileHelper.isSDPresent() && FileHelper.canWriteOnSD()) {
+			File fileDir= new File(ImageContentProvider.IMAGE_DIRECTORY, "etq_"+id+".jpg");
+			if (fileDir.exists()) {
+				fileDir.delete();
+			}
+		}
 	}
 	
-	public long retire1Bouteille(int id, int currentStock) {
+	public long retire1Bouteille(long id, int currentStock) {
 		if (bdd==null) openForWrite();
 		ContentValues cv = new ContentValues();
 		cv.put(COL_NB_BOUTEILLES, currentStock-1);
 		return bdd.update(TABLE, cv, COL_ID + " = " + id, null);
 	}
 	
-	public Vin getById(int id) {
+	public Vin getById(long id) {
 		Vin v = new Vin();
 		String sql = " SELECT "+COL_COULEUR + ", " + 
 								COL_PAYS + " , " +
@@ -146,7 +182,6 @@ public class VinDao extends AbstractDao<Vin> {
 								COL_COMMENTAIRES + ", " +
 								COL_NB_BOUTEILLES + ", " +
 								COL_NOTE + ", " + 
-								COL_IMAGE + ", " + 
 								COL_ANNEE_MATURITE + ", " + 
 								COL_PRIX + ", " + 
 								COL_ETAGERE + ", " + 
@@ -169,7 +204,6 @@ public class VinDao extends AbstractDao<Vin> {
 			v.setCommentaire(c.getString(i++));
 			v.setNbBouteilles(c.getInt(i++));
 			v.setNote(c.getDouble(i++));
-			v.setImage(c.getBlob(i++));
 			v.setAnneeMaturite(c.getInt(i++));
 			v.setPrix(c.getFloat(i++));
 			v.setEtagere(c.getString(i++));

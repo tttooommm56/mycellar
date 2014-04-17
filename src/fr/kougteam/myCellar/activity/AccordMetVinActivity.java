@@ -140,7 +140,7 @@ public class AccordMetVinActivity extends Activity {
 		vinsCellierListView.setOnItemClickListener(new OnItemClickListener() {		 
 		    public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
 		    	Cursor selectedItem = (Cursor)parent.getItemAtPosition(pos);
-		    	int idVin = selectedItem.getInt(selectedItem.getColumnIndex(VinDao.COL_ID));
+		    	long idVin = selectedItem.getLong(selectedItem.getColumnIndex(VinDao.COL_ID));
 		    	intent2DetailVin.putExtra("idVin", idVin);
 				startActivity(intent2DetailVin);
 			}	    

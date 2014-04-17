@@ -78,11 +78,11 @@ public class MetVinDao extends AbstractDao<MetVin> {
 		return cv;
 	}
 	
-	public MetVin getById(int id) {
+	public MetVin getById(long id) {
 		return null;
 	}
 	
-	public Cursor getVinsByIdMet(int idMet) {
+	public Cursor getVinsByIdMet(long idMet) {
 		String sql = " SELECT " + COL_ID_MET + ", " + COL_NOM_VIN + ", " + COL_TYPE + 				
 					 " FROM " + TABLE +
 					 " WHERE " + COL_ID_MET + "=" + idMet +

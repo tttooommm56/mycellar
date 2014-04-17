@@ -2,68 +2,79 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="fill_parent"
-    android:layout_height="70dp"
-    >
+    android:layout_height="85dp">
+    
+    <ImageView
+        android:id="@+id/listeVinsItemEtiquetteImg"
+        android:layout_width="60dp"
+        android:layout_height="85dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:src="@drawable/ic_bottle_gray" />
 
-    <TextView android:id="@+id/listeVinsItemAppellation"
+    <TextView
+        android:id="@+id/listeVinsItemAppellation"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:textColor="#ffffff"
+        android:layout_alignLeft="@+id/listeVinsItemNom"
+        android:layout_alignParentTop="true"
         android:text="@string/appellation"
-        /> 
-        
+        android:textColor="#ffffff"
+        android:textSize="20dp" />
+
     <TextView
         android:id="@+id/listeVinsItemNom"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_below="@+id/listeVinsItemAppellation"
-        android:layout_marginTop="2dp"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/listeVinsItemEtiquetteImg"
         android:text="@string/nom"
         android:textSize="16dp" />
     
-    <TextView android:id="@+id/listeVinsItemProducteur"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/listeVinsItemProducteur"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="16dp"
         android:layout_below="@+id/listeVinsItemNom"
-        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/listeVinsItemEtiquetteImg"
         android:gravity="left"
-        android:layout_marginTop="2dp"
-        android:text="@string/producteur"/>
-    
+        android:text="@string/producteur"
+        android:textSize="16dp" />
+ 
     <TextView
         android:id="@+id/listeVinsItemAnnee"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/listeVinsItemAppellation"
-        android:layout_toRightOf="@+id/listeVinsItemNom"
-        android:gravity="right"
+        android:layout_below="@+id/listeVinsItemProducteur"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/listeVinsItemEtiquetteImg"
+        android:gravity="left"
         android:text="@string/annee"
-        android:textColor="#ffffff"
-        android:layout_marginTop="2dp"
         android:textSize="16dp" />
     
     <TextView android:id="@+id/listeVinsItemBouteilles"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16dp"   
+        android:layout_height="wrap_content" 
+        android:layout_below="@+id/listeVinsItemProducteur"   
         android:layout_toLeftOf="@+id/listeVinsItemBouteilleImg"  
-        android:layout_below="@+id/listeVinsItemAnnee"
-        android:gravity="right"   
-        android:layout_marginTop="2dp"
-        android:text="1"
-        />
+        android:layout_toRightOf="@+id/listeVinsItemAnnee"
+        android:gravity="right"
+        android:textColor="#ffffff"   
+        android:textSize="20dp"
+        android:text="1"/>
     
     <ImageView
         android:id="@+id/listeVinsItemBouteilleImg"
         android:layout_width="20dp"
         android:layout_height="20dp"        
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/listeVinsItemAnnee"     
+        android:layout_below="@+id/listeVinsItemProducteur"     
         android:gravity="right"
         android:src="@drawable/ic_small_bottle" />
- 
 </RelativeLayout>

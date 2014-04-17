@@ -61,9 +61,9 @@ public class MetDao extends AbstractDao<Met> {
 	}
 	
 	/**
-	 * Retourne les données contenu dans l'objet sous forme de ContentValues
+	 * Retourne les donnï¿½es contenu dans l'objet sous forme de ContentValues
 	 * 
-	 * @param p l'objet contenant les données
+	 * @param p l'objet contenant les donnï¿½es
 	 * 
 	 * @return
 	 */
@@ -75,7 +75,7 @@ public class MetDao extends AbstractDao<Met> {
 		return cv;
 	}
 	
-	public Met getById(int id) {
+	public Met getById(long id) {
 		Met p = new Met();
 		String sql = " SELECT " + COL_NOM + 
 					 " FROM " + TABLE + 

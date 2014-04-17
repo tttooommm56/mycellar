@@ -52,9 +52,22 @@ public class PaysDao extends AbstractDao<Pays> {
 		}
 		
 		if (oldVersion<6 && newVersion>=6) {
-			// Ajout de la Suisse
+			// Ajout de la Suisse et du Luxembourg
 			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_NOM+") VALUES (11,'Suisse')");
 			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_NOM+") VALUES (12,'Luxembourg')");
+		}
+		
+		if (oldVersion<7 && newVersion>=7) {
+			// Complément des pays producteurs de vin (top 20 mondial)
+			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_NOM+") VALUES (13,'Roumanie')");
+			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_NOM+") VALUES (14,'Russie')");
+			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_NOM+") VALUES (15,'Grèce')");
+			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_NOM+") VALUES (16,'Hongrie')");
+			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_NOM+") VALUES (17,'Brésil')");
+			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_NOM+") VALUES (18,'Autriche')");
+			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_NOM+") VALUES (19,'Ukraine')");
+			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_NOM+") VALUES (20,'Moldavie')");
+			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_NOM+") VALUES (21,'Bulgarie')");
 		}
 	}
 	
@@ -73,7 +86,7 @@ public class PaysDao extends AbstractDao<Pays> {
 		return cv;
 	}
 	
-	public Pays getById(int id) {
+	public Pays getById(long id) {
 		Pays p = new Pays();
 		String sql = " SELECT " + COL_NOM + 
 					 " FROM " + TABLE + 

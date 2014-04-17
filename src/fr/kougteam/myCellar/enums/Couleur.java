@@ -40,4 +40,12 @@ public enum Couleur {
 		}
 		return null;
 	}
+	public static Couleur getFromTabIndex(int index) {
+		for (Couleur t : Couleur.values()) {
+			if (t.getTabIndex() == index) {
+				return t;
+			}
+		}
+		return null;
+	}
 }

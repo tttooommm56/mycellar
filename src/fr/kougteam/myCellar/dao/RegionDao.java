@@ -1,15 +1,10 @@
 package fr.kougteam.myCellar.dao;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import fr.kougteam.myCellar.helper.FileHelper;
-import fr.kougteam.myCellar.helper.SqlOpenHelper;
 import fr.kougteam.myCellar.modele.Region;
 
 /**
@@ -48,12 +43,12 @@ public class RegionDao extends AbstractDao<Region> {
 				+ oldVersion + " to " + newVersion
 				+ "...");
 		if (oldVersion<=1 && newVersion>=2) {
-			// Ajout d'une région vide
+			// Ajout d'une rï¿½gion vide
 			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_PAYS+","+COL_NOM+","+COL_REGION_PARENT+") VALUES (-1,1,'',0)"); 
 		}
 		
 		if (oldVersion<=4 && newVersion>=5) {
-			database.execSQL("INSERT INTO REGIONS VALUES(36,1,'La région nantaise',34)");
+			database.execSQL("INSERT INTO REGIONS VALUES(36,1,'La rï¿½gion nantaise',34)");
 			database.execSQL("INSERT INTO REGIONS VALUES(37,1,'Anjou-Saumur',34)");
 			database.execSQL("INSERT INTO REGIONS VALUES(38,1,'La Touraine',34)");
 			database.execSQL("INSERT INTO REGIONS VALUES(39,1,'Les vignobles du Centre',34)");
@@ -61,9 +56,9 @@ public class RegionDao extends AbstractDao<Region> {
 	}
 	
 	/**
-	 * Retourne les données contenu dans l'objet sous forme de ContentValues
+	 * Retourne les donnï¿½es contenu dans l'objet sous forme de ContentValues
 	 * 
-	 * @param p l'objet contenant les donnée
+	 * @param p l'objet contenant les donnï¿½e
 	 * 
 	 * @return
 	 */
@@ -75,7 +70,7 @@ public class RegionDao extends AbstractDao<Region> {
 		return cv;
 	}
 	
-	public Region getById(int id) {
+	public Region getById(long id) {
 		Region r = new Region();
 		String sql = " SELECT " + COL_PAYS + ", " + COL_NOM + ", " + COL_REGION_PARENT +
 					 " FROM " + TABLE + 

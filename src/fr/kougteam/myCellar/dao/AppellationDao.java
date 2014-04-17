@@ -1,14 +1,10 @@
 package fr.kougteam.myCellar.dao;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import fr.kougteam.myCellar.helper.FileHelper;
 import fr.kougteam.myCellar.modele.Appellation;
 
 /**
@@ -53,9 +49,9 @@ public class AppellationDao extends AbstractDao<Appellation> {
 	}
 	
 	/**
-	 * Retourne les données contenu dans l'objet sous forme de ContentValues
+	 * Retourne les donnï¿½es contenu dans l'objet sous forme de ContentValues
 	 * 
-	 * @param a l'objet contenant les donnée
+	 * @param a l'objet contenant les donnï¿½e
 	 * 
 	 * @return
 	 */
@@ -67,7 +63,7 @@ public class AppellationDao extends AbstractDao<Appellation> {
 		return cv;
 	}
 	
-	public Appellation getById(int id) {
+	public Appellation getById(long id) {
 		Appellation a = new Appellation();
 		String sql = " SELECT " + COL_REGION + ", " + COL_NOM +
 					 " FROM " + TABLE + 

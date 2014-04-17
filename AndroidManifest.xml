@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<manifest android:versionCode="11" android:versionName="2.7"
+<manifest android:versionCode="12" android:versionName="2.8"
     package="fr.kougteam.myCellar" xmlns:android="http://schemas.android.com/apk/res/android">
-    <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="18"/>
+    <uses-sdk android:minSdkVersion="5" android:targetSdkVersion="18"/>
 	<uses-permission android:name="android.permission.CAMERA" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 	<uses-feature android:name="android.hardware.camera" android:required="false"/>
@@ -21,5 +21,10 @@
         <activity android:label="@string/title_activity_liste_mets" android:name=".activity.AccordMetVinActivity"/>
         <activity android:label="@string/title_activity_edit_vin" android:name="fr.kougteam.myCellar.activity.EditVinFormActivity" android:configChanges="orientation"/>
         <activity android:label="@string/title_activity_detail_vin" android:name=".activity.DetailVinActivity"/>
+        <provider
+            android:name=".provider.ImageContentProvider"
+            android:authorities="fr.kougteam.myCellar"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 </manifest>

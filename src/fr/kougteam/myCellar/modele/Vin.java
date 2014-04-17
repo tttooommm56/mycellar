@@ -7,7 +7,7 @@ import java.util.Date;
 import fr.kougteam.myCellar.enums.Couleur;
 
 /**
- * Représente un vin
+ * Reprï¿½sente un vin
  * 
  * @author Thomas Cousin
  *
@@ -15,9 +15,9 @@ import fr.kougteam.myCellar.enums.Couleur;
 public class Vin implements Serializable {
 	private static final long serialVersionUID = -6310943971300680714L;
 	
-	private int id;
+	private long id;
 	private Couleur couleur = Couleur.BLANC;
-	private int idPays = 1; // France par défaut
+	private int idPays = 1; // France par dï¿½faut
 	private int idRegion = -1;
 	private int idAppellation = -1;
 	private int annee;
@@ -32,10 +32,10 @@ public class Vin implements Serializable {
 	private float prix;
 	private Date dateAjout;
 	
-	public int getId() {
+	public long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	public Couleur getCouleur() {

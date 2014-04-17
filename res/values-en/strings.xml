@@ -61,6 +61,7 @@
     <string name="date_ajout">Date added</string>
     <string name="annee_maturite">Maturity year</string>
     <string name="photographier">Take a picture</string>
+    <string name="import_gallerie">Import from gallery</string>
     <string name="retirer">Remove a bottle</string>
     <string name="retirer_impossible">Unable to remove a bottle because this wine is out of stock !</string>
     <string name="stock_maj_ok">Stock updated.</string>

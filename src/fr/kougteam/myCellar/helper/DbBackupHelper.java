@@ -6,19 +6,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 
-import fr.kougteam.myCellar.R;
-
 import android.os.Environment;
 import android.util.Log;
-import android.widget.Toast;
 
 public class DbBackupHelper {
 
 	public static final String TAG = DbBackupHelper.class.getName();
 
 	/** Directory that files are to be read from and written to **/
-	protected static final File DATABASE_DIRECTORY =
-		new File(Environment.getExternalStorageDirectory(),"MonCellier");
+	protected static final File DATABASE_DIRECTORY = new File(FileHelper.SD_DIRECTORY);
 
 	protected static final String IMPORT_FILE_NAME = "myCellar_v"+SqlOpenHelper.DBVERSION+".db";
 	/** File path of Db to be imported **/
@@ -38,9 +34,9 @@ public class DbBackupHelper {
 	/** Saves the application database to the
 	 * export directory under MyDb.db **/
 	public static  boolean exportDb(){
-		if (!isSDPresent()) return false;
+		if (!FileHelper.isSDPresent()) return false;
 		
-		if (!canWriteOnSD()) return false;
+		if (!FileHelper.canWriteOnSD()) return false;
 
 		File dbFile = DATA_DIRECTORY_DATABASE;
 
@@ -64,7 +60,7 @@ public class DbBackupHelper {
 	/** Replaces current database with the IMPORT_FILE if
 	 * import database is valid and of the correct type **/
 	public static boolean restoreDb(){
-		if(!isSDPresent()) return false;
+		if(!FileHelper.isSDPresent()) return false;
 
 		File exportFile = DATA_DIRECTORY_DATABASE;
 		File importFile = IMPORT_FILE;
@@ -97,14 +93,5 @@ public class DbBackupHelper {
 			if (outChannel != null)
 				outChannel.close();
 		}
-	}
-
-	/** Returns whether an SD card is present and writable **/
-	public static boolean isSDPresent() {
-		return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
-	}
-	
-	public static boolean canWriteOnSD() {
-		return !Environment.MEDIA_MOUNTED_READ_ONLY.equals(Environment.getExternalStorageState());
 	}
 }

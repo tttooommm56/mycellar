@@ -34,17 +34,17 @@ public abstract class AbstractDao<T> {
 		return bdd.insert(table, null, values);
 	}
 	
-	public long update(String table, ContentValues values, int keyId) {
+	public long update(String table, ContentValues values, long keyId) {
 		if (bdd==null) openForWrite();
 		return bdd.update(table, values, COL_ID + " = " + keyId, null);
 	}
 	
-	public void delete (String table, int keyId) {
+	public void delete (String table, long keyId) {
 		if (bdd==null) openForWrite();
 		bdd.delete(table, COL_ID + " = " + keyId, null);
 	}
 	
-	public abstract T getById(int id);
+	public abstract T getById(long id);
 	
 	public abstract Cursor getAll();
 }

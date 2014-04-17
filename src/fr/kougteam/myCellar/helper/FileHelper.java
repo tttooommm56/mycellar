@@ -12,6 +12,8 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.nio.channels.FileChannel;
 
+import android.os.Environment;
+
 /**
  * @author Danny Remington - MacroSolve
  * 
@@ -19,6 +21,18 @@ import java.nio.channels.FileChannel;
  * 
  */
 public class FileHelper {
+	
+	public final static String SD_DIRECTORY = Environment.getExternalStorageDirectory()+File.separator+"MonCellier";
+	
+	/** Returns whether an SD card is present and writable **/
+	public static boolean isSDPresent() {
+		return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
+	}
+	
+	public static boolean canWriteOnSD() {
+		return !Environment.MEDIA_MOUNTED_READ_ONLY.equals(Environment.getExternalStorageState());
+	}
+	
     /**
      * Creates the specified <i><b>toFile</b></i> that is a byte for byte a copy
      * of <i><b>fromFile</b></i>. If <i><b>toFile</b></i> already existed, then
