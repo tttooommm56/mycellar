@@ -1,11 +1,13 @@
 package fr.kougteam.myCellar.dao;
 
 import java.io.InputStream;
-
+import java.text.Normalizer;
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.util.Log;
 import fr.kougteam.myCellar.helper.FileHelper;
 import fr.kougteam.myCellar.helper.SqlOpenHelper;
@@ -58,6 +60,19 @@ public class MetDao extends AbstractDao<Met> {
 		    	 Log.e("onCreate error !", ex.getMessage());
 		     }
 		}
+		if (oldVersion<8 && newVersion>=8) {
+			try {
+				 database.execSQL("DELETE FROM "+TABLE);
+		         InputStream is = ctxt.getResources().getAssets().open("insert_mets.sql");        
+		         String[] statements = FileHelper.parseSqlFile(is);      
+		         for (String statement : statements) {
+		        	 database.execSQL(statement);
+		         }
+		         
+		     } catch (Exception ex) {
+		    	 Log.e("insert mets error !", ex.getMessage());
+		     }
+		}
 	}
 	
 	/**
@@ -90,7 +105,15 @@ public class MetDao extends AbstractDao<Met> {
 		return p;
 	}
 	
+	@SuppressLint("NewApi")
 	public Cursor findMets(String search) {
+		
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+	        /* Use Normalizer normally */
+			search = Normalizer.normalize(search, Normalizer.Form.NFD);
+			search = search.replaceAll("[^\\p{ASCII}]", "");	
+	    }
+		
 		String sql = " SELECT " + COL_ID + ", " + COL_NOM + 
 					 " FROM " + TABLE +
 					 " WHERE UPPER("+COL_NOM+") LIKE '%"+search.toUpperCase().trim()+"%'"+

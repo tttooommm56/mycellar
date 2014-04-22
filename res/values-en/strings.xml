@@ -78,5 +78,5 @@
     <string name="accord_met_vin">Wines :</string>
     <string name="accord_vin_met">Dishes ideas :</string>
     <string name="accord_met_vin_available">Available bottles in cellar :</string>
-    <string name="accord_met_vin_no_bottle">No bottle found :(</string>
+    <string name="accord_met_vin_no_bottle">No bottle found :-(</string>
 </resources>

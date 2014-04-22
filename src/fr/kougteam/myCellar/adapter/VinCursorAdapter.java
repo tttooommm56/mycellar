@@ -35,7 +35,7 @@ public class VinCursorAdapter extends SimpleCursorAdapter {
     	File etiquetteFile = new File(ImageContentProvider.IMAGE_DIRECTORY, "etq_"+this.cursor.getLong(this.cursor.getColumnIndex(VinDao.COL_ID))+".jpg");
 		if (etiquetteFile.exists()) {
 			ImageView imageView = (ImageView) view.findViewById(R.id.listeVinsItemEtiquetteImg);
-			ImageContentProvider.fillImageViewWithFileResized(imageView, etiquetteFile, 65, 80);	
+			ImageContentProvider.fillImageViewWithFile(imageView, etiquetteFile, 65, 80);	
 		}
          
         return view;

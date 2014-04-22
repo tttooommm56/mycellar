@@ -207,7 +207,7 @@ public class DetailVinActivity extends Activity {
 		ImageView imageView = (ImageView) findViewById(R.id.detailVinPhoto);
 		File etiquetteFile = new File(ImageContentProvider.IMAGE_DIRECTORY, "etq_"+vin.getId()+".jpg");
 		if (etiquetteFile.exists()) {	
-			ImageContentProvider.fillImageViewWithFileResized(imageView, etiquetteFile, getWindowManager().getDefaultDisplay().getWidth(), getWindowManager().getDefaultDisplay().getHeight());		
+			ImageContentProvider.fillImageViewWithFile(imageView, etiquetteFile, getWindowManager().getDefaultDisplay().getWidth(), getWindowManager().getDefaultDisplay().getHeight());		
 		} else {
 			etiquetteTableRow.setVisibility(View.GONE);
 			photoTableRow.setVisibility(View.GONE);

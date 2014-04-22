@@ -2,6 +2,7 @@ package fr.kougteam.myCellar.provider;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.HashMap;
 
 import android.content.ContentProvider;
@@ -12,8 +13,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
+import android.util.Log;
 import android.widget.ImageView;
-import android.widget.TableRow;
 import fr.kougteam.myCellar.helper.FileHelper;
 
 public class ImageContentProvider extends ContentProvider {
@@ -87,21 +88,19 @@ public class ImageContentProvider extends ContentProvider {
 	}
 	
 	public static Bitmap fixOrientation(Bitmap bmp) {
-	    if (bmp.getWidth() > bmp.getHeight()) {
-	        Matrix matrix = new Matrix();
-	        matrix.postRotate(90);
-	        return Bitmap.createBitmap(bmp , 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
-	    }
+		try {
+		    if (bmp!=null && bmp.getWidth() > bmp.getHeight()) {
+		        Matrix matrix = new Matrix();
+		        matrix.postRotate(90);
+		        return Bitmap.createBitmap(bmp , 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
+		    }
+		} catch (Exception e) {
+			Log.e("ImageContentProvider.fixOrientation", "Unable to rotate Bitmap !", e);
+		}
 	    return bmp;
 	}
 	
-	public static void fillImageViewWithFile(ImageView imageView, File imageFile) {
-		Bitmap mBitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
-		mBitmap = ImageContentProvider.fixOrientation(mBitmap);
-		imageView.setImageBitmap(mBitmap);
-	}
-	
-	public static void fillImageViewWithFileResized(ImageView imageView, File imageFile, int reqWidth, int reqHeight) {
+	public static void fillImageViewWithFile(ImageView imageView, File imageFile, int reqWidth, int reqHeight) {
 		Bitmap mBitmap = decodeSampledBitmapFromResource(imageFile, reqWidth, reqHeight);
 		mBitmap = ImageContentProvider.fixOrientation(mBitmap);
 		imageView.setImageBitmap(mBitmap);
@@ -137,9 +136,11 @@ public class ImageContentProvider extends ContentProvider {
 
 	    // Calculate inSampleSize
 	    options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-
+	    options.inPurgeable = true; 
+	    
 	    // Decode bitmap with inSampleSize set
 	    options.inJustDecodeBounds = false;
 	    return BitmapFactory.decodeFile(imageFile.getAbsolutePath(), options);
 	}
+	
 }

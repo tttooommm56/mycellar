@@ -78,5 +78,5 @@
     <string name="accord_met_vin">Types de vin en accord :</string>
     <string name="accord_vin_met">Idées de plats en accord :</string>
     <string name="accord_met_vin_available">Bouteilles du cellier en accord :</string>
-    <string name="accord_met_vin_no_bottle">Aucune bouteille trouvée :(</string>
+    <string name="accord_met_vin_no_bottle">Aucune bouteille trouvée :-(</string>
 </resources>

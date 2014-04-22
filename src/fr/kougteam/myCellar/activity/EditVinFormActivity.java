@@ -234,7 +234,7 @@ public class EditVinFormActivity extends Activity {
 		// Etiquette
 		File etiquetteFile = new File(ImageContentProvider.IMAGE_DIRECTORY, "etq_"+vin.getId()+".jpg");
 		if (etiquetteFile.exists()) {
-			ImageContentProvider.fillImageViewWithFile(etiquetteView, etiquetteFile);	
+			ImageContentProvider.fillImageViewWithFile(etiquetteView, etiquetteFile, getWindowManager().getDefaultDisplay().getWidth(), getWindowManager().getDefaultDisplay().getHeight());	
 		}
 	}
 
@@ -560,7 +560,7 @@ public class EditVinFormActivity extends Activity {
 			
 			if (etiquetteFile!=null) {
 				if (showPicture) {
-					ImageContentProvider.fillImageViewWithFileResized(etiquetteView, etiquetteFile, getWindowManager().getDefaultDisplay().getWidth(), getWindowManager().getDefaultDisplay().getHeight());	
+					ImageContentProvider.fillImageViewWithFile(etiquetteView, etiquetteFile, getWindowManager().getDefaultDisplay().getWidth(), getWindowManager().getDefaultDisplay().getHeight());	
 				}
 			}
 		}
