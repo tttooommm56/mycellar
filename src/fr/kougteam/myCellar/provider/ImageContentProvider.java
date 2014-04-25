@@ -92,7 +92,9 @@ public class ImageContentProvider extends ContentProvider {
 		    if (bmp!=null && bmp.getWidth() > bmp.getHeight()) {
 		        Matrix matrix = new Matrix();
 		        matrix.postRotate(90);
-		        return Bitmap.createBitmap(bmp , 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
+		        Bitmap newBmp = Bitmap.createBitmap(bmp , 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
+		        bmp.recycle();
+		        return newBmp;
 		    }
 		} catch (Exception e) {
 			Log.e("ImageContentProvider.fixOrientation", "Unable to rotate Bitmap !", e);
@@ -113,15 +115,10 @@ public class ImageContentProvider extends ContentProvider {
 	    int inSampleSize = 1;
 	
 	    if (height > reqHeight || width > reqWidth) {
-	
-	        final int halfHeight = height / 2;
-	        final int halfWidth = width / 2;
-	
-	        // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-	        // height and width larger than the requested height and width.
-	        while ((halfHeight / inSampleSize) > reqHeight
-	                && (halfWidth / inSampleSize) > reqWidth) {
-	            inSampleSize *= 2;
+	    	if (width > height) {
+	            inSampleSize = Math.round((float)height / (float)reqHeight);
+	        } else {
+	            inSampleSize = Math.round((float)width / (float)reqWidth);
 	        }
 	    }
 	
