@@ -88,6 +88,7 @@ public class ImageContentProvider extends ContentProvider {
 	}
 	
 	public static Bitmap fixOrientation(Bitmap bmp) {
+		//System.out.println("Bitmap width="+bmp.getWidth()+ "height="+bmp.getHeight());
 		try {
 		    if (bmp!=null && bmp.getWidth() > bmp.getHeight()) {
 		        Matrix matrix = new Matrix();
@@ -103,6 +104,7 @@ public class ImageContentProvider extends ContentProvider {
 	}
 	
 	public static void fillImageViewWithFile(ImageView imageView, File imageFile, int reqWidth, int reqHeight) {
+		//System.out.println("Screen width="+reqWidth+ "height="+reqHeight);
 		Bitmap mBitmap = decodeSampledBitmapFromResource(imageFile, reqWidth, reqHeight);
 		mBitmap = ImageContentProvider.fixOrientation(mBitmap);
 		imageView.setImageBitmap(mBitmap);
@@ -110,17 +112,21 @@ public class ImageContentProvider extends ContentProvider {
 	
 	public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
 	    // Raw height and width of image
-	    final int height = options.outHeight;
-	    final int width = options.outWidth;
+	    int height = options.outHeight;
+	    int width = options.outWidth;
 	    int inSampleSize = 1;
 	
-	    if (height > reqHeight || width > reqWidth) {
-	    	if (width > height) {
-	            inSampleSize = Math.round((float)height / (float)reqHeight);
-	        } else {
-	            inSampleSize = Math.round((float)width / (float)reqWidth);
-	        }
+	    if (!(width>height && reqWidth<reqHeight)) {
+	    	height = height / 2;
+	    	width = width / 2;
 	    }
+
+        while ((height / inSampleSize) > reqHeight
+                && (width / inSampleSize) > reqWidth) {
+            inSampleSize *= 2;
+        }
+        //System.out.println("2. inSampleSize="+inSampleSize);
+
 	
 	    return inSampleSize;
 	}

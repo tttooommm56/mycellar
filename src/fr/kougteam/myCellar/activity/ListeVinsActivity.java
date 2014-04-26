@@ -224,53 +224,55 @@ public class ListeVinsActivity extends TabActivity {
         //set onclick listener for context menu
         iconContextMenu.setOnClickListener(new IconContextMenu.IconContextMenuOnClickListener() {
 			public void onClick(int menuId) {
-				long idVin = selectedItem.getLong(selectedItem.getColumnIndex(VinDao.COL_ID));
-				
-				switch(menuId) {
-				
-					case MENU_RETIRER_ACTION :
-						int currentStock = selectedItem.getInt(selectedItem.getColumnIndex(VinDao.COL_NB_BOUTEILLES));
-						if (vinDao.retire1Bouteille(idVin, currentStock) > 0) {
-							loadVinsList(currentTab);
-							refreshTabTitle();
-							Toast.makeText(getApplicationContext(), R.string.stock_maj_ok, Toast.LENGTH_LONG).show();
-						} else {
-							Toast.makeText(getApplicationContext(), R.string.stock_maj_ko, Toast.LENGTH_LONG).show();
-						}					
-						break;
-						
-					case MENU_DETAIL_ACTION :
-						intent2View.putExtra("idVin", idVin);
-						startActivity(intent2View);
-						break;
-						
-					case MENU_EDITER_ACTION :
-						intent2Edit.putExtra("idVin", idVin);
-						startActivity(intent2Edit);
-						break;
-						
-					case MENU_SUPPRIMER_ACTION :
-						AlertDialog.Builder builder = new AlertDialog.Builder(ListeVinsActivity.this);
-			    		builder.setTitle(R.string.warning)
-			    		.setIcon(android.R.drawable.ic_dialog_alert)
-			    		.setMessage(R.string.delete_item_msg)
-			    		.setCancelable(false)
-			    		.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-			    			public void onClick(DialogInterface dialog, int id) {
-			    				long idVin = selectedItem.getLong(selectedItem.getColumnIndex(VinDao.COL_ID));
-			    				vinDao.delete(idVin);
-			    				loadVinsList(currentTab);
-			    				refreshTabTitle();
-			    				Toast.makeText(getApplicationContext(), R.string.item_deleted, Toast.LENGTH_LONG).show();
-			    			}
-			    		})
-			    		.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-			    			public void onClick(DialogInterface dialog, int id) {
-			    			}
-			    		});
-			    		AlertDialog alert = builder.create();
-			    		alert.show();
-						break;
+				if (selectedItem != null) {
+					long idVin = selectedItem.getLong(selectedItem.getColumnIndex(VinDao.COL_ID));
+					
+					switch(menuId) {
+					
+						case MENU_RETIRER_ACTION :
+							int currentStock = selectedItem.getInt(selectedItem.getColumnIndex(VinDao.COL_NB_BOUTEILLES));
+							if (vinDao.retire1Bouteille(idVin, currentStock) > 0) {
+								loadVinsList(currentTab);
+								refreshTabTitle();
+								Toast.makeText(getApplicationContext(), R.string.stock_maj_ok, Toast.LENGTH_LONG).show();
+							} else {
+								Toast.makeText(getApplicationContext(), R.string.stock_maj_ko, Toast.LENGTH_LONG).show();
+							}					
+							break;
+							
+						case MENU_DETAIL_ACTION :
+							intent2View.putExtra("idVin", idVin);
+							startActivity(intent2View);
+							break;
+							
+						case MENU_EDITER_ACTION :
+							intent2Edit.putExtra("idVin", idVin);
+							startActivity(intent2Edit);
+							break;
+							
+						case MENU_SUPPRIMER_ACTION :
+							AlertDialog.Builder builder = new AlertDialog.Builder(ListeVinsActivity.this);
+				    		builder.setTitle(R.string.warning)
+				    		.setIcon(android.R.drawable.ic_dialog_alert)
+				    		.setMessage(R.string.delete_item_msg)
+				    		.setCancelable(false)
+				    		.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+				    			public void onClick(DialogInterface dialog, int id) {
+				    				long idVin = selectedItem.getLong(selectedItem.getColumnIndex(VinDao.COL_ID));
+				    				vinDao.delete(idVin);
+				    				loadVinsList(currentTab);
+				    				refreshTabTitle();
+				    				Toast.makeText(getApplicationContext(), R.string.item_deleted, Toast.LENGTH_LONG).show();
+				    			}
+				    		})
+				    		.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+				    			public void onClick(DialogInterface dialog, int id) {
+				    			}
+				    		});
+				    		AlertDialog alert = builder.create();
+				    		alert.show();
+							break;
+					}
 				}
 			}
         });
