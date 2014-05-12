@@ -33,9 +33,11 @@ public class VinCursorAdapter extends SimpleCursorAdapter {
         } 
     	this.getCursor().moveToPosition(position);
     	File etiquetteFile = new File(ImageContentProvider.IMAGE_DIRECTORY, "etq_"+this.cursor.getLong(this.cursor.getColumnIndex(VinDao.COL_ID))+".jpg");
-		if (etiquetteFile.exists()) {
-			ImageView imageView = (ImageView) view.findViewById(R.id.listeVinsItemEtiquetteImg);
+    	ImageView imageView = (ImageView) view.findViewById(R.id.listeVinsItemEtiquetteImg);
+    	if (etiquetteFile.exists()) {		
 			ImageContentProvider.fillImageViewWithFile(imageView, etiquetteFile, 65, 80);	
+		} else {
+			imageView.setImageBitmap(null);
 		}
          
         return view;

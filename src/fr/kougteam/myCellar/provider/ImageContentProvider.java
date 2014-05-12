@@ -2,7 +2,6 @@ package fr.kougteam.myCellar.provider;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.HashMap;
 
 import android.content.ContentProvider;
