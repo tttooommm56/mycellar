@@ -17,6 +17,7 @@ public class DbBackupHelper {
 	protected static final File DATABASE_DIRECTORY = new File(FileHelper.SD_DIRECTORY);
 
 	protected static final String IMPORT_FILE_NAME = "myCellar_v"+SqlOpenHelper.DBVERSION+".db";
+	
 	/** File path of Db to be imported **/
 	protected static final File IMPORT_FILE = new File(DATABASE_DIRECTORY, IMPORT_FILE_NAME);
 	
@@ -83,15 +84,12 @@ public class DbBackupHelper {
 	}
 
 	private static void copyFile(File src, File dst) throws IOException {
-		FileChannel inChannel = new FileInputStream(src).getChannel();
-		FileChannel outChannel = new FileOutputStream(dst).getChannel();
-		try {
-			inChannel.transferTo(0, inChannel.size(), outChannel);
-		} finally {
-			if (inChannel != null)
-				inChannel.close();
-			if (outChannel != null)
-				outChannel.close();
-		}
+		FileInputStream inStream = new FileInputStream(src);
+	    FileOutputStream outStream = new FileOutputStream(dst);
+	    FileChannel inChannel = inStream.getChannel();
+	    FileChannel outChannel = outStream.getChannel();
+	    inChannel.transferTo(0, inChannel.size(), outChannel);
+	    inStream.close();
+	    outStream.close();
 	}
 }
