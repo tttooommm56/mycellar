@@ -473,7 +473,7 @@ public class EditVinFormActivity extends Activity {
 							destDir.mkdirs();
 						}
 						FileHelper.copyFile(etiquetteFile, new File(destDir, "etq_"+vin.getId()+".jpg"));
-						etiquetteFile.delete();
+						etiquetteFile = null;
 					} catch (IOException ioe) {
 						ioe.printStackTrace();
 						Toast.makeText(getApplicationContext(), "Erreur lors de l'enregistrement de la photo !", Toast.LENGTH_SHORT).show();

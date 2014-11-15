@@ -369,6 +369,7 @@ INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(303,'Quarts-de-chaume',37
 INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(304,'Rosé-d''anjou',37);
 INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(305,'Saumur',37);
 INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(306,'Saumur-champigny',37);
+INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(340,'Saumur Puy-Notre-Dame',37);
 INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(307,'Savennières',37);
 INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(308,'Savennières-coulée-de-serrant',37);
 INSERT INTO APPELLATIONS (_id, nom, id_region)  VALUES(309,'Savennières-roche-aux-moines',37);

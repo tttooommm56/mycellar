@@ -46,6 +46,10 @@ public class AppellationDao extends AbstractDao<Appellation> {
 			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_REGION+","+COL_NOM+") VALUES (-1,-1,'')"); 
 		}
 		
+		if (oldVersion<9 && newVersion>=9) {
+			// Nouvelle appellation
+			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_REGION+","+COL_NOM+") VALUES (340,'Saumur Puy-Notre-Dame',37)");
+		}
 	}
 	
 	/**
