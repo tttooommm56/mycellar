@@ -22,7 +22,7 @@ import fr.kougteam.myCellar.dao.VinDao;
 public class SqlOpenHelper extends SQLiteOpenHelper {
 	
 	public static final String 	DBNAME 		= "myCellar.db";
-	public static final int 	DBVERSION 	= 9;
+	public static final int 	DBVERSION 	= 10;
 	private Context myContext;
 	
 	public SqlOpenHelper(Context context) {

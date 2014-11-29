@@ -46,9 +46,10 @@ public class AppellationDao extends AbstractDao<Appellation> {
 			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_REGION+","+COL_NOM+") VALUES (-1,-1,'')"); 
 		}
 		
-		if (oldVersion<9 && newVersion>=9) {
+		if (oldVersion<10 && newVersion>=10) {
 			// Nouvelle appellation
-			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_REGION+","+COL_NOM+") VALUES (340,'Saumur Puy-Notre-Dame',37)");
+			database.execSQL("DELETE FROM "+TABLE+" WHERE "+COL_ID+" = 340");
+			database.execSQL("INSERT INTO "+TABLE+" ("+COL_ID+","+COL_REGION+","+COL_NOM+") VALUES (340, 37, 'Saumur Puy-Notre-Dame')");
 		}
 	}
 	

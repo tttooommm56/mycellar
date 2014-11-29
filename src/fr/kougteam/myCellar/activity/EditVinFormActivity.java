@@ -547,10 +547,13 @@ public class EditVinFormActivity extends Activity {
 			            String[] filePathColumn = { MediaStore.Images.Media.DATA };
 			            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
 			            cursor.moveToFirst();
-			            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);	            
-			            etiquetteFile = new File(cursor.getString(columnIndex));
+			            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);	     
+			            String imgPath = cursor.getString(columnIndex);
+			            if (imgPath != null) {
+				            etiquetteFile = new File(cursor.getString(columnIndex));	            
+				            showPicture = true;
+			            }
 			            cursor.close();
-			            showPicture = true;
 					}
 					break;
 			}
